@@ -4,6 +4,9 @@
 namespace Controller;
 
 
+use View\Layout\LayoutRendering;
+
+
 abstract class _Controller
 {
 
@@ -16,13 +19,16 @@ abstract class _Controller
         $this->view = $view;
     }
 
-    protected function GetTestString()
-    {
-        return "Upper class";
+    public function ShowView() {
+        LayoutRendering::basicLayout($this->view);
     }
 
-    public function ShowView() {
-        $this->view->render();
+    protected function GetModel() {
+        return $this->model;
+    }
+
+    protected  function GetView() {
+        return $this->view;
     }
 
 }

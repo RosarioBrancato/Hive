@@ -3,7 +3,6 @@
 
 namespace Controller;
 
-include_once('Controller/_Controller.php');
 
 class LoginController extends _Controller
 {
@@ -13,17 +12,17 @@ class LoginController extends _Controller
         parent::__construct($model, $view);
     }
 
-    protected function GetTestString()
-    {
-        return "Lower class";
-    }
+    public function Login() {
+        $username = $_POST["username"];
+        $password = $_POST["password"];
 
-    public function ShowString()
-    {
-        $val = parent::GetTestString();
-        $val2 = $this::GetTestString();
-        echo "<p>$val</p>";
-        echo "<p>$val2</p>";
+        $id = $this->GetModel()->GetUserId($username, $password);
+        if($id == -1) {
+            $id = "Login data is incorrect!";
+        }
+
+        $this->GetView()->id = $id;
+        $this->ShowView();
     }
 
 }

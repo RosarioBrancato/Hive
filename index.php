@@ -1,17 +1,22 @@
 <?php
 
-use View\View;
+require_once("config/Autoloader.php");
+
 use Model\LoginModel;
+use View\View;
 use Controller\LoginController;
 
-require_once ('Model/LoginModel.php');
-require_once ('View/View.php');
-require_once ('Controller/LoginController.php');
+$GLOBALS["ROOT_URL"] = "/hive/";
 
+if(isset($_POST['username'])) {
+    $model = new LoginModel();
+    $view = new View('LoggedInViewTemp.php');
+    $controller = new LoginController($model, $view);
+    $controller->Login();
 
-$model = new LoginModel();
-$view = new View('./View/LoginView.php');
-$controller = new LoginController($model, $view);
-echo 'Test';
-echo $controller->ShowView();
-echo 'Test2';
+} else {
+    $model = new LoginModel();
+    $view = new View('LoginView.php');
+    $controller = new LoginController($model, $view);
+    $controller->ShowView();
+}

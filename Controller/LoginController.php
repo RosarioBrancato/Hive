@@ -4,25 +4,34 @@
 namespace Controller;
 
 
-class LoginController extends _Controller
+use Model\LoginModel;
+use View\Layout\LayoutRendering;
+use View\View;
+
+class LoginController
 {
 
-    function __construct($model, $view)
+    public static function Index()
     {
-        parent::__construct($model, $view);
+        $view = new View('View/LoginView.php');
+        LayoutRendering::ShowView($view);
     }
 
-    public function Login() {
+    public static function Login()
+    {
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        $id = $this->GetModel()->GetUserId($username, $password);
-        if($id == -1) {
+        $model = new LoginModel();
+        $view = new View('LoggedInViewTemp.php');
+
+        $id = $model->GetUserId($username, $password);
+        if ($id == -1) {
             $id = "Login data is incorrect!";
         }
 
-        $this->GetView()->id = $id;
-        $this->ShowView();
+        $view->id = $id;
+        LayoutRendering::ShowView($view);
     }
 
 }

@@ -4,7 +4,6 @@
 namespace View;
 
 
-
 class View
 {
 
@@ -33,14 +32,14 @@ class View
         return isset($this->variables[$key]);
     }
 
-    public static function noHTML($input, $bEncodeAll = true, $encoding = "UTF-8")
+    public static function NoHTML($input, $bEncodeAll = true, $encoding = "UTF-8")
     {
         if ($bEncodeAll)
             return htmlentities($input, ENT_QUOTES | ENT_HTML5, $encoding);
         return htmlspecialchars($input, ENT_QUOTES | ENT_HTML5, $encoding);
     }
 
-    public function render()
+    public function Render()
     {
         extract($this->variables);
         ob_start();

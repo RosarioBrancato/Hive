@@ -22,16 +22,21 @@ class LoginController
         $username = $_POST["username"];
         $password = $_POST["password"];
 
+        //model
         $model = new LoginModel();
-        $view = new View('LoggedInViewTemp.php');
-
         $id = $model->GetUserId($username, $password);
         if ($id == -1) {
             $id = "Login data is incorrect!";
         }
 
+        //view
+        $view = new View('LoggedInViewTemp.php');
         $view->id = $id;
         LayoutRendering::ShowView($view);
+    }
+
+    public static function Logout() {
+        session_destroy();
     }
 
 }

@@ -2,8 +2,9 @@
 
 require_once("config/Autoloader.php");
 
+use Controller\AuthController;
+use Controller\DashboardController;
 use Controller\ErrorController;
-use Controller\LoginController;
 use Http\HTTPHeader;
 use Http\HTTPStatusCode;
 use Http\HTTPException;
@@ -13,21 +14,54 @@ use Router\Router;
 ini_set('session.cookie_httponly', 1);
 session_start();
 
-Router::route_auth("GET", "/", null, function () {
-    LoginController::Index();
+$authFunction = function () {
+    if (AuthController::authenticate()) {
+        return true;
+    }
+    Router::redirect("/login");
+    return false;
+};
+
+Router::route("GET", "/login", function () {
+    if (!AuthController::authenticate()) {
+        AuthController::ShowLoginView();
+    } else {
+        Router::redirect("/");
+    }
 });
 
 Router::route("POST", "/login", function () {
-    LoginController::Login();
-});
-
-Router::route("GET", "/logout", function () {
-    LoginController::Logout();
+    if (!AuthController::authenticate()) {
+        AuthController::login();
+    }
     Router::redirect("/");
 });
 
-Router::route("GET", "/test", function () {
-    LoginController::Index();
+Router::route("GET", "/register", function () {
+    if (!AuthController::authenticate()) {
+        AuthController::ShowRegisterView();
+    } else {
+        Router::redirect("/");
+    }
+});
+
+Router::route("POST", "/register", function () {
+    $success = true;
+    if (!AuthController::authenticate()) {
+        $success = AuthController::register();
+    }
+    if($success) {
+        Router::redirect("/login");
+    }
+});
+
+Router::route_auth("GET", "/", $authFunction, function () {
+    DashboardController::Home();
+});
+
+Router::route_auth("GET", "/logout", $authFunction, function () {
+    AuthController::logout();
+    Router::redirect("/login");
 });
 
 try {

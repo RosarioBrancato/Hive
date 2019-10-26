@@ -12,7 +12,7 @@ class DbAccess
     public static function GetPDO()
     {
         try {
-            $dsn = getenv('DATABASE_URL');
+            $dsn = getenv('DATABASE_URL2');
             return new PDO($dsn);
 
         } catch (\Exception $ex) {

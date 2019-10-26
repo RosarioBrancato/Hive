@@ -1,6 +1,6 @@
 <?php
 
-require_once("config/Autoloader.php");
+require_once("Config/Autoloader.php");
 
 use Controller\AuthController;
 use Controller\DashboardController;

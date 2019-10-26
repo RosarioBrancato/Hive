@@ -16,6 +16,8 @@ class DbAccess
             return new PDO($dsn);
 
         } catch (\Exception $ex) {
+            error_log($ex);
+
             $config = simplexml_load_file('Config/Hive.config.xml');
 
             $host = $config->Database->Host;

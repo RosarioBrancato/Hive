@@ -23,7 +23,11 @@ class Config
             self::loadENV();
         }
 
-        self::$config["database.dsn"] = "pgsql:host=" . self::$config["host"] . ";port=" . self::$config["port"] . ";dbname=" . self::$config["name"] . ";user=" . self::$config["user"] . ";password=" . self::$config["password"];
+        self::$config["database.dsn"] = "pgsql:host=" . self::$config["database.host"]
+            . ";port=" . self::$config["database.port"]
+            . ";dbname=" . self::$config["database.name"]
+            . ";user=" . self::$config["database.user"]
+            . ";password=" . self::$config["database.password"];
     }
 
     public static function get($key)

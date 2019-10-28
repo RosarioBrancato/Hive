@@ -6,5 +6,5 @@
         <p>Remember<input type="checkbox" name="remember" checked /></p>
         <p><input type="submit" value="Login"/></p>
     </form>
-    <a href="/hive/register">Register</a>
+    <a href="<?php echo $GLOBALS["ROOT_URL"]; ?>/register">Register</a>
 </div>

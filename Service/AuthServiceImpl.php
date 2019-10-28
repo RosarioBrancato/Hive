@@ -101,10 +101,10 @@ class AuthServiceImpl implements AuthService
                     $agentModel->update($agent);
                 }
                 $this->currentAgentId = $agent->getId();
-                return true;
             }
         }
-        return false;
+
+        return $agent;
     }
 
     /**
@@ -214,6 +214,7 @@ class AuthServiceImpl implements AuthService
             $token->setType(self::RESET_TOKEN);
             $token->setAgentid((new AgentModel())->findByEmail($email)->getId());
             $timestamp = (new \DateTime('now'))->modify('+1 hour');
+
         } else {
             throw new HTTPException(HTTPStatusCode::HTTP_406_NOT_ACCEPTABLE, 'RESET_TOKEN without email');
         }

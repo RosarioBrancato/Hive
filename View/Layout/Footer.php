@@ -1,6 +1,6 @@
 <div class="footer-basic">
     <footer>
-        <p class="copyright">WE © 2018</p>
+        <p class="copyright">HIVE © 2019</p>
     </footer>
 </div>
 <script src="assets/js/jquery.min.js"></script>

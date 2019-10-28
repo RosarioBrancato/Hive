@@ -50,14 +50,21 @@ class AuthController
     public static function login()
     {
         $authService = AuthServiceImpl::getInstance();
-        $isValid = $authService->verifyAgent($_POST["email"], $_POST["password"]);
+        $agent = $authService->verifyAgent($_POST["email"], $_POST["password"]);
+        $isValid = isset($agent);
         if ($isValid) {
             session_regenerate_id(true);
+
+            //set token
             $token = $authService->issueToken();
             $_SESSION["agentLogin"]["token"] = $token;
             if (isset($_POST["remember"])) {
                 setcookie("token", $token, (new \DateTime('now'))->modify('+30 days')->getTimestamp(), "/", "", false, true);
             }
+
+            //set agent
+            $agent->setPassword("");
+            $_SESSION["agentLogin"]["agent"] = $agent;
         }
 
         return $isValid;

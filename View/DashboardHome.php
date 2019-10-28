@@ -1,4 +1,7 @@
+<?php
+    $name = $_SESSION["agentLogin"]["agent"]->getName();
+ ?>
 <div class="container">
     <h1>Dashboard Home</h1>
-    <p>More to come...</p>
+    <p>Welcome <?php echo $name; ?></p>
 </div>

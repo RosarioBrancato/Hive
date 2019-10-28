@@ -4,6 +4,7 @@
 namespace Database;
 
 
+use Config\Config;
 use PDO;
 
 class DbAccess
@@ -12,7 +13,7 @@ class DbAccess
     public static function GetPDO()
     {
         try {
-            $dsn = getenv('DATABASE_URL2');
+            $dsn = Config::get("database.dsn");
             return new PDO($dsn);
 
         } catch (\Exception $ex) {

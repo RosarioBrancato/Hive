@@ -1,3 +1,5 @@
 *.config.xml 
+*.env
 !_Template.config.xml
+!_Template.config.env
 .idea

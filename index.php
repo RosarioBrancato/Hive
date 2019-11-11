@@ -4,6 +4,7 @@ require_once("Config/Autoloader.php");
 
 use Controller\AuthController;
 use Controller\DashboardController;
+use Controller\DocumentTypeController;
 use Controller\ErrorController;
 use Http\HTTPHeader;
 use Http\HTTPStatusCode;
@@ -50,7 +51,7 @@ Router::route("POST", "/register", function () {
     if (!AuthController::authenticate()) {
         $success = AuthController::register();
     }
-    if($success) {
+    if ($success) {
         Router::redirect("/login");
     }
 });
@@ -62,6 +63,11 @@ Router::route_auth("GET", "/", $authFunction, function () {
 Router::route_auth("GET", "/logout", $authFunction, function () {
     AuthController::logout();
     Router::redirect("/login");
+});
+
+
+Router::route_auth("GET", "/settings/documenttypes", $authFunction, function () {
+    DocumentTypeController::Home();
 });
 
 try {

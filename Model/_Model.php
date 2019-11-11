@@ -4,7 +4,8 @@
 namespace Model;
 
 
-use Database\DbAccess;
+use Config\Config;
+use PDO;
 
 class _Model
 {
@@ -12,12 +13,23 @@ class _Model
 
     public function __construct()
     {
-        $this->pdo = DbAccess::GetPDO();
+        $this->initPDO();
     }
 
     protected function getPDO()
     {
         return $this->pdo;
+    }
+
+    private function initPDO()
+    {
+        try {
+            $dsn = Config::get("database.dsn");
+            $this->pdo = new PDO($dsn);
+
+        } catch (\Exception $ex) {
+            error_log($ex);
+        }
     }
 
 }

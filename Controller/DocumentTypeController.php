@@ -13,13 +13,13 @@ class DocumentTypeController
 
     public static function Home()
     {
-        $agentid = $_SESSION["agentLogin"]["agent"]->getId();
+        $agentId = $_SESSION["agentLogin"]["agent"]->getId();
 
         $model = new DocumentTypeModel();
-        $types = $model->getAll($agentid);
+        $types = $model->getAll($agentId);
 
         $view = new View('DocumentTypeView.php');
-        $view->documenttypes = $types;
+        $view->documentTypes = $types;
         LayoutRendering::ShowView($view);
     }
 

@@ -50,9 +50,40 @@ class UnitTests
         $tokenReset = $instance->issueToken(\Service\AuthServiceImpl::RESET_TOKEN, "test@test.ch");
         var_dump($tokenReset);
     }
+
+    public function TestModel() {
+        $model = new \Model\DocumentTypeModel(4);
+
+        echo "<p>get all</p>";
+        var_dump($model->getAll());
+
+        /*
+        echo "<p>get</p>";
+        $dto = $model->get(2, 4);
+        var_dump($dto);
+
+        echo "<p>insert</p>";
+        $documentType = new \DTO\DocumentType();
+        $documentType->setName("unit test insert V2");
+        $documentType->setAgentId(4);
+        echo $model->add($documentType);
+        var_dump($documentType);
+
+
+        echo "<p>update</p>";
+        $dto->setName($dto->getName() . " EDITED");
+        echo $model->edit($dto);
+
+
+        echo "<p>delete</p>";
+        echo $model->delete(6, 4);
+        */
+
+    }
 }
 
 echo "<h1>TEST</h1>";
 $unitTests = new UnitTests();
 //$unitTests->TestAgentModel();
 //$unitTests->TestAuthServiceImpl();
+$unitTests->TestModel();

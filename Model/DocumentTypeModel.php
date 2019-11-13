@@ -16,7 +16,7 @@ class DocumentTypeModel extends _Model
         $this->agentId = $agentId;
     }
 
-    public function getAll(): array
+    public function getAll()
     {
         $query = 'SELECT * FROM documenttype WHERE agentid = :agentId';
         $parameters = [
@@ -26,7 +26,7 @@ class DocumentTypeModel extends _Model
         return $this->executeQuerySelect($query, $parameters, "DTO\DocumentType");
     }
 
-    public function get(int $id): DocumentType
+    public function get(int $id)
     {
         $query = 'SELECT * FROM documenttype WHERE id = :id AND agentid = :agentId';
         $parameters = [
@@ -35,7 +35,7 @@ class DocumentTypeModel extends _Model
         ];
 
         $array = $this->executeQuerySelect($query, $parameters, "DTO\DocumentType");
-        if (isset($array)) {
+        if (isset($array) && sizeof($array) > 0) {
             return $array[0];
         }
     }

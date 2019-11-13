@@ -84,7 +84,7 @@ class AuthServiceImpl implements AuthService
      * @access public
      * @param String email
      * @param String password
-     * @return boolean
+     * @return Agent
      * @ParamType email String
      * @ParamType password String
      * @ReturnType boolean

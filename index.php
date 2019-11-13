@@ -70,6 +70,27 @@ Router::route_auth("GET", "/settings/documenttypes", $authFunction, function () 
     DocumentTypeController::Home();
 });
 
+Router::route_auth("GET", "/settings/documenttypes/new", $authFunction, function () {
+    DocumentTypeController::New();
+});
+
+Router::route_auth("GET", "/settings/documenttypes/edit", $authFunction, function () {
+    DocumentTypeController::Edit();
+});
+
+Router::route_auth("POST", "/settings/documenttypes/save", $authFunction, function () {
+    DocumentTypeController::Save();
+});
+
+Router::route_auth("GET", "/settings/documenttypes/delete", $authFunction, function () {
+    DocumentTypeController::Delete();
+});
+
+Router::route_auth("POST", "/settings/documenttypes/delete", $authFunction, function () {
+    DocumentTypeController::Delete();
+});
+
+
 try {
     HTTPHeader::setHeader("Access-Control-Allow-Origin: *");
     HTTPHeader::setHeader("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, HEAD");

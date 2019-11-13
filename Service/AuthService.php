@@ -31,7 +31,7 @@ interface AuthService
      * @return boolean
      * @ParamType email String
      * @ParamType password String
-     * @ReturnType boolean
+     * @ReturnType Agent
      */
     public function verifyAgent($email, $password);
 

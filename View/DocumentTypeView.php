@@ -1,6 +1,7 @@
 <?php
 
 use Enumeration\EditType;
+use View\Layout\SettingsMenu;
 
 $editType = $this->editType;
 $documentTypes = $this->documentTypes;
@@ -11,14 +12,16 @@ if (isset($this->documentType)) {
 
 ?>
 <div class="container">
+    <?php SettingsMenu::GetMenu(); ?>
+
     <h1>Document Type</h1>
 
     <?php if ($editType == EditType::Add) { ?>
         <h2>New</h2>
         <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/save' ?>">
-            <p>Name <input type="text" name="name" required /></p>
-            <input type="submit" value="Add"/>
-            <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes' ?>">Cancel</a>
+            <p>Name <input type="text" name="name" required/></p>
+            <input type="submit" class="btn btn-success" value="Add"/>
+            <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes' ?>" class="btn btn-info">Cancel</a>
         </form>
     <?php } ?>
 
@@ -27,8 +30,8 @@ if (isset($this->documentType)) {
         <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/save' ?>">
             <input type="hidden" name="id" value="<?php echo $documentType->getId(); ?>"/>
             <p>Name <input type="text" name="name" value="<?php echo $documentType->getName(); ?>"/></p>
-            <input type="submit" value="Save"/>
-            <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes' ?>">Cancel</a>
+            <input type="submit" class="btn btn-success" value="Save"/>
+            <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes' ?>" class="btn btn-info">Cancel</a>
         </form>
     <?php } ?>
 
@@ -36,14 +39,14 @@ if (isset($this->documentType)) {
         <h2>Delete</h2>
         <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/delete' ?>">
             <input type="hidden" name="id" value="<?php echo $documentType->getId(); ?>"/>
-            <p>Name <input type="text" name="name" value="<?php echo $documentType->getName(); ?>" readonly /></p>
-            <input type="submit" value="Delete"/>
-            <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes' ?>">Cancel</a>
+            <p>Name <input type="text" name="name" value="<?php echo $documentType->getName(); ?>" readonly/></p>
+            <input type="submit" class="btn btn-danger" value="Delete"/>
+            <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes' ?>" class="btn btn-info">Cancel</a>
         </form>
     <?php } ?>
 
     <?php if ($editType == EditType::View) { ?>
-        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/new' ?>">New</a>
+        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/new' ?>" class="btn btn-info">New</a>
     <?php } ?>
 
     <h2>List</h2>

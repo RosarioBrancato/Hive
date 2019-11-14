@@ -6,6 +6,7 @@ use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\DocumentTypeController;
 use Controller\ErrorController;
+use Controller\SettingsController;
 use Http\HTTPHeader;
 use Http\HTTPStatusCode;
 use Http\HTTPException;
@@ -65,6 +66,9 @@ Router::route_auth("GET", "/logout", $authFunction, function () {
     Router::redirect("/login");
 });
 
+Router::route_auth("GET", "/settings", $authFunction, function () {
+    SettingsController::Home();
+});
 
 Router::route_auth("GET", "/settings/documenttypes", $authFunction, function () {
     DocumentTypeController::Home();

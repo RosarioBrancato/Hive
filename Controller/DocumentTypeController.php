@@ -25,11 +25,11 @@ class DocumentTypeController
         $view->editType = EditType::View;
         $view->documentTypes = $types;
         LayoutRendering::ShowView($view);
-    }
+        }
 
-    public static function New()
+        public static function New()
     {
-        $agentId = $_SESSION["agentLogin"]["agent"]->getId();
+    $agentId = $_SESSION["agentLogin"]["agent"]->getId();
         $model = new DocumentTypeModel($agentId);
 
         $documentTypes = $model->getAll();

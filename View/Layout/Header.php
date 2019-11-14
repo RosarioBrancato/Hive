@@ -31,7 +31,8 @@
                     <li role="presentation"><a href="<?php echo $GLOBALS["ROOT_URL"]; ?>">PLACEHOLDER</a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">My Profile <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li role="presentation"><a href="<?php echo $GLOBALS["ROOT_URL"]; ?>">PLACEHOLDER</a></li>
+                            <li role="presentation"><a href="<?php echo $GLOBALS["ROOT_URL"]; ?>">Dashboard</a></li>
+                            <li role="presentation"><a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings'; ?>">Settings</a></li>
                             <li role="presentation"><a href="<?php echo $GLOBALS["ROOT_URL"]; ?>/logout">Logout </a></li>
                         </ul>
                     </li>

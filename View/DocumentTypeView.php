@@ -19,7 +19,10 @@ if (isset($this->documentType)) {
     <?php if ($editType == EditType::Add) { ?>
         <h2>New</h2>
         <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/save' ?>">
-            <p>Name <input type="text" name="name" required/></p>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" required/>
+            </div>
             <input type="submit" class="btn btn-success" value="Add"/>
             <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes' ?>" class="btn btn-info">Cancel</a>
         </form>
@@ -29,7 +32,10 @@ if (isset($this->documentType)) {
         <h2>Edit</h2>
         <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/save' ?>">
             <input type="hidden" name="id" value="<?php echo $documentType->getId(); ?>"/>
-            <p>Name <input type="text" name="name" value="<?php echo $documentType->getName(); ?>"/></p>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" value="<?php echo $documentType->getName(); ?>" class="form-control" required/>
+            </div>
             <input type="submit" class="btn btn-success" value="Save"/>
             <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes' ?>" class="btn btn-info">Cancel</a>
         </form>
@@ -39,7 +45,10 @@ if (isset($this->documentType)) {
         <h2>Delete</h2>
         <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/delete' ?>">
             <input type="hidden" name="id" value="<?php echo $documentType->getId(); ?>"/>
-            <p>Name <input type="text" name="name" value="<?php echo $documentType->getName(); ?>" readonly/></p>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" value="<?php echo $documentType->getName(); ?>" class="form-control" readonly/>
+            </div>
             <input type="submit" class="btn btn-danger" value="Delete"/>
             <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes' ?>" class="btn btn-info">Cancel</a>
         </form>

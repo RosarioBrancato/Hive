@@ -9,6 +9,9 @@
 namespace Controller;
 
 use DTO\Agent;
+use DTO\ReportEntry;
+use Enumeration\ReportEntryLevel;
+use Helper\ReportHelper;
 use Service\AuthServiceImpl;
 use Validator\AgentValidator;
 use View\Layout\LayoutRendering;
@@ -59,12 +62,15 @@ class AuthController
             $token = $authService->issueToken();
             $_SESSION["agentLogin"]["token"] = $token;
             if (isset($_POST["remember"])) {
-                setcookie("token", $token, (new \DateTime('now'))->modify('+30 days')->getTimestamp(), "/", "", false, true);
+                setcookie("HIVE-TOKEN", $token, (new \DateTime('now'))->modify('+30 days')->getTimestamp(), "/", "", false, true);
             }
 
             //set agent
             $agent->setPassword("");
             $_SESSION["agentLogin"]["agent"] = $agent;
+
+            //set report
+            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, "Login successful!"));
         }
 
         return $isValid;
@@ -73,7 +79,8 @@ class AuthController
     public static function logout()
     {
         session_destroy();
-        setcookie("token", "", time() - 3600, "/", "", false, true);
+        setcookie("HIVE-TOKEN", "", time() - 3600, "/", "", false, true);
+        AuthServiceImpl::getInstance()->destroySession();
     }
 
     public static function register($view = null)

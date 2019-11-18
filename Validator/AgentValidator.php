@@ -13,6 +13,7 @@ use DTO\Agent;
 class AgentValidator
 {
     private $valid = true;
+
     private $nameError = null;
     private $emailError = null;
     private $passwordError = null;
@@ -47,8 +48,8 @@ class AgentValidator
         } else {
             $this->valid = false;
         }
-        return $this->valid;
 
+        return $this->valid;
     }
 
     public function isValid()

@@ -6,5 +6,6 @@
  * Time: 18:29
  */
 echo $this->header;
+echo $this->reportSection;
 echo $this->content;
 echo $this->footer;

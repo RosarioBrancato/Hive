@@ -65,9 +65,13 @@ class AuthServiceImpl implements AuthService
      */
     public function verifyAuth()
     {
-        if (isset($this->currentAgentId))
-            return true;
-        return false;
+        $verified = false;
+
+        if (isset($this->currentAgentId)) {
+            $verified = true;
+        }
+
+        return $verified;
     }
 
     /**
@@ -227,5 +231,10 @@ class AuthServiceImpl implements AuthService
         $authTokenModel->create($token);
 
         return $token->getSelector() . ":" . bin2hex($validator);
+    }
+
+    public function destroySession()
+    {
+        $this->currentAgentId = null;
     }
 }

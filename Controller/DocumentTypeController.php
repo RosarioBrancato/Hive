@@ -4,9 +4,13 @@
 namespace Controller;
 
 
+use DTO\ReportEntry;
 use Enumeration\EditType;
+use Enumeration\ReportEntryLevel;
+use Helper\ReportHelper;
 use Model\DocumentTypeModel;
 use Router\Router;
+use Service\AuthServiceImpl;
 use View\Layout\LayoutRendering;
 use View\View;
 use DTO\DocumentType;
@@ -16,7 +20,7 @@ class DocumentTypeController
 
     public static function Home()
     {
-        $agentId = $_SESSION["agentLogin"]["agent"]->getId();
+        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
 
         $model = new DocumentTypeModel($agentId);
         $types = $model->getAll();
@@ -25,11 +29,11 @@ class DocumentTypeController
         $view->editType = EditType::View;
         $view->documentTypes = $types;
         LayoutRendering::ShowView($view);
-        }
+    }
 
-        public static function New()
+    public static function New()
     {
-    $agentId = $_SESSION["agentLogin"]["agent"]->getId();
+        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
         $model = new DocumentTypeModel($agentId);
 
         $documentTypes = $model->getAll();
@@ -47,7 +51,7 @@ class DocumentTypeController
         }
 
         $id = $_GET["id"];
-        $agentId = $_SESSION["agentLogin"]["agent"]->getId();
+        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
         $model = new DocumentTypeModel($agentId);
 
         $documentTypes = $model->getAll();
@@ -60,6 +64,7 @@ class DocumentTypeController
             $view->documentType = $documentType;
             LayoutRendering::ShowView($view);
         } else {
+            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document type could not be found."));
             Router::redirect("/settings/documenttypes");
         }
     }
@@ -70,7 +75,7 @@ class DocumentTypeController
             Router::redirect("/settings/documenttypes");
         }
 
-        $agentId = $_SESSION["agentLogin"]["agent"]->getId();
+        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
         $model = new DocumentTypeModel($agentId);
 
         if (isset($_GET["id"])) {
@@ -102,7 +107,7 @@ class DocumentTypeController
         }
 
         $name = $_POST["name"];
-        $agentId = $_SESSION["agentLogin"]["agent"]->getId();
+        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
         $model = new DocumentTypeModel($agentId);
 
         if (isset($_POST["id"])) {

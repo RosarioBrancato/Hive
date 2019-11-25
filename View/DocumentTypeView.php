@@ -10,6 +10,10 @@ if (isset($this->documentType)) {
     $documentType = $this->documentType;
 }
 
+if(isset($this->nextNumber)) {
+    $nextNumber = $this->nextNumber;
+}
+
 ?>
 <div class="container">
     <?php SettingsMenu::GetMenu(); ?>
@@ -19,6 +23,10 @@ if (isset($this->documentType)) {
     <?php if ($editType == EditType::Add) { ?>
         <h2>New</h2>
         <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/save' ?>">
+            <div class="form-group">
+                <label>Number</label>
+                <input type="text" name="number" class="form-control" min="1" value="<?php echo $nextNumber; ?>" required/>
+            </div>
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" name="name" class="form-control" required/>
@@ -33,6 +41,10 @@ if (isset($this->documentType)) {
         <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/save' ?>">
             <input type="hidden" name="id" value="<?php echo $documentType->getId(); ?>"/>
             <div class="form-group">
+                <label>Number</label>
+                <input type="text" name="number" class="form-control" min="1" value="<?php echo $documentType->getNumber(); ?>" required/>
+            </div>
+            <div class="form-group">
                 <label>Name</label>
                 <input type="text" name="name" value="<?php echo $documentType->getName(); ?>" class="form-control" required/>
             </div>
@@ -45,6 +57,10 @@ if (isset($this->documentType)) {
         <h2>Delete</h2>
         <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/delete' ?>">
             <input type="hidden" name="id" value="<?php echo $documentType->getId(); ?>"/>
+            <div class="form-group">
+                <label>Number</label>
+                <input type="text" name="number" class="form-control" value="<?php echo $documentType->getNumber(); ?>" readonly/>
+            </div>
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" name="name" value="<?php echo $documentType->getName(); ?>" class="form-control" readonly/>
@@ -62,6 +78,7 @@ if (isset($this->documentType)) {
     <table class="table table-striped table-hover">
         <thead>
         <tr>
+            <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col"></th>
         </tr>
@@ -70,7 +87,8 @@ if (isset($this->documentType)) {
         <?php
         foreach ($documentTypes as $documentType) {
             echo "<tr>";
-            echo '<td scope="row">' . $documentType->getName() . '</td>';
+            echo '<td scope="row">' . $documentType->getNumber() . '</td>';
+            echo '<td>' . $documentType->getName() . '</td>';
             echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/settings/documenttypes/edit?id=' . $documentType->getId() . '">Edit</a> <a href="' . $GLOBALS["ROOT_URL"] . '/settings/documenttypes/delete?id=' . $documentType->getId() . '">Delete</a></td>';
             echo "</tr>";
         }

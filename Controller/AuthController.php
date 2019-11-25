@@ -71,6 +71,8 @@ class AuthController
 
             //set report
             ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, "Login successful!"));
+        } else {
+            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "Login failed."));
         }
 
         return $isValid;
@@ -93,12 +95,14 @@ class AuthController
 
         if ($agentValidator->isValid()) {
             if (AuthServiceImpl::getInstance()->editAgent($agent->getName(), $agent->getEmail(), $agent->getPassword())) {
+                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, "Registration successful!"));
                 return true;
             } else {
                 $agentValidator->setEmailError("Email already exists");
             }
         }
 
+        ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "Registration failed."));
         $agent->setPassword("");
         AuthController::ShowRegisterView($agent, $agentValidator);
         return false;

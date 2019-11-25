@@ -52,10 +52,21 @@ class UnitTests
     }
 
     public function TestModel() {
-        $model = new \Model\DocumentTypeModel(4);
+        $model = new \Model\DocumentTypeModel(1);
 
-        echo "<p>get all</p>";
-        var_dump($model->getAll());
+
+        $isUnique = $model->isNameUnique("invoice", 1);
+        var_dump($isUnique);
+
+        /*$documentType = new \DTO\DocumentType();
+        $documentType->setId(1);;
+        $documentType->setAgentId(1);
+        $documentType->setNumber(1);
+        $documentType->setName("invoice");
+        $model->edit($documentType);*/
+
+       /* echo "<p>get all</p>";
+        var_dump($model->getAll());*/
 
         /*
         echo "<p>get</p>";

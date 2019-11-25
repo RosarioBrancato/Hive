@@ -16,16 +16,6 @@ class DocumentTypeModel extends _Model
         $this->agentId = $agentId;
     }
 
-    public function getAll()
-    {
-        $query = 'SELECT * FROM documenttype WHERE agentid = :agentId';
-        $parameters = [
-            ':agentId' => $this->agentId
-        ];
-
-        return $this->executeQuerySelect($query, $parameters, "DTO\DocumentType");
-    }
-
     public function get(int $id)
     {
         $query = 'SELECT * FROM documenttype WHERE id = :id AND agentid = :agentId';
@@ -40,13 +30,60 @@ class DocumentTypeModel extends _Model
         }
     }
 
+    public function getNextFreeNumber() {
+        $query = 'SELECT number FROM documenttype WHERE agentid = :agentId ORDER BY number DESC LIMIT 1';
+        $parameters = [
+            ':agentId' => $this->agentId
+        ];
+
+        $array = $this->executeQuerySelect($query, $parameters);
+
+        $nextNumber = 0;
+        if (isset($array) && sizeof($array) > 0) {
+            $nextNumber = $array[0]->number;
+        }
+        $nextNumber = $nextNumber + 1;
+
+        return $nextNumber;
+    }
+
+    public function isNameUnique($name, $exceptId = -1) {
+        $query = 'SELECT COUNT(id) as count FROM documenttype WHERE agentid = :agentId AND id <> :exceptId AND name = :name';
+        $parameters = [
+            ':name' => $name,
+            ':agentId' => $this->agentId,
+            ':exceptId' => $exceptId
+        ];
+
+        $array = $this->executeQuerySelect($query, $parameters);
+        var_dump($array);
+
+        $isUnique = true;
+        if (isset($array) && sizeof($array) > 0 && $array[0]->count > 0) {
+            $isUnique = false;
+        }
+
+        return $isUnique;
+    }
+
+    public function getAll()
+    {
+        $query = 'SELECT * FROM documenttype WHERE agentid = :agentId ORDER BY number';
+        $parameters = [
+            ':agentId' => $this->agentId
+        ];
+
+        return $this->executeQuerySelect($query, $parameters, "DTO\DocumentType");
+    }
+
     public function add(DocumentType $documentType): bool
     {
         $success = false;
 
-        $query = 'INSERT INTO documenttype (name, agentid) VALUES (:name, :agentId)';
+        $query = 'INSERT INTO documenttype (number, name, agentid) VALUES (:number, :name, :agentId)';
         $parameters = [
             ':agentId' => $documentType->getAgentId(),
+            ':number' => $documentType->getNumber(),
             ':name' => $documentType->getName()
         ];
 
@@ -62,11 +99,12 @@ class DocumentTypeModel extends _Model
 
     public function edit(DocumentType $documentType): bool
     {
-        $query = 'UPDATE documenttype SET name = :name WHERE id = :id and agentid = :agentId';
+        $query = 'UPDATE documenttype SET number = :number, name = :name WHERE id = :id and agentid = :agentId';
         $parameters = [
+            ':number' => $documentType->getNumber(),
+            ':name' => $documentType->getName(),
             ':id' => $documentType->getId(),
             ':agentId' => $documentType->getAgentId(),
-            ':name' => $documentType->getName()
         ];
 
         return $this->executeQuery($query, $parameters);

@@ -7,6 +7,7 @@ namespace DTO;
 class DocumentType
 {
     private $id;
+    private $number;
     private $name;
     private $agentid;
 
@@ -19,6 +20,16 @@ class DocumentType
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    public function setNumber($number)
+    {
+        $this->number = $number;
     }
 
     public function getName()
@@ -36,9 +47,9 @@ class DocumentType
         return $this->agentid;
     }
 
-    public function setAgentId($agentid)
+    public function setAgentId($agentId)
     {
-        $this->agentid = $agentid;
+        $this->agentid = $agentId;
     }
 
 }

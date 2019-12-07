@@ -51,12 +51,13 @@ class UnitTests
         var_dump($tokenReset);
     }
 
-    public function TestModel() {
+    public function TestModel()
+    {
         $model = new \Model\DocumentTypeModel(1);
 
 
-        $isUnique = $model->isNameUnique("invoice", 1);
-        var_dump($isUnique);
+        /*$isUnique = $model->isNameUnique("invoice", 1);
+        var_dump($isUnique);*/
 
         /*$documentType = new \DTO\DocumentType();
         $documentType->setId(1);;
@@ -65,22 +66,26 @@ class UnitTests
         $documentType->setName("invoice");
         $model->edit($documentType);*/
 
-       /* echo "<p>get all</p>";
-        var_dump($model->getAll());*/
+        /* echo "<p>get all</p>";
+         var_dump($model->getAll());*/
 
         /*
         echo "<p>get</p>";
         $dto = $model->get(2, 4);
         var_dump($dto);
+        */
 
+        /*
         echo "<p>insert</p>";
         $documentType = new \DTO\DocumentType();
+        $documentType->setNumber(99);
         $documentType->setName("unit test insert V2");
-        $documentType->setAgentId(4);
+        $documentType->setAgentId(1);
         echo $model->add($documentType);
         var_dump($documentType);
+        */
 
-
+        /*
         echo "<p>update</p>";
         $dto->setName($dto->getName() . " EDITED");
         echo $model->edit($dto);
@@ -90,6 +95,35 @@ class UnitTests
         echo $model->delete(6, 4);
         */
 
+
+
+        $documentType = new \DTO\DocumentType();
+        //$documentType->setId(12);
+        $documentType->setId(null);
+        $documentType->setNumber(6);
+        $documentType->setName("general");
+        $documentType->setAgentId(1);
+        var_dump($documentType);
+
+        echo "<p>validate</p>";
+        $isUnique = $model->isNameUnique($documentType->getName(), $documentType->getId());
+        var_dump($isUnique);
+
+        $validator = new \Validator\DocumentTypeValidator($model);
+        $isValid = $validator->Validate($documentType);
+        var_dump($isValid);
+
+
+    }
+
+    public function TestDocumentFieldModel()
+    {
+        $model = new \Model\DocumentFieldModel(1);
+
+        var_dump($model->getAll());
+        //var_dump($model->get(1));
+        //var_dump($model->getNextFreeNumber());
+        //var_dump($model->isLabelUnique('Title'));
     }
 }
 
@@ -98,3 +132,4 @@ $unitTests = new UnitTests();
 //$unitTests->TestAgentModel();
 //$unitTests->TestAuthServiceImpl();
 $unitTests->TestModel();
+//$unitTests->TestDocumentFieldModel();

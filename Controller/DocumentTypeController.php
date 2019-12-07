@@ -11,6 +11,7 @@ use Helper\ReportHelper;
 use Model\DocumentTypeModel;
 use Router\Router;
 use Service\AuthServiceImpl;
+use Validator\DocumentTypeValidator;
 use View\Layout\LayoutRendering;
 use View\View;
 use DTO\DocumentType;
@@ -18,12 +19,17 @@ use DTO\DocumentType;
 class DocumentTypeController
 {
 
-    public static function Home()
+    private $model = null;
+
+    public function __construct()
     {
         $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
+        $this->model = new DocumentTypeModel($agentId);
+    }
 
-        $model = new DocumentTypeModel($agentId);
-        $types = $model->getAll();
+    public function ShowHomePage()
+    {
+        $types = $this->model->getAll();
 
         $view = new View('DocumentTypeView.php');
         $view->editType = EditType::View;
@@ -31,131 +37,70 @@ class DocumentTypeController
         LayoutRendering::ShowView($view);
     }
 
-    public static function New()
+    public function ShowNewForm(DocumentType $documentType)
     {
-        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
-        $model = new DocumentTypeModel($agentId);
+        $documentTypes = $this->model->getAll();
+        $nextNumber = $this->model->getNextFreeNumber();
 
-        $documentTypes = $model->getAll();
-        $nextNumber = $model->getNextFreeNumber();
+        $documentType->setNumber($nextNumber);
 
         $view = new View('DocumentTypeView.php');
         $view->editType = EditType::Add;
         $view->documentTypes = $documentTypes;
-        $view->nextNumber = $nextNumber;
+        $view->documentType = $documentType;
         LayoutRendering::ShowView($view);
     }
 
-    public static function Edit()
+    public function ShowEditForm(DocumentType $documentType)
     {
-        if (!isset($_GET["id"])) {
-            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document type could not be found."));
-            Router::redirect("/settings/documenttypes");
-        }
+        $documentTypes = $this->model->getAll();
+        $documentTypeReloaded = $this->model->get($documentType->getId());
 
-        $id = $_GET["id"];
-        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
-        $model = new DocumentTypeModel($agentId);
+        if (!empty($documentTypeReloaded)) {
+            if (!empty($documentType->getNumber())) {
+                $documentTypeReloaded->setNumber($documentType->getNumber());
+            }
+            if (!empty($documentType->getName())) {
+                $documentTypeReloaded->setName($documentType->getName());
+            }
 
-        $documentTypes = $model->getAll();
-        $documentType = $model->get($id);
-
-        if ($documentType != null) {
             $view = new View('DocumentTypeView.php');
             $view->editType = EditType::Edit;
             $view->documentTypes = $documentTypes;
+            $view->documentType = $documentTypeReloaded;
+            LayoutRendering::ShowView($view);
+
+        } else {
+            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document type could not be found."));
+            Router::redirect("/settings/documenttypes");
+        }
+    }
+
+    public function ShowDeleteForm(string $id)
+    {
+        $documentTypes = $this->model->getAll();
+        $documentType = $this->model->get($id);
+
+        if (!empty($documentType)) {
+            $view = new View('DocumentTypeView.php');
+            $view->editType = EditType::Delete;
+            $view->documentTypes = $documentTypes;
             $view->documentType = $documentType;
             LayoutRendering::ShowView($view);
+
         } else {
             ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document type could not be found."));
             Router::redirect("/settings/documenttypes");
         }
     }
 
-    public static function Delete()
+    public function InsertEntry(DocumentType $documentType)
     {
-        if (!isset($_GET["id"]) && !isset($_POST["id"])) {
-            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document type could not be found."));
-            Router::redirect("/settings/documenttypes");
-        }
+        $validator = new DocumentTypeValidator($this->model);
+        $success = $validator->Validate($documentType);
 
-        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
-        $model = new DocumentTypeModel($agentId);
-
-        if (isset($_GET["id"])) {
-            $id = $_GET["id"];
-            $documentType = $model->get($id);
-            $documentTypes = $model->getAll();
-
-            if ($documentType != null) {
-                $view = new View('DocumentTypeView.php');
-                $view->editType = EditType::Delete;
-                $view->documentTypes = $documentTypes;
-                $view->documentType = $documentType;
-                LayoutRendering::ShowView($view);
-            } else {
-                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document type could not be found."));
-                Router::redirect("/settings/documenttypes");
-            }
-
-        } else {
-            $id = $_POST["id"];
-            $model->delete($id);
-            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, "Document type deleted."));
-            Router::redirect("/settings/documenttypes");
-        }
-    }
-
-    public static function Save()
-    {
-        if (!isset($_POST["number"]) || !isset($_POST["name"])) {
-            if (!isset($_POST["number"])) {
-                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Invalid number."));
-            }
-            if (!isset($_POST["name"])) {
-                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Invalid name."));
-            }
-            Router::redirect("/settings/documenttypes");
-        }
-
-        if (!isset($_POST["id"])) {
-            $success = self::insert();
-            if (!$success) {
-                Router::redirect("/settings/documenttypes/new");
-            }
-
-        } else {
-            $success = self::update();
-            if (!$success) {
-                Router::redirect("/settings/documenttypes/edit?id=" . $_POST["id"]);
-            }
-        }
-
-        Router::redirect("/settings/documenttypes");
-    }
-
-    private static function insert()
-    {
-        $success = false;
-
-        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
-        $model = new DocumentTypeModel($agentId);
-
-        $number = intval($_POST["number"]);
-        $name = $_POST["name"];
-
-        $isUnique = $model->isNameUnique($name);
-        if (!$isUnique) {
-            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "A document type named '" . $name . "' already exists"));
-        }
-
-        if ($isUnique) {
-            $documentType = new DocumentType();
-            $documentType->setNumber($number);
-            $documentType->setName($name);
-            $documentType->setAgentId($agentId);
-
-            $success = $model->add($documentType);
+        if ($success) {
+            $success = $this->model->add($documentType);
             if (!$success) {
                 ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "Document type could not be saved."));
             }
@@ -168,35 +113,26 @@ class DocumentTypeController
         return $success;
     }
 
-    public static function update()
+    public function UpdateEntry(DocumentType $documentTypeUpdated)
     {
-        $success = false;
+        $validator = new DocumentTypeValidator($this->model);
+        $success = $validator->Validate($documentTypeUpdated);
 
-        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
-        $model = new DocumentTypeModel($agentId);
+        if ($success) {
+            $documentType = $this->model->get($documentTypeUpdated->getId());
 
-        $id = intval($_POST["id"]);
-        $number = intval($_POST["number"]);
-        $name = $_POST["name"];
+            if ($documentType != null) {
+                $documentType->setNumber($documentTypeUpdated->getNumber());
+                $documentType->setName($documentTypeUpdated->getName());
 
-        $isUnique = $model->isNameUnique($name, $id);
-        if (!$isUnique) {
-            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "A document type named '" . $name . "' already exists"));
-        }
-
-        if ($isUnique) {
-            $documentType = $model->get($id);
-            if ($documentType == null) {
-                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "Document type could not be found."));
-
-            } else {
-                $documentType->setNumber($number);
-                $documentType->setName($name);
-
-                $success = $model->edit($documentType);
+                $success = $this->model->edit($documentType);
                 if (!$success) {
                     ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "Document type could not be saved."));
                 }
+
+            } else {
+                $success = false;
+                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "Document type could not be found."));
             }
         }
 
@@ -205,6 +141,13 @@ class DocumentTypeController
         }
 
         return $success;
+    }
+
+    public function DeleteEntry(string $id)
+    {
+        $this->model->delete($id);
+        ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, "Document type deleted."));
+        Router::redirect("/settings/documenttypes");
     }
 
 }

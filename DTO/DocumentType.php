@@ -11,7 +11,6 @@ class DocumentType
     private $name;
     private $agentid;
 
-
     public function getId()
     {
         return $this->id;

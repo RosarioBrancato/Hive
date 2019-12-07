@@ -13,11 +13,19 @@ class DocumentTypeModel extends _Model
     public function __construct($agentId)
     {
         parent::__construct();
+
+        if(empty($agentId)) {
+            $agentId = -1;
+        }
         $this->agentId = $agentId;
     }
 
     public function get(int $id)
     {
+        if(empty($id)) {
+            $id = -1;
+        }
+
         $query = 'SELECT * FROM documenttype WHERE id = :id AND agentid = :agentId';
         $parameters = [
             ':id' => $id,
@@ -48,6 +56,13 @@ class DocumentTypeModel extends _Model
     }
 
     public function isNameUnique($name, $exceptId = -1) {
+        if(empty($name)) {
+            $name = "";
+        }
+        if(empty($exceptId)) {
+            $exceptId = -1;
+        }
+
         $query = 'SELECT COUNT(id) as count FROM documenttype WHERE agentid = :agentId AND id <> :exceptId AND name = :name';
         $parameters = [
             ':name' => $name,
@@ -56,10 +71,9 @@ class DocumentTypeModel extends _Model
         ];
 
         $array = $this->executeQuerySelect($query, $parameters);
-        var_dump($array);
 
         $isUnique = true;
-        if (isset($array) && sizeof($array) > 0 && $array[0]->count > 0) {
+        if (!empty($array) && $array[0]->count > 0) {
             $isUnique = false;
         }
 
@@ -82,7 +96,7 @@ class DocumentTypeModel extends _Model
 
         $query = 'INSERT INTO documenttype (number, name, agentid) VALUES (:number, :name, :agentId)';
         $parameters = [
-            ':agentId' => $documentType->getAgentId(),
+            ':agentId' => $this->agentId,
             ':number' => $documentType->getNumber(),
             ':name' => $documentType->getName()
         ];
@@ -99,12 +113,16 @@ class DocumentTypeModel extends _Model
 
     public function edit(DocumentType $documentType): bool
     {
+        if(empty($documentType->getId())) {
+            $documentType->setId(-1);
+        }
+
         $query = 'UPDATE documenttype SET number = :number, name = :name WHERE id = :id and agentid = :agentId';
         $parameters = [
             ':number' => $documentType->getNumber(),
             ':name' => $documentType->getName(),
             ':id' => $documentType->getId(),
-            ':agentId' => $documentType->getAgentId(),
+            ':agentId' => $this->agentId,
         ];
 
         return $this->executeQuery($query, $parameters);

@@ -2,9 +2,9 @@
 
 require_once("Config/Autoloader.php");
 
+use Access\DocumentTypeAccess;
 use Controller\AuthController;
 use Controller\DashboardController;
-use Controller\DocumentTypeController;
 use Controller\ErrorController;
 use Controller\SettingsController;
 use Http\HTTPHeader;
@@ -71,27 +71,27 @@ Router::route_auth("GET", "/settings", $authFunction, function () {
 });
 
 Router::route_auth("GET", "/settings/documenttypes", $authFunction, function () {
-    DocumentTypeController::Home();
+    DocumentTypeAccess::Home();
 });
 
 Router::route_auth("GET", "/settings/documenttypes/new", $authFunction, function () {
-    DocumentTypeController::New();
+    DocumentTypeAccess::New();
 });
 
 Router::route_auth("GET", "/settings/documenttypes/edit", $authFunction, function () {
-    DocumentTypeController::Edit();
+    DocumentTypeAccess::Edit();
 });
 
 Router::route_auth("POST", "/settings/documenttypes/save", $authFunction, function () {
-    DocumentTypeController::Save();
+    DocumentTypeAccess::Save();
 });
 
 Router::route_auth("GET", "/settings/documenttypes/delete", $authFunction, function () {
-    DocumentTypeController::Delete();
+    DocumentTypeAccess::Delete();
 });
 
 Router::route_auth("POST", "/settings/documenttypes/delete", $authFunction, function () {
-    DocumentTypeController::Delete();
+    DocumentTypeAccess::Delete();
 });
 
 

@@ -2,6 +2,7 @@
 
 require_once("Config/Autoloader.php");
 
+use Access\DocumentFieldAccess;
 use Access\DocumentTypeAccess;
 use Controller\AuthController;
 use Controller\DashboardController;
@@ -92,6 +93,11 @@ Router::route_auth("GET", "/settings/documenttypes/delete", $authFunction, funct
 
 Router::route_auth("POST", "/settings/documenttypes/delete", $authFunction, function () {
     DocumentTypeAccess::Delete();
+});
+
+
+Router::route_auth("GET", "/settings/documentfields", $authFunction, function () {
+    DocumentFieldAccess::Home();
 });
 
 

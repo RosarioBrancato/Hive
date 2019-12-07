@@ -121,9 +121,9 @@ class UnitTests
         $model = new \Model\DocumentFieldModel(1);
 
         var_dump($model->getAll());
-        //var_dump($model->get(1));
-        //var_dump($model->getNextFreeNumber());
-        //var_dump($model->isLabelUnique('Title'));
+        var_dump($model->get(1));
+        var_dump($model->getNextFreeNumber());
+        var_dump($model->isLabelUnique('Title'));
     }
 }
 
@@ -131,5 +131,5 @@ echo "<h1>TEST</h1>";
 $unitTests = new UnitTests();
 //$unitTests->TestAgentModel();
 //$unitTests->TestAuthServiceImpl();
-$unitTests->TestModel();
-//$unitTests->TestDocumentFieldModel();
+//$unitTests->TestModel();
+$unitTests->TestDocumentFieldModel();

@@ -33,7 +33,7 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documenttypes';
 <div class="container">
     <?php SettingsMenu::GetMenu(); ?>
 
-    <h1>Document Type</h1>
+    <h1>Document Types</h1>
 
     <?php if ($editType == EditType::Add || $editType == EditType::Edit || $editType == EditType::Delete) { ?>
         <h2><?php echo $editTypeTitle; ?></h2>

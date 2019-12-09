@@ -69,6 +69,7 @@ class DocumentTypeAccess
         } else if (isset($_POST["id"])) {
             $id = intval($_POST["id"]);
             $controller->DeleteEntry($id);
+            Router::redirect("/settings/documenttypes");
 
         } else {
             ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document type could not be found."));

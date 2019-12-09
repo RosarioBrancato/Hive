@@ -14,7 +14,7 @@ class DocumentTypeModel extends _Model
     {
         parent::__construct();
 
-        if(empty($agentId)) {
+        if (empty($agentId)) {
             $agentId = -1;
         }
         $this->agentId = $agentId;
@@ -22,7 +22,7 @@ class DocumentTypeModel extends _Model
 
     public function get(int $id)
     {
-        if(empty($id)) {
+        if (empty($id)) {
             $id = -1;
         }
 
@@ -38,7 +38,8 @@ class DocumentTypeModel extends _Model
         }
     }
 
-    public function getNextFreeNumber() {
+    public function getNextFreeNumber()
+    {
         $query = 'SELECT number FROM documenttype WHERE agentid = :agentId ORDER BY number DESC LIMIT 1';
         $parameters = [
             ':agentId' => $this->agentId
@@ -55,11 +56,12 @@ class DocumentTypeModel extends _Model
         return $nextNumber;
     }
 
-    public function isNameUnique($name, $exceptId = -1) {
-        if(empty($name)) {
+    public function isNameUnique($name, $exceptId = -1)
+    {
+        if (empty($name)) {
             $name = "";
         }
-        if(empty($exceptId)) {
+        if (empty($exceptId)) {
             $exceptId = -1;
         }
 
@@ -113,7 +115,7 @@ class DocumentTypeModel extends _Model
 
     public function edit(DocumentType $documentType): bool
     {
-        if(empty($documentType->getId())) {
+        if (empty($documentType->getId())) {
             $documentType->setId(-1);
         }
 
@@ -137,5 +139,26 @@ class DocumentTypeModel extends _Model
         ];
 
         return $this->executeQuery($query, $parameters);
+    }
+
+    public function checkAgentId(int $id): bool
+    {
+        if (empty($id)) {
+            $id = -1;
+        }
+
+        $query = 'SELECT agentid FROM documenttype WHERE id = :id';
+        $parameters = [
+            ':id' => $id
+        ];
+
+        $array = $this->executeQuerySelect($query, $parameters);
+
+        $isValid = false;
+        if (!empty($array)) {
+            $isValid = $array[0]->agentid == $this->agentId;
+        }
+
+        return $isValid;
     }
 }

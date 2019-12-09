@@ -145,9 +145,15 @@ class DocumentTypeController
 
     public function DeleteEntry(string $id)
     {
-        $this->model->delete($id);
-        ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, "Document type deleted."));
-        Router::redirect("/settings/documenttypes");
+        $success = $this->model->delete($id);
+
+        if ($success) {
+            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, "Document type deleted."));
+        } else {
+            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "Document type could not be deleted."));
+        }
+
+        return $success;
     }
 
 }

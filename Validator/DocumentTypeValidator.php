@@ -35,6 +35,14 @@ class DocumentTypeValidator
             }
         }
 
+        if (!empty($documentType->getId())) {
+            $agentOk = $this->model->checkAgentId($documentType->getId());
+            if(!$agentOk) {
+                $isValid = false;
+                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "User data could not be loaded. Please relog."));
+            }
+        }
+
         return $isValid;
     }
 

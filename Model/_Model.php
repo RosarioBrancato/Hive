@@ -25,13 +25,23 @@ class _Model
     protected function executeQuery(string $query, array $parameters): bool
     {
         $stmt = $this->getStatement($query, $parameters);
-        return $this->executeStatement($stmt);
+        $success = $this->executeStatement($stmt);
+
+        if ($this->getPDO()->errorCode() !== '00000') {
+            error_log(implode(" | ", $this->getPDO()->errorInfo()));
+        }
+
+        return $success;
     }
 
     protected function executeQueryInsert(string $query, array $parameters): int
     {
         $stmt = $this->getStatement($query, $parameters);
         $this->executeStatement($stmt);
+
+        if ($this->getPDO()->errorCode() !== '00000') {
+            error_log(implode(" | ", $this->getPDO()->errorInfo()));
+        }
 
         return $this->getPDO()->lastInsertId();
     }

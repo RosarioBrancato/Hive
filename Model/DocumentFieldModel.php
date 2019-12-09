@@ -14,7 +14,7 @@ class DocumentFieldModel extends _Model
     {
         parent::__construct();
 
-        if(empty($agentId)) {
+        if (empty($agentId)) {
             $agentId = -1;
         }
         $this->agentId = $agentId;
@@ -22,7 +22,7 @@ class DocumentFieldModel extends _Model
 
     public function get(int $id)
     {
-        if(empty($id)) {
+        if (empty($id)) {
             $id = -1;
         }
 
@@ -77,7 +77,6 @@ class DocumentFieldModel extends _Model
 
     public function getAll()
     {
-        //$query = 'SELECT f.* FROM documentfield f JOIN documenttype t ON t.id = f.documenttypeid  WHERE t.agentid = :agentId ORDER BY f.number';
         $query = 'SELECT f.id, f.number, f.label, f.fieldtype, t.number as documenttypenr, t.name as documenttype FROM documentfield f JOIN documenttype t ON t.id = f.documenttypeid WHERE t.agentid = :agentId ORDER BY t.number, f.number';
         $parameters = [
             ':agentId' => $this->agentId
@@ -100,7 +99,7 @@ class DocumentFieldModel extends _Model
 
         $newId = $this->executeQueryInsert($query, $parameters);
 
-        if (isset($newId)) {
+        if (!empty($newId)) {
             $documentField->setId($newId);
             $success = true;
         }
@@ -110,15 +109,47 @@ class DocumentFieldModel extends _Model
 
     public function edit(DocumentField $documentField): bool
     {
-        $query = 'UPDATE documenttype SET number = :number, label = :label WHERE id = :id and documenttypeid = :documenttypeid';
+        $query = 'UPDATE documentfield SET number = :number, label = :label, fieldtype = :fieldtype, documenttypeid = :documenttypeid WHERE id = :id and documenttypeid = :documenttypeid';
         $parameters = [
             ':number' => $documentField->getNumber(),
-            ':name' => $documentField->getName(),
+            ':label' => $documentField->getLabel(),
             ':id' => $documentField->getId(),
-            ':agentId' => $documentField->getAgentId(),
+            ':fieldtype' => $documentField->getFieldType(),
+            ':documenttypeid' => $documentField->getDocumentTypeId(),
         ];
 
         return $this->executeQuery($query, $parameters);
+    }
+
+    public function delete(int $id): bool
+    {
+        $query = 'DELETE FROM documentfield WHERE id = :id';
+        $parameters = [
+            ':id' => $id
+        ];
+
+        return $this->executeQuery($query, $parameters);
+    }
+
+    public function checkAgentId(int $id): bool
+    {
+        if (empty($id)) {
+            $id = -1;
+        }
+
+        $query = 'SELECT agentid FROM documentfield f JOIN documenttype t on t.id = f.documenttypeid WHERE f.id = :id';
+        $parameters = [
+            ':id' => $id
+        ];
+
+        $array = $this->executeQuerySelect($query, $parameters);
+
+        $isValid = false;
+        if (!empty($array)) {
+            $isValid = $array[0]->agentid == $this->agentId;
+        }
+
+        return $isValid;
     }
 
 }

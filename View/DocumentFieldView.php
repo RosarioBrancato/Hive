@@ -1,47 +1,69 @@
 <?php
 
+use DTO\DocumentField;
 use DTO\DocumentType;
 use Enumeration\EditType;
+use Enumeration\FieldType;
+use Helper\DropDownHelper;
+use Model\DocumentFieldModel;
 use View\Layout\SettingsMenu;
 
 $editType = $this->editType;
 $data = $this->data;
 
-$documentField = null;
+if (!empty($this->documentField)) {
+    /** @var DocumentField */
+    $documentField = $this->documentField;
+}
+
+if (!empty($this->documentField)) {
+    $documentTypes = $this->documentTypes;
+}
 
 if ($editType == EditType::Add) {
     $editTypeTitle = "New";
-    $action = $GLOBALS["ROOT_URL"] . '/settings/documenttypes/save';
+    $action = $GLOBALS["ROOT_URL"] . '/settings/documentfields/save';
     $inputTagAddition = "required";
+    $selectTagAddition = "required";
 } else if ($editType == EditType::Edit) {
     $editTypeTitle = "Edit";
-    $action = $GLOBALS["ROOT_URL"] . '/settings/documenttypes/save';
+    $action = $GLOBALS["ROOT_URL"] . '/settings/documentfields/save';
     $inputTagAddition = "required";
+    $selectTagAddition = "required";
 } else if ($editType == EditType::Delete) {
     $editTypeTitle = "Delete";
-    $action = $GLOBALS["ROOT_URL"] . '/settings/documenttypes/delete';
+    $action = $GLOBALS["ROOT_URL"] . '/settings/documentfields/delete';
     $inputTagAddition = "readonly";
+    $selectTagAddition = "disabled";
 }
 
-$cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documenttypes';
+$cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
 
 ?>
 <div class="container">
     <?php SettingsMenu::GetMenu(); ?>
 
-    <h1>Document Type</h1>
+    <h1>Document Fields</h1>
 
     <?php if ($editType == EditType::Add || $editType == EditType::Edit || $editType == EditType::Delete) { ?>
         <h2><?php echo $editTypeTitle; ?></h2>
         <form method="post" action="<?php echo $action ?>">
             <input type="hidden" name="id" value="<?php echo $documentField->getId(); ?>"/>
             <div class="form-group">
+                <label>Document Type</label>
+                <?php DropDownHelper::GetDocumentTypes($documentTypes, $documentField->getDocumentTypeId(), $selectTagAddition); ?>
+            </div>
+            <div class="form-group">
                 <label>Number</label>
                 <input type="text" name="number" class="form-control" min="1" value="<?php echo $documentField->getNumber(); ?>" <?php echo $inputTagAddition; ?>/>
             </div>
             <div class="form-group">
-                <label>Name</label>
-                <input type="text" name="name" class="form-control" value="<?php echo $documentField->getName(); ?>" <?php echo $inputTagAddition; ?>/>
+                <label>Label</label>
+                <input type="text" name="label" class="form-control" value="<?php echo $documentField->getLabel(); ?>" <?php echo $inputTagAddition; ?>/>
+            </div>
+            <div class="form-group">
+                <label>Field Type</label>
+                <?php FieldType::GetAsDropDown($documentField->getFieldType(), $selectTagAddition); ?>
             </div>
 
             <?php if ($editType == EditType::Add) { ?>
@@ -64,9 +86,10 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documenttypes';
         <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Document Type</th>
+            <th scope="col">#</th>
             <th scope="col">Label</th>
             <th scope="col">Field Type</th>
-            <th scope="col">Document Type</th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -74,10 +97,11 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documenttypes';
         <?php
         foreach ($data as $entry) {
             echo "<tr>";
+            echo '<td>' . $entry->documenttypenr . '</td>';
+            echo '<td>' . $entry->documenttype . '</td>';
             echo '<td scope="row">' . $entry->number . '</td>';
             echo '<td>' . $entry->label . '</td>';
-            echo '<td>' . $entry->fieldtype . '</td>';
-            echo '<td>' . $entry->documenttype . '</td>';
+            echo '<td>' . FieldType::GetText($entry->fieldtype) . '</td>';
             echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/settings/documentfields/edit?id=' . $entry->id . '">Edit</a> <a href="' . $GLOBALS["ROOT_URL"] . '/settings/documentfields/delete?id=' . $entry->id . '">Delete</a></td>';
             echo "</tr>";
         }

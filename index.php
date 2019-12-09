@@ -71,6 +71,8 @@ Router::route_auth("GET", "/settings", $authFunction, function () {
     SettingsController::Home();
 });
 
+// DOCUMENT TYPES
+
 Router::route_auth("GET", "/settings/documenttypes", $authFunction, function () {
     DocumentTypeAccess::Home();
 });
@@ -95,9 +97,30 @@ Router::route_auth("POST", "/settings/documenttypes/delete", $authFunction, func
     DocumentTypeAccess::Delete();
 });
 
+// DOCUMENT FIELDS
 
 Router::route_auth("GET", "/settings/documentfields", $authFunction, function () {
     DocumentFieldAccess::Home();
+});
+
+Router::route_auth("GET", "/settings/documentfields/new", $authFunction, function () {
+    DocumentFieldAccess::New();
+});
+
+Router::route_auth("GET", "/settings/documentfields/edit", $authFunction, function () {
+    DocumentFieldAccess::Edit();
+});
+
+Router::route_auth("POST", "/settings/documentfields/save", $authFunction, function () {
+    DocumentFieldAccess::Save();
+});
+
+Router::route_auth("GET", "/settings/documentfields/delete", $authFunction, function () {
+    DocumentFieldAccess::Delete();
+});
+
+Router::route_auth("POST", "/settings/documentfields/delete", $authFunction, function () {
+    DocumentFieldAccess::Delete();
 });
 
 

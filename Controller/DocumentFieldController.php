@@ -38,7 +38,8 @@ class DocumentFieldController
         $view = new View('DocumentFieldView.php');
         $view->editType = EditType::View;
         $view->data = $data;
-        LayoutRendering::ShowView($view);
+        $settingsMenu = new View('Layout/SettingsMenu.php');
+        LayoutRendering::ShowView($view, $settingsMenu);
     }
 
     public function ShowNewForm(DocumentField $documentField)
@@ -58,7 +59,8 @@ class DocumentFieldController
         $view->data = $data;
         $view->documentField = $documentField;
         $view->documentTypes = $documentTypes;
-        LayoutRendering::ShowView($view);
+        $settingsMenu = new View('Layout/SettingsMenu.php');
+        LayoutRendering::ShowView($view, $settingsMenu);
     }
 
     public function ShowEditForm(DocumentField $documentField)
@@ -91,7 +93,8 @@ class DocumentFieldController
             $view->data = $data;
             $view->documentField = $documentFieldReloaded;
             $view->documentTypes = $documentTypes;
-            LayoutRendering::ShowView($view);
+            $settingsMenu = new View('Layout/SettingsMenu.php');
+            LayoutRendering::ShowView($view, $settingsMenu);
 
         } else {
             ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document field could not be found."));
@@ -113,7 +116,8 @@ class DocumentFieldController
             $view->data = $data;
             $view->documentField = $documentField;
             $view->documentTypes = $documentTypes;
-            LayoutRendering::ShowView($view);
+            $settingsMenu = new View('Layout/SettingsMenu.php');
+            LayoutRendering::ShowView($view, $settingsMenu);
 
         } else {
             ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document field could not be found."));

@@ -41,8 +41,6 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
 
 ?>
 <div class="container">
-    <?php SettingsMenu::GetMenu(); ?>
-
     <h1>Document Fields</h1>
 
     <?php if ($editType == EditType::Add || $editType == EditType::Edit || $editType == EditType::Delete) { ?>

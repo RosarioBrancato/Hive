@@ -34,7 +34,8 @@ class DocumentTypeController
         $view = new View('DocumentTypeView.php');
         $view->editType = EditType::View;
         $view->documentTypes = $types;
-        LayoutRendering::ShowView($view);
+        $settingsMenu = new View('Layout/SettingsMenu.php');
+        LayoutRendering::ShowView($view, $settingsMenu);
     }
 
     public function ShowNewForm(DocumentType $documentType)
@@ -48,7 +49,8 @@ class DocumentTypeController
         $view->editType = EditType::Add;
         $view->documentTypes = $documentTypes;
         $view->documentType = $documentType;
-        LayoutRendering::ShowView($view);
+        $settingsMenu = new View('Layout/SettingsMenu.php');
+        LayoutRendering::ShowView($view, $settingsMenu);
     }
 
     public function ShowEditForm(DocumentType $documentType)
@@ -68,7 +70,8 @@ class DocumentTypeController
             $view->editType = EditType::Edit;
             $view->documentTypes = $documentTypes;
             $view->documentType = $documentTypeReloaded;
-            LayoutRendering::ShowView($view);
+            $settingsMenu = new View('Layout/SettingsMenu.php');
+            LayoutRendering::ShowView($view, $settingsMenu);
 
         } else {
             ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document type could not be found."));
@@ -86,7 +89,8 @@ class DocumentTypeController
             $view->editType = EditType::Delete;
             $view->documentTypes = $documentTypes;
             $view->documentType = $documentType;
-            LayoutRendering::ShowView($view);
+            $settingsMenu = new View('Layout/SettingsMenu.php');
+            LayoutRendering::ShowView($view, $settingsMenu);
 
         } else {
             ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Document type could not be found."));

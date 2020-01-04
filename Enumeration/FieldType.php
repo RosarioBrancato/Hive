@@ -6,6 +6,7 @@ abstract class FieldType
 {
     const TextField = 0;
     const DateField = 1;
+    const AmountField = 2;
 
 
     public static function GetText($fieldType)
@@ -19,6 +20,11 @@ abstract class FieldType
             case FieldType::DateField:
                 $text = "date field";
                 break;
+            case FieldType::DecimalField:
+                $text = "decimal field";
+                break;
+            case FieldType::NumberField:
+                $text = "number field";
         }
 
         return $text;
@@ -36,6 +42,8 @@ abstract class FieldType
         <select name="fieldType" class="form-control" <?php echo $tagAdditions; ?>>
             <option value="<?php echo FieldType::TextField; ?>" <?php echo $selectedId == FieldType::TextField ? " selected " : ""; ?>><?php echo FieldType::GetText(FieldType::TextField); ?></option>
             <option value="<?php echo FieldType::DateField; ?>" <?php echo $selectedId == FieldType::DateField ? " selected " : ""; ?>><?php echo FieldType::GetText(FieldType::DateField); ?></option>
+            <option value="<?php echo FieldType::DecimalField; ?>" <?php echo $selectedId == FieldType::DecimalField ? " selected " : ""; ?>><?php echo FieldType::GetText(FieldType::DecimalField); ?></option>
+            <option value="<?php echo FieldType::NumberField; ?>" <?php echo $selectedId == FieldType::NumberField ? " selected " : ""; ?>><?php echo FieldType::GetText(FieldType::NumberField); ?></option>
         </select>
         <?php
     }

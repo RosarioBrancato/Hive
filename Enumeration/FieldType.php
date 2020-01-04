@@ -6,7 +6,8 @@ abstract class FieldType
 {
     const TextField = 0;
     const DateField = 1;
-    const AmountField = 2;
+    const DecimalField = 2;
+    const NumberField = 3;
 
 
     public static function GetText($fieldType)
@@ -25,6 +26,7 @@ abstract class FieldType
                 break;
             case FieldType::NumberField:
                 $text = "number field";
+                break;
         }
 
         return $text;

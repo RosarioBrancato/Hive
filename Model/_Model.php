@@ -11,10 +11,16 @@ use PDOStatement;
 class _Model
 {
     private $pdo = null;
+    protected $agentId;
 
-    public function __construct()
+    public function __construct($agentId = null)
     {
         $this->initPDO();
+
+        if (empty($agentId)) {
+            $agentId = -1;
+        }
+        $this->agentId = $agentId;
     }
 
     protected function getPDO(): PDO

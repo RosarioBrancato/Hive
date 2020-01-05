@@ -2,12 +2,16 @@
 
 require_once("Config/Autoloader.php");
 
+use Access\DocumentAccess;
 use Access\DocumentFieldAccess;
 use Access\DocumentTypeAccess;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\ErrorController;
 use Controller\SettingsController;
+use DTO\ReportEntry;
+use Enumeration\ReportEntryLevel;
+use Helper\ReportHelper;
 use Http\HTTPHeader;
 use Http\HTTPStatusCode;
 use Http\HTTPException;
@@ -21,6 +25,8 @@ $authFunction = function () {
     if (AuthController::authenticate()) {
         return true;
     }
+
+    ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "You must login first."));
     Router::redirect("/login");
     return false;
 };
@@ -123,6 +129,15 @@ Router::route_auth("POST", "/settings/documentfields/delete", $authFunction, fun
     DocumentFieldAccess::Delete();
 });
 
+
+// DOCUMENTS
+Router::route_auth("GET", "/documents", $authFunction, function () {
+    DocumentAccess::Home();
+});
+
+Router::route_auth("GET", "/documents/new", $authFunction, function () {
+    DocumentAccess::New();
+});
 
 try {
     HTTPHeader::setHeader("Access-Control-Allow-Origin: *");

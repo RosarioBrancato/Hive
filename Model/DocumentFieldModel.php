@@ -8,17 +8,6 @@ use DTO\DocumentField;
 
 class DocumentFieldModel extends _Model
 {
-    private $agentId;
-
-    public function __construct($agentId)
-    {
-        parent::__construct();
-
-        if (empty($agentId)) {
-            $agentId = -1;
-        }
-        $this->agentId = $agentId;
-    }
 
     public function get(int $id)
     {
@@ -29,7 +18,7 @@ class DocumentFieldModel extends _Model
         $query = 'SELECT f.* FROM documentfield f JOIN documenttype t ON t.id = f.documenttypeid WHERE f.id = :id AND t.agentid = :agentId';
         $parameters = [
             ':id' => $id,
-            ':agentId' => $this->agentId
+            ':agentId' => $this->getAgentId()
         ];
 
         $array = $this->executeQuerySelect($query, $parameters, "DTO\DocumentField");
@@ -42,7 +31,7 @@ class DocumentFieldModel extends _Model
     {
         $query = 'SELECT f.number FROM documentfield f JOIN documenttype t ON t.id = f.documenttypeid WHERE t.agentid = :agentId ORDER BY f.number DESC LIMIT 1';
         $parameters = [
-            ':agentId' => $this->agentId
+            ':agentId' => $this->getAgentId()
         ];
 
         $array = $this->executeQuerySelect($query, $parameters);
@@ -61,7 +50,7 @@ class DocumentFieldModel extends _Model
         $query = 'SELECT COUNT(f.id) as count FROM documentfield f JOIN documenttype t ON t.id = f.documenttypeid WHERE t.agentid = :agentId AND f.id <> :exceptId AND f.label = :label';
         $parameters = [
             ':label' => $label,
-            ':agentId' => $this->agentId,
+            ':agentId' => $this->getAgentId(),
             ':exceptId' => $exceptId
         ];
 
@@ -79,10 +68,23 @@ class DocumentFieldModel extends _Model
     {
         $query = 'SELECT f.id, f.number, f.label, f.fieldtype, t.number as documenttypenr, t.name as documenttype FROM documentfield f JOIN documenttype t ON t.id = f.documenttypeid WHERE t.agentid = :agentId ORDER BY t.number, f.number';
         $parameters = [
-            ':agentId' => $this->agentId
+            ':agentId' => $this->getAgentId()
         ];
 
         return $this->executeQuerySelect($query, $parameters);
+    }
+
+    public function getAllByDocumentTypeId($documenttypeid) {
+        $query = 'SELECT *
+                    FROM documentfield
+                    WHERE documenttypeid = :documenttypeid
+                    ORDER BY number';
+
+        $parameters = [
+            ':documenttypeid' => $documenttypeid
+        ];
+
+        return $this->executeQuerySelect($query, $parameters, 'DTO\DocumentField');
     }
 
     public function add(DocumentField $documentField): bool
@@ -146,7 +148,7 @@ class DocumentFieldModel extends _Model
 
         $isValid = false;
         if (!empty($array)) {
-            $isValid = $array[0]->agentid == $this->agentId;
+            $isValid = $array[0]->agentid == $this->getAgentId();
         }
 
         return $isValid;

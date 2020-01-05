@@ -11,7 +11,7 @@ use PDOStatement;
 class _Model
 {
     private $pdo = null;
-    protected $agentId;
+    private $agentId = -1;
 
     public function __construct($agentId = null)
     {
@@ -26,6 +26,11 @@ class _Model
     protected function getPDO(): PDO
     {
         return $this->pdo;
+    }
+
+    protected function getAgentId() : int
+    {
+        return $this->agentId;
     }
 
     protected function executeQuery(string $query, array $parameters): bool

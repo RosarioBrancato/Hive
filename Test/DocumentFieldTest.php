@@ -6,15 +6,18 @@ namespace Test;
 
 use DTO\DocumentField;
 use Model\DocumentFieldModel;
+use Model\DocumentTypeModel;
 
 class DocumentFieldTest
 {
     /** @var DocumentFieldModel */
     private $model = null;
+    private $agentId;
 
     public function Execute()
     {
         $agentId = 1;
+        $this->agentId = $agentId;
         $this->model = new DocumentFieldModel($agentId);
 
         /*
@@ -25,7 +28,8 @@ class DocumentFieldTest
         */
         //$this->TestAdd();
         //$this->TestCRUD();
-        $this->TestCheckAgentId();
+        //$this->TestCheckAgentId();
+        $this->TestGetAllDocumentTypeId();
     }
 
     private function TestGetAll()
@@ -112,6 +116,20 @@ class DocumentFieldTest
         $success = $this->model->delete($documentField->getId());
         echo "delete" . PHP_EOL;
         var_dump($success);
+    }
+
+    private function TestGetAllDocumentTypeId()
+    {
+        echo "GET ALL" . PHP_EOL;
+
+        $documentTypeModel = new DocumentTypeModel($this->agentId);
+        $documentTypes = $documentTypeModel->getAll();
+        $documentTypeId = $documentTypes[0]->getId();
+
+        $documentFields = $this->model->getAllByDocumentTypeId($documentTypeId);
+        //$documentFieldValues = $this->convertFieldsToFieldsValue($documentFields);
+
+        var_dump($documentFields);
     }
 
 }

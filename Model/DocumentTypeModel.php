@@ -8,17 +8,6 @@ use DTO\DocumentType;
 
 class DocumentTypeModel extends _Model
 {
-    private $agentId;
-
-    public function __construct($agentId)
-    {
-        parent::__construct();
-
-        if (empty($agentId)) {
-            $agentId = -1;
-        }
-        $this->agentId = $agentId;
-    }
 
     public function get(int $id)
     {
@@ -29,7 +18,7 @@ class DocumentTypeModel extends _Model
         $query = 'SELECT * FROM documenttype WHERE id = :id AND agentid = :agentId';
         $parameters = [
             ':id' => $id,
-            ':agentId' => $this->agentId
+            ':agentId' => $this->getAgentId()
         ];
 
         $array = $this->executeQuerySelect($query, $parameters, "DTO\DocumentType");
@@ -42,7 +31,7 @@ class DocumentTypeModel extends _Model
     {
         $query = 'SELECT number FROM documenttype WHERE agentid = :agentId ORDER BY number DESC LIMIT 1';
         $parameters = [
-            ':agentId' => $this->agentId
+            ':agentId' => $this->getAgentId()
         ];
 
         $array = $this->executeQuerySelect($query, $parameters);
@@ -68,7 +57,7 @@ class DocumentTypeModel extends _Model
         $query = 'SELECT COUNT(id) as count FROM documenttype WHERE agentid = :agentId AND id <> :exceptId AND name = :name';
         $parameters = [
             ':name' => $name,
-            ':agentId' => $this->agentId,
+            ':agentId' => $this->getAgentId(),
             ':exceptId' => $exceptId
         ];
 
@@ -86,7 +75,7 @@ class DocumentTypeModel extends _Model
     {
         $query = 'SELECT * FROM documenttype WHERE agentid = :agentId ORDER BY number';
         $parameters = [
-            ':agentId' => $this->agentId
+            ':agentId' => $this->getAgentId()
         ];
 
         return $this->executeQuerySelect($query, $parameters, "DTO\DocumentType");
@@ -98,7 +87,7 @@ class DocumentTypeModel extends _Model
 
         $query = 'INSERT INTO documenttype (number, name, agentid) VALUES (:number, :name, :agentId)';
         $parameters = [
-            ':agentId' => $this->agentId,
+            ':agentId' => $this->getAgentId(),
             ':number' => $documentType->getNumber(),
             ':name' => $documentType->getName()
         ];
@@ -124,7 +113,7 @@ class DocumentTypeModel extends _Model
             ':number' => $documentType->getNumber(),
             ':name' => $documentType->getName(),
             ':id' => $documentType->getId(),
-            ':agentId' => $this->agentId,
+            ':agentId' => $this->getAgentId(),
         ];
 
         return $this->executeQuery($query, $parameters);
@@ -135,7 +124,7 @@ class DocumentTypeModel extends _Model
         $query = 'DELETE FROM documenttype WHERE id = :id AND agentid = :agentId';
         $parameters = [
             ':id' => $id,
-            ':agentId' => $this->agentId
+            ':agentId' => $this->getAgentId()
         ];
 
         return $this->executeQuery($query, $parameters);
@@ -156,7 +145,7 @@ class DocumentTypeModel extends _Model
 
         $isValid = false;
         if (!empty($array)) {
-            $isValid = $array[0]->agentid == $this->agentId;
+            $isValid = $array[0]->agentid == $this->getAgentId();
         }
 
         return $isValid;

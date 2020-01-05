@@ -9,6 +9,7 @@ class Document
 
     private $id;
     private $number;
+    private $title;
     private $created;
     private $documenttypeid;
     private $agentid;
@@ -43,6 +44,22 @@ class Document
     public function setNumber($number)
     {
         $this->number = $number;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
     }
 
     /**

@@ -31,6 +31,11 @@ class AuthServiceImpl implements AuthService
     private $currentAgentId;
 
     /**
+     * @var string
+     */
+    private $currentAgentName;
+
+    /**
      * @access public
      * @return AuthServiceImpl
      * @static
@@ -84,6 +89,11 @@ class AuthServiceImpl implements AuthService
         return $this->currentAgentId;
     }
 
+    public function getCurrentAgentName()
+    {
+        return $this->currentAgentName;
+    }
+
     /**
      * @access public
      * @param String email
@@ -105,6 +115,7 @@ class AuthServiceImpl implements AuthService
                     $agentModel->update($agent);
                 }
                 $this->currentAgentId = $agent->getId();
+                $this->currentAgentName = $agent->getName();
             }
         }
 
@@ -179,6 +190,10 @@ class AuthServiceImpl implements AuthService
             if (time() <= (new \DateTime($authToken->getExpiration()))->getTimestamp()) {
                 if (hash_equals(hash('sha384', hex2bin($tokenArray[1])), $authToken->getValidator())) {
                     $this->currentAgentId = $authToken->getAgentid();
+
+                    $agentModel = new AgentModel();
+                    $this->currentAgentName = $agentModel->read($this->currentAgentId)->getName();
+
                     if ($authToken->getType() === self::RESET_TOKEN) {
                         $authTokenModel->delete($authToken);
                     }
@@ -236,5 +251,6 @@ class AuthServiceImpl implements AuthService
     public function destroySession()
     {
         $this->currentAgentId = null;
+        $this->currentAgentName = null;
     }
 }

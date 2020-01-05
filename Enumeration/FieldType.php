@@ -6,8 +6,9 @@ abstract class FieldType
 {
     const TextField = 0;
     const DateField = 1;
-    const DecimalField = 2;
-    const NumberField = 3;
+    const NumberField = 2;
+    const DecimalField = 3;
+    const CheckBox = 4;
 
 
     public static function GetText($fieldType)
@@ -21,11 +22,14 @@ abstract class FieldType
             case FieldType::DateField:
                 $text = "date field";
                 break;
+            case FieldType::NumberField:
+                $text = "number field";
+                break;
             case FieldType::DecimalField:
                 $text = "decimal field";
                 break;
-            case FieldType::NumberField:
-                $text = "number field";
+            case FieldType::CheckBox:
+                $text = "check box";
                 break;
         }
 
@@ -46,6 +50,7 @@ abstract class FieldType
             <option value="<?php echo FieldType::DateField; ?>" <?php echo $selectedId == FieldType::DateField ? " selected " : ""; ?>><?php echo FieldType::GetText(FieldType::DateField); ?></option>
             <option value="<?php echo FieldType::DecimalField; ?>" <?php echo $selectedId == FieldType::DecimalField ? " selected " : ""; ?>><?php echo FieldType::GetText(FieldType::DecimalField); ?></option>
             <option value="<?php echo FieldType::NumberField; ?>" <?php echo $selectedId == FieldType::NumberField ? " selected " : ""; ?>><?php echo FieldType::GetText(FieldType::NumberField); ?></option>
+            <option value="<?php echo FieldType::CheckBox; ?>" <?php echo $selectedId == FieldType::CheckBox ? " selected " : ""; ?>><?php echo FieldType::GetText(FieldType::CheckBox); ?></option>
         </select>
         <?php
     }

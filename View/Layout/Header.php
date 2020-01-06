@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="assets/css/Drag--Drop-Upload-Form-1.css">
     <link rel="stylesheet" href="assets/css/Drag--Drop-Upload-Form.css">
     <link rel="stylesheet" href="assets/css/untitled.css">
+    <link rel="stylesheet" href="assets/css/gridStyle.css">
 
 
 </head>
@@ -44,6 +45,8 @@
 <script src="assets/js/Bootstrap-Tags-Input.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
 <script src="assets/js/theme.js"></script>
+<script src="https://cdn.anychart.com/js/8.0.1/anychart-core.min.js"></script>
+<script src="https://cdn.anychart.com/js/8.0.1/anychart-pie.min.js"></script>
 
 <div id="wrapper">
 

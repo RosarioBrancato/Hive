@@ -7,12 +7,17 @@ namespace Controller;
 use DTO\Document;
 use DTO\DocumentField;
 use DTO\DocumentFieldValue;
+use DTO\ReportEntry;
 use Enumeration\EditType;
+use Enumeration\ReportEntryLevel;
+use Helper\ReportHelper;
 use Model\DocumentFieldModel;
 use Model\DocumentModel;
 use Model\DocumentTypeModel;
+use Router\Router;
 use Service\AuthServiceImpl;
 use Util\DocumentFieldsGenerator;
+use Validator\DocumentValidator;
 use View\Layout\LayoutRendering;
 use View\View;
 
@@ -70,6 +75,27 @@ class DocumentController
         foreach ($documentFieldValues as $documentFieldValue) {
             DocumentFieldsGenerator::GenerateInputTags($documentFieldValue);
         }
+    }
+
+    public function InsertDocument($document, $documentFiles, $documentFieldValues)
+    {
+        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
+        $model = new DocumentModel($agentId);
+
+        $validator = new DocumentValidator($model);
+        $success = $validator->Validate($document);
+
+        if ($success) {
+            $success = $model->add($document, $documentFiles, $documentFieldValues);
+        }
+
+        if ($success) {
+            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, 'Document added.'));
+        } else {
+            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, 'Error occured.'));
+        }
+
+        Router::redirect("/documents");
     }
 
 

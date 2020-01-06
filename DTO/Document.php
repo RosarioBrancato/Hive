@@ -8,7 +8,6 @@ class Document
 {
 
     private $id;
-    private $number;
     private $title;
     private $created;
     private $documenttypeid;
@@ -28,22 +27,6 @@ class Document
     public function setId($id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNumber()
-    {
-        return $this->number;
-    }
-
-    /**
-     * @param mixed $number
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
     }
 
     /**

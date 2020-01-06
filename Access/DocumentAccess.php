@@ -6,6 +6,8 @@ namespace Access;
 
 use Controller\DocumentController;
 use DTO\Document;
+use DTO\DocumentFieldValue;
+use DTO\DocumentFile;
 use DTO\ReportEntry;
 use Enumeration\ReportEntryLevel;
 use Helper\ReportHelper;
@@ -40,28 +42,46 @@ class DocumentAccess
 
     public static function Save()
     {
-
-        var_dump($_POST);
-        var_dump($_FILES);
-
-        /*
-        if (!isset($_POST["number"], $_POST["label"], $_POST["fieldType"], $_POST["documentTypeId"])) {
+        if (!isset($_POST["title"], $_POST["documentTypeId"], $_FILES["file"])) {
             if (!isset($_POST["title"])) {
                 ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Invalid title."));
             }
             if (!isset($_POST["documenttypeid"])) {
                 ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Invalid document type."));
             }
+            if (!isset($_FILES["file"])) {
+                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Invalid file."));
+            }
             Router::redirect("/documents");
         }
-        */
 
-
-        /*
         $document = new Document();
         $document->setTitle($_POST['title']);
-        $document->setDocumenttypeid(intval($_POST['documenttypeid']));
-        */
+        $document->setDocumenttypeid(intval($_POST['documentTypeId']));
+
+        $fieldValues = array();
+        foreach (array_keys($_POST) as $key) {
+            if ($key != "title" && $key != "documentTypeId") {
+                $documentFieldValue = new DocumentFieldValue();
+                $documentFieldValue->setLabel($key);
+                $documentFieldValue->setStringValue($_POST[$key]);
+                array_push($fieldValues, $documentFieldValue);
+            }
+        }
+
+        $filecontents = array();
+        foreach ($_FILES as $file) {
+            if ($stream = fopen($file["tmp_name"], "r")) {
+                $filecontent = new DocumentFile();
+                $filecontent->setFilename($file["name"]);
+                $filecontent->setFilecontent(stream_get_contents($stream));
+                array_push($filecontents, $filecontent);
+                fclose($stream);
+            }
+        }
+
+        $controller = new DocumentController();
+        $controller->InsertDocument($document, $filecontents, $fieldValues);
     }
 
 }

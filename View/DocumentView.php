@@ -10,7 +10,6 @@
     <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th scope="col">#</th>
             <th scope="col">Title</th>
             <th scope="col">Document Type</th>
             <th scope="col">Created</th>
@@ -22,8 +21,7 @@
         if (!empty($this->data)) {
             foreach ($this->data as $entry) {
                 echo "<tr>";
-                echo '<td scope="row">' . $entry->number . '</td>';
-                echo '<td>' . $entry->title . '</td>';
+                echo '<td scope="row">' . $entry->title . '</>';
                 echo '<td>' . $entry->documenttypename . '</td>';
                 echo '<td>' . $entry->created . '</td>';
                 echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/documents/edit?id=' . $entry->id . '">Edit</a> <a href="' . $GLOBALS["ROOT_URL"] . '/documents/delete?id=' . $entry->id . '">Delete</a></td>';

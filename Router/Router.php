@@ -8,10 +8,9 @@
 
 namespace Router;
 
-use http\Exception;
-use http\HTTPException;
-use http\HTTPStatusCode;
-use http\HTTPHeader;
+use Http\HTTPException;
+use Http\HTTPStatusCode;
+use Http\HTTPHeader;
 
 class Router
 {

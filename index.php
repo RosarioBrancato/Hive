@@ -129,6 +129,9 @@ Router::route_auth("POST", "/settings/documentfields/delete", $authFunction, fun
     DocumentFieldAccess::Delete();
 });
 
+Router::route_auth("GET", "/settings/documentfields/get", $authFunction, function () {
+    DocumentFieldAccess::Get();
+});
 
 // DOCUMENTS
 Router::route_auth("GET", "/documents", $authFunction, function () {
@@ -137,6 +140,22 @@ Router::route_auth("GET", "/documents", $authFunction, function () {
 
 Router::route_auth("GET", "/documents/new", $authFunction, function () {
     DocumentAccess::New();
+});
+
+Router::route_auth("GET", "/documents/edit", $authFunction, function () {
+    DocumentAccess::Edit();
+});
+
+Router::route_auth("POST", "/documents/save", $authFunction, function () {
+    DocumentAccess::Save();
+});
+
+Router::route_auth("GET", "/documents/delete", $authFunction, function () {
+    DocumentAccess::Delete();
+});
+
+Router::route_auth("POST", "/documents/delete", $authFunction, function () {
+    DocumentAccess::Delete();
 });
 
 try {

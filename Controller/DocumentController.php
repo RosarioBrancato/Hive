@@ -12,6 +12,7 @@ use Model\DocumentFieldModel;
 use Model\DocumentModel;
 use Model\DocumentTypeModel;
 use Service\AuthServiceImpl;
+use Util\DocumentFieldsGenerator;
 use View\Layout\LayoutRendering;
 use View\View;
 
@@ -43,7 +44,7 @@ class DocumentController
 
         // select documentfields
         $documentFieldValues = array();
-        if(sizeof($documentTypes) > 0) {
+        if (sizeof($documentTypes) > 0) {
             $documentTypeId = $documentTypes[0]->getId();
 
             $documentFieldModel = new DocumentFieldModel($this->agentId);
@@ -57,6 +58,18 @@ class DocumentController
         $view->documentTypes = $documentTypes;
         $view->documentFieldValues = $documentFieldValues;
         LayoutRendering::ShowView($view);
+    }
+
+    public function GetDocumentFieldValues($documentTypeId)
+    {
+        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
+        $model = new DocumentFieldModel($agentId);
+        $documentFields = $model->getAllByDocumentTypeId($documentTypeId);
+        $documentFieldValues = $this->convertFieldsToFieldsValue($documentFields);
+
+        foreach ($documentFieldValues as $documentFieldValue) {
+            DocumentFieldsGenerator::GenerateInputTags($documentFieldValue);
+        }
     }
 
 

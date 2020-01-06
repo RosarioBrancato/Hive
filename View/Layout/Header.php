@@ -34,7 +34,20 @@
 
 
 <body id="page-top">
+
+<!-- SCRIPTS -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/chart.min.js"></script>
+<script src="assets/js/bs-charts.js"></script>
+<script src="assets/js/Bootstrap-Tags-Input-1.js"></script>
+<script src="assets/js/Bootstrap-Tags-Input.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+<script src="assets/js/theme.js"></script>
+
 <div id="wrapper">
+
+    <!-- NAVIGATION -->
     <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
         <div class="container-fluid d-flex flex-column p-0">
             <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="<?php echo $GLOBALS["ROOT_URL"]; ?>">

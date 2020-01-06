@@ -4,12 +4,15 @@
 namespace Access;
 
 
+use Controller\DocumentController;
 use Controller\DocumentFieldController;
 use DTO\DocumentField;
 use DTO\ReportEntry;
 use Enumeration\ReportEntryLevel;
 use Helper\ReportHelper;
+use Model\DocumentFieldModel;
 use Router\Router;
+use Service\AuthServiceImpl;
 
 class DocumentFieldAccess
 {
@@ -130,6 +133,16 @@ class DocumentFieldAccess
         }
 
         Router::redirect("/settings/documentfields");
+    }
+
+    public static function Get()
+    {
+        if (!empty($_GET['documenttypeid'])) {
+            $documentTypeId = intval($_GET['documenttypeid']);
+
+            $controller = new DocumentController();
+            $controller->GetDocumentFieldValues($documentTypeId);
+        }
     }
 
 }

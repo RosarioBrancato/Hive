@@ -19,7 +19,7 @@ class DropDownHelper
             $tagAdditions = "";
         }
         ?>
-        <select name="documentTypeId" class="form-control" <?php echo $tagAdditions; ?>>
+        <select id="documentTypeId" name="documentTypeId" class="form-control" <?php echo $tagAdditions; ?>>
             <?php
             foreach ($documentTypes as $entry) {
                 ?>

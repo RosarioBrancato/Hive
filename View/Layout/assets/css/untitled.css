@@ -55,10 +55,12 @@
   /*border-color: #e6e6e6;*/
 }
 
+
 @media (min-width:1200px) {
   .col-xl-3 {
     flex: 0 0 33%;
     max-width: 33%;
   }
+
 }
 

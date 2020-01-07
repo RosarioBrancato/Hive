@@ -28,7 +28,7 @@ class DocumentTest
         $documentTypeId = 11;
 
         $document = new Document();
-        $document->setTitle('My Doc');
+        $document->setTitle('My Doc Unit Test');
         $document->setDocumenttypeid($documentTypeId);
         $document->setAgentid($this->agentId);
 
@@ -39,9 +39,9 @@ class DocumentTest
         $fieldValue->setDecimalValue(8.25);
 
         $file = new DocumentFile();
-        $file->setFilename('presentation.pdf');
+        $file->setFilename('01 Introduction to PHP I.pdf');
         if ($stream = fopen('D:\\Temp\\01 Introduction to PHP I.pdf', "r")) {
-            $file->setFilecontent(stream_get_contents($stream));
+            $file->setFilecontent(utf8_encode(stream_get_contents($stream)));
             fclose($stream);
         }
 

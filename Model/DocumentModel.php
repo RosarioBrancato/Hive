@@ -7,6 +7,7 @@ namespace Model;
 use DTO\Document;
 use DTO\DocumentFieldValue;
 use DTO\DocumentFile;
+use PDO;
 
 class DocumentModel extends _Model
 {

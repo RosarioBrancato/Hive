@@ -4,6 +4,7 @@ namespace Helper;
 
 use DTO\ReportEntry;
 use Enumeration\Constant;
+use Enumeration\ReportEntryLevel;
 
 class ReportHelper
 {
@@ -17,6 +18,10 @@ class ReportHelper
 
             array_push($_SESSION[Constant::SessionReport], $reportEntry);
         }
+    }
+
+    public static function AddEntryArgs(int $level, string $message) {
+        ReportHelper::AddEntry(new ReportEntry($level, $message));
     }
 
 }

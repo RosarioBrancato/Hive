@@ -50,8 +50,9 @@ class _Model
         $stmt = $this->getStatement($query, $parameters);
         $this->executeStatement($stmt);
 
-        if ($this->getPDO()->errorCode() !== '00000') {
-            error_log(implode(" | ", $this->getPDO()->errorInfo()));
+        $errorCode = $stmt->errorCode();
+        if($errorCode !== '00000') {
+            error_log(implode(" | ", $stmt->errorInfo()));
         }
 
         return $this->getPDO()->lastInsertId();

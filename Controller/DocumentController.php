@@ -17,6 +17,8 @@ use Model\DocumentTypeModel;
 use Router\Router;
 use Service\AuthServiceImpl;
 use Util\DocumentFieldsGenerator;
+use Validator\DocumentFieldValueValidator;
+use Validator\DocumentFileValidator;
 use Validator\DocumentValidator;
 use View\Layout\LayoutRendering;
 use View\View;
@@ -82,9 +84,21 @@ class DocumentController
         $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
         $model = new DocumentModel($agentId);
 
+        //VALIDATE
         $validator = new DocumentValidator($model);
         $success = $validator->Validate($document);
 
+        $validatorFile = new DocumentFileValidator();
+        foreach($documentFiles as $documentFile) {
+            $success &= $validatorFile->Validate($documentFile);
+        }
+
+        $validatorFieldValue = new DocumentFieldValueValidator();
+        foreach($documentFieldValues as $documentFieldValue) {
+            $success &= $validatorFieldValue->Validate($documentFieldValue);
+        }
+
+        //INSERT
         if ($success) {
             $success = $model->add($document, $documentFiles, $documentFieldValues);
         }

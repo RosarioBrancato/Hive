@@ -59,6 +59,17 @@ class DocumentAccess
         $document->setTitle($_POST['title']);
         $document->setDocumenttypeid(intval($_POST['documentTypeId']));
 
+        $filecontents = array();
+        foreach ($_FILES as $file) {
+            if ($stream = fopen($file["tmp_name"], "r")) {
+                $filecontent = new DocumentFile();
+                $filecontent->setFilename($file["name"]);
+                $filecontent->setFilecontent(utf8_encode(stream_get_contents($stream)));
+                array_push($filecontents, $filecontent);
+                fclose($stream);
+            }
+        }
+
         $fieldValues = array();
         foreach (array_keys($_POST) as $key) {
             if ($key != "title" && $key != "documentTypeId") {
@@ -66,17 +77,6 @@ class DocumentAccess
                 $documentFieldValue->setLabel($key);
                 $documentFieldValue->setStringValue($_POST[$key]);
                 array_push($fieldValues, $documentFieldValue);
-            }
-        }
-
-        $filecontents = array();
-        foreach ($_FILES as $file) {
-            if ($stream = fopen($file["tmp_name"], "r")) {
-                $filecontent = new DocumentFile();
-                $filecontent->setFilename($file["name"]);
-                $filecontent->setFilecontent(stream_get_contents($stream));
-                array_push($filecontents, $filecontent);
-                fclose($stream);
             }
         }
 

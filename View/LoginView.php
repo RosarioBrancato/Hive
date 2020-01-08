@@ -1,21 +1,3 @@
-
-<!--
-<div class="container">
-    <h1>My First Bootstrap Page</h1>
-    <form method="post" action="<?php echo $GLOBALS["ROOT_URL"]; ?>/login">
-        <p>E-Mail<input type="text" name="email"/></p>
-        <p>Password<input type="password" name="password"/></p>
-        <p>Remember<input type="checkbox" name="remember" checked /></p>
-        <p><input type="submit" value="Login"/></p>
-    </form>
-    <a href="<?php echo $GLOBALS["ROOT_URL"]; ?>/register">Register</a>
-</div>
-
-
--->
-
-
-
 <body class="bg-gradient-primary">
 <div class="container">
     <div class="row justify-content-center">
@@ -38,7 +20,8 @@
                                         <div class="custom-control custom-checkbox small">
                                             <div class="form-check"><input class="form-check-input custom-control-input" type="checkbox" id="formCheck-1" name="remember" checked><label class="form-check-label custom-control-label" for="formCheck-1">Remember Me</label></div>
                                         </div>
-                                    </div><button class="btn btn-primary btn-block text-white btn-user" type="submit" value="Login">Login</button>
+                                    </div>
+                                    <button class="btn btn-primary btn-block text-white btn-user" type="submit" value="Login">Login</button>
                                     <hr>
                                 </form>
                                 <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div>

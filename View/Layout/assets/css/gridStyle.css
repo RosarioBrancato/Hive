@@ -1,5 +1,20 @@
 
-#chartsGrid{
+
+.ChartBox {
+    padding: 5px;
+    margin: 10px;
+    float: left:
+}
+.myDocumentTypes{
+    padding: 5px;
+    margin: 10px;
     border-radius: 10px;
     border: 2px solid #73AD21;
+    float: left;
+}
+
+.ToSave{
+    border-radius: 10px;
+    border: 2px solid #73AD21;
+    float: left;
 }

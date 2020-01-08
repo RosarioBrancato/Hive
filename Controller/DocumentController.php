@@ -12,6 +12,7 @@ use Enumeration\EditType;
 use Enumeration\ReportEntryLevel;
 use Helper\ReportHelper;
 use Model\DocumentFieldModel;
+use Model\DocumentFileModel;
 use Model\DocumentModel;
 use Model\DocumentTypeModel;
 use Router\Router;
@@ -28,6 +29,8 @@ class DocumentController
     /** @var DocumentModel */
     private $model;
 
+    private $agentId;
+
     public function __construct()
     {
         $this->agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
@@ -42,6 +45,29 @@ class DocumentController
         $view->editType = EditType::View;
         $view->data = $data;
         LayoutRendering::ShowView($view);
+    }
+
+    public function ShowDetails(int $id)
+    {
+        $document = $this->model->get($id);
+
+        $documentTypesModel = new DocumentTypeModel($this->agentId);
+        $documentTypes = $documentTypesModel->getAll();
+
+        $documentFileModel = new DocumentFileModel($this->agentId);
+        $documentFile = $documentFileModel->getByDocumentId($document->getId());
+
+        if (!empty($document)) {
+            $view = new View('DocumentViewEdit.php');
+            $view->editType = EditType::View;
+            $view->document = $document;
+            $view->documentFile = $documentFile;
+            $view->documentTypes = $documentTypes;
+            LayoutRendering::ShowView($view);
+
+        } else {
+            Router::redirect("/documents");
+        }
     }
 
     public function ShowNewForm(Document $document)
@@ -89,12 +115,12 @@ class DocumentController
         $success = $validator->Validate($document);
 
         $validatorFile = new DocumentFileValidator();
-        foreach($documentFiles as $documentFile) {
+        foreach ($documentFiles as $documentFile) {
             $success &= $validatorFile->Validate($documentFile);
         }
 
         $validatorFieldValue = new DocumentFieldValueValidator();
-        foreach($documentFieldValues as $documentFieldValue) {
+        foreach ($documentFieldValues as $documentFieldValue) {
             $success &= $validatorFieldValue->Validate($documentFieldValue);
         }
 

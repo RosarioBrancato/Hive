@@ -24,7 +24,7 @@
                 echo '<td scope="row">' . $entry->title . '</>';
                 echo '<td>' . $entry->documenttypename . '</td>';
                 echo '<td>' . $entry->created . '</td>';
-                echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/documents/edit?id=' . $entry->id . '">Edit</a> <a href="' . $GLOBALS["ROOT_URL"] . '/documents/delete?id=' . $entry->id . '">Delete</a></td>';
+                echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/documents/details?id=' . $entry->id . '">Details</a> | <a href="' . $GLOBALS["ROOT_URL"] . '/documents/edit?id=' . $entry->id . '">Edit</a> | <a href="' . $GLOBALS["ROOT_URL"] . '/documents/delete?id=' . $entry->id . '">Delete</a></td>';
                 echo "</tr>";
             }
         }

@@ -21,9 +21,9 @@ class DocumentFileValidator
             ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, "File name invalid.");
         }
 
-        if (empty($documentFile->getFilecontent())) {
+        if (empty($documentFile->getPathToFile())) {
             $isValid = false;
-            ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, "File name invalid.");
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, "File invalid.");
         }
 
         return $isValid;

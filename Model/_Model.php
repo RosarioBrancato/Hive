@@ -23,12 +23,17 @@ class _Model
         $this->agentId = $agentId;
     }
 
+    public function setPDO(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
     protected function getPDO(): PDO
     {
         return $this->pdo;
     }
 
-    protected function getAgentId() : int
+    protected function getAgentId(): int
     {
         return $this->agentId;
     }
@@ -51,7 +56,7 @@ class _Model
         $this->executeStatement($stmt);
 
         $errorCode = $stmt->errorCode();
-        if($errorCode !== '00000') {
+        if ($errorCode !== '00000') {
             error_log(implode(" | ", $stmt->errorInfo()));
         }
 

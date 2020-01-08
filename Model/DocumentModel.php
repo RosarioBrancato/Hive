@@ -7,10 +7,23 @@ namespace Model;
 use DTO\Document;
 use DTO\DocumentFieldValue;
 use DTO\DocumentFile;
-use PDO;
 
 class DocumentModel extends _Model
 {
+
+    public function get(int $id)
+    {
+        $query = 'SELECT * FROM document WHERE id = :id AND agentid = :agentid';
+        $parameters = [
+            ':id' => $id,
+            ':agentid' => $this->getAgentId()
+        ];
+
+        $array = $this->executeQuerySelect($query, $parameters, 'DTO\Document');
+        if (isset($array) && sizeof($array) > 0) {
+            return $array[0];
+        }
+    }
 
     public function getAll()
     {
@@ -54,15 +67,12 @@ class DocumentModel extends _Model
 
         //insert document files
         if ($success) {
-            foreach ($documentFiles as $documentFile) {
-                $query = 'INSERT INTO documentfile (documentid, filename, filecontent) VALUES (:documentid, :filename, :filecontent)';
-                $parameters = [
-                    ':documentid' => $document->getId(),
-                    ':filename' => $documentFile->getFilename(),
-                    ':filecontent' => $documentFile->getFilecontent()
-                ];
+            $documentFileModel = new DocumentFileModel($this->getAgentId());
+            $documentFileModel->setPDO($this->getPDO());
 
-                $newId = $this->executeQueryInsert($query, $parameters);
+            foreach ($documentFiles as $documentFile) {
+                $documentFile->setDocumentid($document->getId());
+                $newId = $documentFileModel->add($documentFile);
                 $success = !empty($newId);
 
                 if ($success) {
@@ -74,6 +84,8 @@ class DocumentModel extends _Model
         //insert document fields
         if ($success && !empty($documentFieldValues)) {
             foreach ($documentFieldValues as $documentFieldValue) {
+                //$documentFieldValue->setDocumentid($document->getId());
+
                 $query = 'INSERT INTO documentfieldvalue (documentid, number, label, fieldtype, stringvalue, intvalue, decimalvalue, boolvalue, datevalue) 
                             VALUES (:documentid, :number, :label, :fieldtype, :stringvalue, :intvalue, :decimalvalue, :boolvalue, :datevalue)';
                 $parameters = [

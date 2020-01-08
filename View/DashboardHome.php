@@ -118,6 +118,9 @@ $name = View::NoHTML($this->agent->getName());
                     </div>
                 </div>
                 <div class="card shadow mb-4">
+                    <div id="test" class="box"></div>
+                </div>
+                <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h6 class="text-primary font-weight-bold m-0">Upcoming Dues</h6>
                     </div>
@@ -155,3 +158,35 @@ $name = View::NoHTML($this->agent->getName());
 
     </div>
 </div>
+
+    <script>
+        anychart.onDocumentReady(function() {
+
+            // set the data
+            var data = [
+                {x: "A", value: 22},
+                {x: "B", value: 33},
+                {x: "C", value: 11},
+                {x: "D", value: 54},
+                {x: "E", value: 34},
+                {x: "F", value: 44},
+                {x: "G", value: 35}
+            ];
+
+
+            // create the chart
+            var chart = anychart.pie();
+
+            // set the chart title
+            chart.title("Test");
+
+            // add the data
+            chart.data(data);
+
+            // display the chart in the container
+            chart.container('test');
+
+            chart.draw();
+
+        });
+    </script>

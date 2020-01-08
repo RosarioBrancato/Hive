@@ -27,7 +27,7 @@ $action = "";
 $textCancel = "Back";
 $tagAdditions = "";
 
-if($this->editType == EditType::View) {
+if ($this->editType == EditType::View) {
     $tagAdditions = "disabled";
 
 } else if ($this->editType == EditType::Add) {

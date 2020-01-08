@@ -49,10 +49,14 @@ class DocumentFieldsGenerator
             <?php
 
         } else if ($dfv->getFieldType() == FieldType::CheckBox) {
+            if (!empty($dfv->getBoolValue())) {
+                $tagAdditions .= " checked";
+            }
+
             ?>
-            <div class="form-group form-check">
-                <input type="checkbox" id="<?php echo $dfv->getLabel(); ?>" name="<?php echo $dfv->getLabel(); ?>" class="form-check-input" value="<?php echo $dfv->getBoolValue(); ?>" <?php echo $tagAdditions; ?> />
-                <label class="form-check-label" for="<?php echo $dfv->getLabel(); ?>"><?php echo $dfv->getLabel(); ?></label>
+            <div class="form-check">
+                <input type="checkbox" id="<?php echo $dfv->getLabel(); ?>" name="<?php echo $dfv->getLabel(); ?>" class="form-check-input" value="<?php echo $dfv->getLabel(); ?>" <?php echo $tagAdditions; ?> />
+                <label class="form-check-label" for="<?php echo $dfv->getLabel(); ?>"><?php echo $dfv->getLabel(); ?> </label>
             </div>
             <?php
         }

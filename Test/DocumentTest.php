@@ -4,12 +4,14 @@
 namespace Test;
 
 
+use Controller\DocumentController;
 use DTO\Document;
 use DTO\DocumentFieldValue;
 use DTO\DocumentFile;
 use Enumeration\FieldType;
 use Model\DocumentFileModel;
 use Model\DocumentModel;
+use Service\AuthServiceImpl;
 
 class DocumentTest
 {
@@ -21,10 +23,43 @@ class DocumentTest
         $this->agentId = 1;
 
         //$this->TestInsert();
-        $this->TestGetFile();
+        //$this->TestGetFile();
         //$this->TestStreamWrite();
 
         //$this->TestInsertNew();
+        $this->TestControllerNew();
+    }
+
+    private function TestControllerNew()
+    {
+        echo "INSERT FROM CONTROLLER" . PHP_EOL;
+
+        AuthServiceImpl::getInstance()->verifyAgent("rosario@test.ch", "1234");
+
+        $documentTypeId = 22;
+        $pathToFile = 'D:\\Temp\\logistics_2_strategic_questions.pdf';
+
+
+        $document = new Document();
+        $document->setTitle('My Doc Unit Test DAY 2.2');
+        $document->setDocumenttypeid($documentTypeId);
+        $document->setAgentid($this->agentId);
+
+        $filecontents = array();
+        $filecontent = new DocumentFile();
+        $filecontent->setFilename("no file name");
+        $filecontent->setPathToFile($pathToFile);
+        array_push($filecontents, $filecontent);
+
+        $fieldValues = array();
+        $documentFieldValue = new DocumentFieldValue();
+        $documentFieldValue->setLabel('are you good');
+        $documentFieldValue->setStringValue("true");
+        array_push($fieldValues, $documentFieldValue);
+
+
+        $controller = new DocumentController();
+        $controller->InsertDocument($document, $filecontents, $fieldValues);
     }
 
     private function TestInsert()
@@ -96,8 +131,6 @@ class DocumentTest
         //mb_convert_encoding()
 
 
-
-
         //echo $mystream;
         //echo utf8_decode(fread($documentFile->getFilecontent(), (134217728 / 8)));
         //echo "STREAM 2" . PHP_EOL;
@@ -106,10 +139,10 @@ class DocumentTest
         //echo "STREAM 2" . PHP_EOL;
         //echo stream_get_contents($documentFile->getFilecontent());
         //if ($stream = fopen('D:\\Temp\\01 Introduction to PHP I.pdf', "r")) {
-            //$file->setFilecontent(utf8_encode(stream_get_contents($stream)));
-            //echo stream_get_contents($stream);
-            //$file->setFilecontent($stream);
-            //echo $stream;
+        //$file->setFilecontent(utf8_encode(stream_get_contents($stream)));
+        //echo stream_get_contents($stream);
+        //$file->setFilecontent($stream);
+        //echo $stream;
         //    fclose($stream);
         //}
     }
@@ -125,7 +158,8 @@ class DocumentTest
         echo stream_get_contents($stream);
     }
 
-    private function TestInsertNew() {
+    private function TestInsertNew()
+    {
         $pathToFile = 'D:\\Temp\\logistics_2_strategic_questions.pdf';
 
         $documentFile = new DocumentFile();

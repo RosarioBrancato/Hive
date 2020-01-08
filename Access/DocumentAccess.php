@@ -14,6 +14,7 @@ use Helper\ReportHelper;
 use Model\DocumentFileModel;
 use Router\Router;
 use Service\AuthServiceImpl;
+use Util\FileUtils;
 
 class DocumentAccess
 {
@@ -44,15 +45,21 @@ class DocumentAccess
             $model = new DocumentFileModel(AuthServiceImpl::getInstance()->getCurrentAgentId());
             $documentFile = $model->get($id);
 
-            //$filename = $documentFile->getFilename();
-            //header('Content-type:application/pdf; charset=utf-8');
-            header('Content-type:application/pdf');
-            //header('Content-disposition: inline; filename="' . $filename . '"');
-            //header('content-Transfer-Encoding:binary');
-            //header('Accept-Ranges:bytes');
+            $mime = FileUtils::GetMimeFromFilename($documentFile->getFilename());
 
-            print stream_get_contents($documentFile->getFilecontent());
-            exit;
+            if (!empty($mime)) {
+                //$filename = $documentFile->getFilename();
+                //header('Content-type:application/pdf; charset=utf-8');
+                //header('Content-type:application/pdf');
+                //header('Content-type: image/png');
+                header('Content-type: ' . $mime);
+                //header('Content-disposition: inline; filename="' . $filename . '"');
+                //header('content-Transfer-Encoding:binary');
+                //header('Accept-Ranges:bytes');
+
+                print stream_get_contents($documentFile->getFilecontent());
+                exit;
+            }
         }
     }
 

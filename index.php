@@ -138,6 +138,14 @@ Router::route_auth("GET", "/documents", $authFunction, function () {
     DocumentAccess::Home();
 });
 
+Router::route_auth("GET", "/documents/details", $authFunction, function () {
+    DocumentAccess::Details();
+});
+
+Router::route_auth("GET", "/documents/file", $authFunction, function () {
+    DocumentAccess::File();
+});
+
 Router::route_auth("GET", "/documents/new", $authFunction, function () {
     DocumentAccess::New();
 });

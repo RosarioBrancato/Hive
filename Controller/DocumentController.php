@@ -7,11 +7,15 @@ namespace Controller;
 use DTO\Document;
 use DTO\DocumentField;
 use DTO\DocumentFieldValue;
+use DTO\DocumentFile;
 use DTO\ReportEntry;
 use Enumeration\EditType;
+use Enumeration\FieldType;
 use Enumeration\ReportEntryLevel;
 use Helper\ReportHelper;
 use Model\DocumentFieldModel;
+use Model\DocumentFieldValueModel;
+use Model\DocumentFileModel;
 use Model\DocumentModel;
 use Model\DocumentTypeModel;
 use Router\Router;
@@ -28,6 +32,8 @@ class DocumentController
     /** @var DocumentModel */
     private $model;
 
+    private $agentId;
+
     public function __construct()
     {
         $this->agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
@@ -42,6 +48,33 @@ class DocumentController
         $view->editType = EditType::View;
         $view->data = $data;
         LayoutRendering::ShowView($view);
+    }
+
+    public function ShowDetails(int $id)
+    {
+        $document = $this->model->get($id);
+
+        $documentTypesModel = new DocumentTypeModel($this->agentId);
+        $documentTypes = $documentTypesModel->getAll();
+
+        $documentFileModel = new DocumentFileModel($this->agentId);
+        $documentFile = $documentFileModel->getByDocumentId($document->getId());
+
+        $documentFieldValueModel = new DocumentFieldValueModel($this->agentId);
+        $documentFieldValues = $documentFieldValueModel->getByDocumentId($document->getId());
+
+        if (!empty($document)) {
+            $view = new View('DocumentViewEdit.php');
+            $view->editType = EditType::View;
+            $view->document = $document;
+            $view->documentFile = $documentFile;
+            $view->documentTypes = $documentTypes;
+            $view->documentFieldValues = $documentFieldValues;
+            LayoutRendering::ShowView($view);
+
+        } else {
+            Router::redirect("/documents");
+        }
     }
 
     public function ShowNewForm(Document $document)
@@ -79,34 +112,74 @@ class DocumentController
         }
     }
 
+    /**
+     * @param $document Document
+     * @param $documentFiles DocumentFile[]
+     * @param $documentFieldValues DocumentFieldValue[]
+     */
     public function InsertDocument($document, $documentFiles, $documentFieldValues)
     {
         $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
         $model = new DocumentModel($agentId);
+        $documentFieldModel = new DocumentFieldModel($agentId);
+
+        //Convert field to field values
+        $documentFields = $documentFieldModel->getAllByDocumentTypeId($document->getDocumenttypeid());
+        $documentFieldValuesInternal = $this->convertFieldsToFieldsValue($documentFields);
+
+        foreach ($documentFieldValuesInternal as $internal) {
+            foreach ($documentFieldValues as $incomming) {
+                if ($internal->getLabel() === str_replace("_", " ", $incomming->getLabel())) {
+
+                    switch ($internal->getFieldType()) {
+                        case FieldType::TextField:
+                            $internal->setStringValue($incomming->getStringValue());
+                            break;
+                        case FieldType::DateField:
+                            $internal->setDateValue($incomming->getStringValue());
+                            break;
+                        case FieldType::NumberField:
+                            $internal->setIntValue($incomming->getStringValue());
+                            break;
+                        case FieldType::DecimalField:
+                            $internal->setDecimalValue($incomming->getStringValue());
+                            break;
+                        case FieldType::CheckBox:
+                            $bool = !empty($incomming->getStringValue());
+                            $internal->setBoolValue($bool);
+                            break;
+                    }
+
+                }
+            }
+        }
+
+        //var_dump($documentFieldValues);
+        //var_dump($documentFieldValuesInternal);
 
         //VALIDATE
         $validator = new DocumentValidator($model);
         $success = $validator->Validate($document);
 
         $validatorFile = new DocumentFileValidator();
-        foreach($documentFiles as $documentFile) {
+        foreach ($documentFiles as $documentFile) {
             $success &= $validatorFile->Validate($documentFile);
         }
 
         $validatorFieldValue = new DocumentFieldValueValidator();
-        foreach($documentFieldValues as $documentFieldValue) {
+        foreach ($documentFieldValuesInternal as $documentFieldValue) {
             $success &= $validatorFieldValue->Validate($documentFieldValue);
         }
 
         //INSERT
         if ($success) {
-            $success = $model->add($document, $documentFiles, $documentFieldValues);
-        }
+            $success = $model->add($document, $documentFiles, $documentFieldValuesInternal);
 
-        if ($success) {
-            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, 'Document added.'));
-        } else {
-            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, 'Error occured.'));
+            if ($success) {
+                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, 'Document added.'));
+            } else {
+                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, 'Error occured.'));
+            }
         }
 
         Router::redirect("/documents");

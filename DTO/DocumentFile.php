@@ -11,6 +11,7 @@ class DocumentFile
     private $documentid;
     private $filename;
     private $filecontent;
+    private $pathToFile;
 
     /**
      * @return mixed
@@ -74,6 +75,22 @@ class DocumentFile
     public function setFilecontent($filecontent)
     {
         $this->filecontent = $filecontent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPathToFile()
+    {
+        return $this->pathToFile;
+    }
+
+    /**
+     * @param mixed $pathToFile
+     */
+    public function setPathToFile($pathToFile)
+    {
+        $this->pathToFile = $pathToFile;
     }
 
 }

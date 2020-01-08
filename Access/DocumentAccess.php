@@ -11,7 +11,10 @@ use DTO\DocumentFile;
 use DTO\ReportEntry;
 use Enumeration\ReportEntryLevel;
 use Helper\ReportHelper;
+use Model\DocumentFileModel;
 use Router\Router;
+use Service\AuthServiceImpl;
+use Util\FileUtils;
 
 class DocumentAccess
 {
@@ -20,6 +23,44 @@ class DocumentAccess
     {
         $controller = new DocumentController();
         $controller->ShowHomePage();
+    }
+
+    public static function Details()
+    {
+        if (!isset($_GET["id"])) {
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, "ID not found.");
+            Router::redirect("/documents");
+        }
+
+        $id = intval($_GET["id"]);
+        $controller = new DocumentController();
+        $controller->ShowDetails($id);
+    }
+
+    public static function File()
+    {
+        if (isset($_GET["id"])) {
+            $id = intval($_GET["id"]);
+
+            $model = new DocumentFileModel(AuthServiceImpl::getInstance()->getCurrentAgentId());
+            $documentFile = $model->get($id);
+
+            $mime = FileUtils::GetMimeFromFilename($documentFile->getFilename());
+
+            if (!empty($mime)) {
+                //$filename = $documentFile->getFilename();
+                //header('Content-type:application/pdf; charset=utf-8');
+                //header('Content-type:application/pdf');
+                //header('Content-type: image/png');
+                header('Content-type: ' . $mime);
+                //header('Content-disposition: inline; filename="' . $filename . '"');
+                //header('content-Transfer-Encoding:binary');
+                //header('Accept-Ranges:bytes');
+
+                print stream_get_contents($documentFile->getFilecontent());
+                exit;
+            }
+        }
     }
 
     public static function New()
@@ -61,13 +102,10 @@ class DocumentAccess
 
         $filecontents = array();
         foreach ($_FILES as $file) {
-            if ($stream = fopen($file["tmp_name"], "r")) {
-                $filecontent = new DocumentFile();
-                $filecontent->setFilename($file["name"]);
-                $filecontent->setFilecontent(utf8_encode(stream_get_contents($stream)));
-                array_push($filecontents, $filecontent);
-                fclose($stream);
-            }
+            $filecontent = new DocumentFile();
+            $filecontent->setFilename($file["name"]);
+            $filecontent->setPathToFile($file["tmp_name"]);
+            array_push($filecontents, $filecontent);
         }
 
         $fieldValues = array();

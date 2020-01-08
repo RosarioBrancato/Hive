@@ -118,6 +118,10 @@ $name = View::NoHTML($this->agent->getName());
                     </div>
                 </div>
                 <div class="card shadow mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="text-primary font-weight-bold m-0">Document Types Share</h6>
+
+                    </div>
                     <div id="test" class="box"></div>
                 </div>
                 <div class="card shadow mb-4">
@@ -178,7 +182,7 @@ $name = View::NoHTML($this->agent->getName());
             var chart = anychart.pie();
 
             // set the chart title
-            chart.title("Test");
+            //chart.title("Test");
 
             // add the data
             chart.data(data);

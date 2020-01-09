@@ -28,12 +28,6 @@ class DocumentValidator
         if (empty($document->getTitle())) {
             $isValid = false;
             ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Title cannot be empty."));
-        } else {
-            $mime = FileUtils::GetMimeFromFilename($document->getTitle());
-            if (empty($mime)) {
-                $isValid = false;
-                ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "File type is not supported."));
-            }
         }
 
         if (empty($document->getDocumenttypeid())) {

@@ -28,7 +28,7 @@ class DocumentFieldsGenerator
             ?>
             <div class="form-group">
                 <label><?php echo $dfv->getLabel(); ?></label>
-                <input type="datetime-local" name="<?php echo $dfv->getLabel(); ?>" class="form-control" min="1" value="<?php echo $dfv->getDatevalue(); ?>" <?php echo $tagAdditions; ?> />
+                <input type="datetime-local" name="<?php echo $dfv->getLabel(); ?>" class="form-control" min="1" placeholder="DD.MM.YYYY HH:MM:SS" pattern="^(\d{2}).(\d{2}).(\d{4})( (\d{2}):(\d{2})?((:)?(\d{2})))?$" value="<?php echo $dfv->getDatevalue(); ?>" <?php echo $tagAdditions; ?> />
             </div>
             <?php
 

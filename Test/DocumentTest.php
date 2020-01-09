@@ -27,7 +27,80 @@ class DocumentTest
         //$this->TestStreamWrite();
 
         //$this->TestInsertNew();
-        $this->TestControllerNew();
+        //$this->TestControllerNew();
+
+
+        $this->TestControllerUpdate();
+        //$this->TestIntVal();
+    }
+
+    private function TestIntVal() {
+        $intVal = intval("");
+        var_dump($intVal);
+
+        $floatVal = floatval("");
+        var_dump($floatVal);
+    }
+
+    private function TestControllerUpdate()
+    {
+        $document = new Document();
+        $document->setId(87);
+        $document->setTitle("Test EDIT 2 UNIT");
+        $document->setDocumenttypeid(1);
+
+        $documentFiles = array();
+
+        $documentFieldValues = array();
+
+        $fieldValue1 = new DocumentFieldValue();
+        $fieldValue1->setId(27);
+        $fieldValue1->setDocumentId(87);
+        $fieldValue1->setNumber(1);
+        $fieldValue1->setLabel("Payed");
+        $fieldValue1->setFieldType(1);
+        $fieldValue1->setDateValue("2020-08-01 00:00:00");
+        array_push($documentFieldValues, $fieldValue1);
+
+        $fieldValue2 = new DocumentFieldValue();
+        $fieldValue2->setId(28);
+        $fieldValue2->setDocumentId(87);
+        $fieldValue2->setNumber(2);
+        $fieldValue2->setLabel("Comment");
+        $fieldValue2->setFieldType(0);
+        $fieldValue2->setStringValue("this is a short comment");
+        array_push($documentFieldValues, $fieldValue2);
+
+        $fieldValue3 = new DocumentFieldValue();
+        $fieldValue3->setId(29);
+        $fieldValue3->setDocumentId(87);
+        $fieldValue3->setNumber(6);
+        $fieldValue3->setLabel("Amount");
+        $fieldValue3->setFieldType(3);
+        $fieldValue3->setDecimalValue("12.3");
+        array_push($documentFieldValues, $fieldValue3);
+
+        $fieldValue4 = new DocumentFieldValue();
+        $fieldValue4->setId(30);
+        $fieldValue4->setDocumentId(87);
+        $fieldValue4->setNumber(7);
+        $fieldValue4->setLabel("# of Copies");
+        $fieldValue4->setFieldType(2);
+        $fieldValue4->setIntValue("");
+        array_push($documentFieldValues, $fieldValue4);
+
+        $fieldValue5 = new DocumentFieldValue();
+        $fieldValue5->setId(31);
+        $fieldValue5->setDocumentId(87);
+        $fieldValue5->setNumber(8);
+        $fieldValue5->setLabel("Done?");
+        $fieldValue4->setFieldType(4);
+        array_push($documentFieldValues, $fieldValue5);
+
+        $model = new DocumentModel(1);
+        $success = $model->update($document, $documentFiles, $documentFieldValues);
+
+        var_dump($success);
     }
 
     private function TestControllerNew()

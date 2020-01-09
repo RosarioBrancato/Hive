@@ -68,7 +68,7 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
             <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit) { ?>
                 <div class="form-group">
                     <label>File</label>
-                    <input type="file" id="file" name="file" class="form-control" required required <?php echo $tagAdditions; ?> />
+                    <input type="file" id="file" name="file" class="form-control" <?php echo $this->editType == EditType::Add ? "required" : ""; ?> <?php echo $tagAdditions; ?> />
                 </div>
             <?php } ?>
 
@@ -76,6 +76,14 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
                 <label>Title</label>
                 <input type="text" id="title" name="title" class="form-control" min="1" value="<?php echo $this->document->getTitle(); ?>" required <?php echo $tagAdditions; ?> />
             </div>
+
+            <?php if ($this->editType == EditType::View || $this->editType == EditType::Edit || $this->editType == EditType::Delete) { ?>
+                <div class="form-group">
+                    <label>Created</label>
+                    <input type="datetime-local" class="form-control" value="<?php echo $this->document->getCreated(); ?>" disabled/>
+                </div>
+            <?php } ?>
+
             <div class="form-group">
                 <label>Document Type</label>
                 <?php DropDownHelper::GetDocumentTypes($this->documentTypes, $this->document->getDocumenttypeid(), ("required " . $tagAdditions)); ?>

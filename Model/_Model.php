@@ -46,6 +46,9 @@ class _Model
         if ($this->getPDO()->errorCode() !== '00000') {
             error_log(implode(" | ", $this->getPDO()->errorInfo()));
         }
+        if ($stmt->errorCode() !== '00000') {
+            error_log(implode(" | ", $stmt->errorInfo()));
+        }
 
         return $success;
     }

@@ -89,18 +89,23 @@ class DocumentAccess
             Router::redirect("/documents");
         }
 
-        //TO-DO: EDIT SAVE
-
         $document = new Document();
+
+        if (isset($_POST["id"])) {
+            $document->setId(intval($_POST["id"]));
+        }
+
         $document->setTitle($_POST['title']);
         $document->setDocumenttypeid(intval($_POST['documentTypeId']));
 
         $filecontents = array();
         foreach ($_FILES as $file) {
-            $filecontent = new DocumentFile();
-            $filecontent->setFilename($file["name"]);
-            $filecontent->setPathToFile($file["tmp_name"]);
-            array_push($filecontents, $filecontent);
+            if (!empty($file["name"]) && !empty($file["tmp_name"])) {
+                $filecontent = new DocumentFile();
+                $filecontent->setFilename($file["name"]);
+                $filecontent->setPathToFile($file["tmp_name"]);
+                array_push($filecontents, $filecontent);
+            }
         }
 
         $fieldValues = array();
@@ -114,7 +119,12 @@ class DocumentAccess
         }
 
         $controller = new DocumentController();
-        $controller->InsertDocument($document, $filecontents, $fieldValues);
+        if (!empty($_POST["id"])) {
+            $document->setId(intval($_POST["id"]));
+            $controller->UpdateDocument($document, $filecontents, $fieldValues);
+        } else {
+            $controller->InsertDocument($document, $filecontents, $fieldValues);
+        }
     }
 
     public static function File()

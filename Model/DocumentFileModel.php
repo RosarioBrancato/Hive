@@ -55,7 +55,6 @@ class DocumentFileModel extends _Model
 
     /**
      * @param $documentFile DocumentFile
-     * @param $pathToFile string
      * @return string
      */
     public function add($documentFile)
@@ -81,6 +80,35 @@ class DocumentFileModel extends _Model
         }
 
         return $pdo->lastInsertId();
+    }
+
+    /**
+     * @param $documentFile DocumentFile
+     * @return bool
+     */
+    public function update($documentFile)
+    {
+        $documentId = $documentFile->getDocumentid();
+        $filename = $documentFile->getFilename();
+
+        $pdo = $this->getPDO();
+
+        $query = "UPDATE documentfile SET filename = :filename, filecontent = :filecontent WHERE documentid = :documentid";
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':documentid', $documentId);
+        $stmt->bindParam(':filename', $filename);
+
+        $stream = fopen($documentFile->getPathToFile(), "rb");
+        $stmt->bindParam(':filecontent', $stream, \PDO::PARAM_LOB);
+
+        $success = $stmt->execute();
+        $errorCode = $stmt->errorCode();
+        if ($errorCode !== '00000') {
+            error_log(implode(" | ", $stmt->errorInfo()));
+        }
+
+        return $success;
     }
 
 }

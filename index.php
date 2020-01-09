@@ -2,6 +2,7 @@
 
 require_once("Config/Autoloader.php");
 
+use Access\DashboardAccess;
 use Access\DocumentAccess;
 use Access\DocumentFieldAccess;
 use Access\DocumentTypeAccess;
@@ -165,6 +166,13 @@ Router::route_auth("GET", "/documents/delete", $authFunction, function () {
 Router::route_auth("POST", "/documents/delete", $authFunction, function () {
     DocumentAccess::Delete();
 });
+
+
+// DASHBOARD
+Router::route_auth("GET", "/dashboard/statistics", $authFunction, function () {
+    DashboardAccess::Statistics();
+});
+
 
 try {
     HTTPHeader::setHeader("Access-Control-Allow-Origin: *");

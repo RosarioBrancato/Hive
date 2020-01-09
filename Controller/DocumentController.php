@@ -224,11 +224,6 @@ class DocumentController
             $success &= $validatorFieldValue->Validate($documentFieldValue);
         }
 
-        //var_dump($success);
-        //var_dump($document);
-        //var_dump($documentFiles);
-        //var_dump($documentFieldValuesToUpdate);
-
         //UPDATE
         if ($success) {
             $success = $this->model->update($document, $documentFiles, $documentFieldValuesToUpdate);

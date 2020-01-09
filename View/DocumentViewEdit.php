@@ -68,7 +68,7 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
             <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit) { ?>
                 <div class="form-group">
                     <label>File</label>
-                    <input type="file" id="file" name="file" class="form-control" <?php echo $this->editType == EditType::Add ? "required" : ""; ?> <?php echo $tagAdditions; ?> />
+                    <input type="file" id="file" name="file" class="form-control" accept="application/pdf, image/*, text/plain" <?php echo $this->editType == EditType::Add ? "required" : ""; ?> <?php echo $tagAdditions; ?> />
                 </div>
             <?php } ?>
 

@@ -24,4 +24,14 @@ class DocumentFieldValueModel extends _Model
         return $this->executeQuerySelect($query, $parameter, "DTO\DocumentFieldValue");
     }
 
+    public function deleteByDocumentId(int $documentId)
+    {
+        $query = "DELETE FROM documentfieldvalue dfv WHERE documentid = :documentid";
+        $parameter = [
+            ':documentid' => $documentId
+        ];
+
+        return $this->executeQuery($query, $parameter);
+    }
+
 }

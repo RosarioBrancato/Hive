@@ -24,6 +24,7 @@ if (empty($this->documentFieldValues)) {
 
 $pagetitle = "Document Details";
 $action = "";
+$textSubmit = "";
 $textCancel = "Back";
 $tagAdditions = "";
 
@@ -33,16 +34,19 @@ if ($this->editType == EditType::View) {
 } else if ($this->editType == EditType::Add) {
     $pagetitle = "Add Document";
     $action = $GLOBALS["ROOT_URL"] . '/documents/save';
+    $textSubmit = "Add";
     $textCancel = "Cancel";
 
 } else if ($this->editType == EditType::Edit) {
     $pagetitle = "Edit Document";
     $action = $GLOBALS["ROOT_URL"] . '/documents/save';
+    $textSubmit = "Save";
     $textCancel = "Cancel";
 
 } else if ($this->editType == EditType::Delete) {
     $pagetitle = "Delete Document";
     $action = $GLOBALS["ROOT_URL"] . '/documents/delete';
+    $textSubmit = "Delete";
     $textCancel = "Cancel";
     $tagAdditions = "disabled";
 }
@@ -59,6 +63,7 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
 
     <div>
         <form method="post" action="<?php echo $action ?>" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?php echo $this->document->getId(); ?>"/>
 
             <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit) { ?>
                 <div class="form-group">
@@ -84,8 +89,8 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
                 ?>
             </div>
 
-            <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit) { ?>
-                <input type="submit" class="btn btn-success" id="submit" value="Add"/>
+            <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit || $this->editType == EditType::Delete) { ?>
+                <input type="submit" class="btn btn-success" id="submit" value="<?php echo $textSubmit; ?>"/>
             <?php } ?>
 
             <a href="<?php echo $cancelLink; ?>" class="btn btn-info"><?php echo $textCancel; ?></a>

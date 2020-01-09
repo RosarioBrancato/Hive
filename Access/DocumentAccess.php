@@ -9,6 +9,7 @@ use DTO\Document;
 use DTO\DocumentFieldValue;
 use DTO\DocumentFile;
 use DTO\ReportEntry;
+use Enumeration\EditType;
 use Enumeration\ReportEntryLevel;
 use Helper\ReportHelper;
 use Model\DocumentFileModel;
@@ -37,48 +38,40 @@ class DocumentAccess
         $controller->ShowDetails($id);
     }
 
-    public static function File()
-    {
-        if (isset($_GET["id"])) {
-            $id = intval($_GET["id"]);
-
-            $model = new DocumentFileModel(AuthServiceImpl::getInstance()->getCurrentAgentId());
-            $documentFile = $model->get($id);
-
-            $mime = FileUtils::GetMimeFromFilename($documentFile->getFilename());
-
-            if (!empty($mime)) {
-                //$filename = $documentFile->getFilename();
-                //header('Content-type:application/pdf; charset=utf-8');
-                //header('Content-type:application/pdf');
-                //header('Content-type: image/png');
-                header('Content-type: ' . $mime);
-                //header('Content-disposition: inline; filename="' . $filename . '"');
-                //header('content-Transfer-Encoding:binary');
-                //header('Accept-Ranges:bytes');
-
-                print stream_get_contents($documentFile->getFilecontent());
-                exit;
-            }
-        }
-    }
-
     public static function New()
     {
-        $document = new Document();
-
         $controller = new DocumentController();
-        $controller->ShowNewForm($document);
+        $controller->ShowNewForm();
     }
 
     public static function Edit()
     {
+        if (!isset($_GET["id"])) {
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, "ID not found.");
+            Router::redirect("/documents");
+        }
 
+        $id = intval($_GET["id"]);
+        $controller = new DocumentController();
+        $controller->ShowDetails($id, EditType::Edit);
     }
 
     public static function Delete()
     {
+        $controller = new DocumentController();
 
+        if (isset($_GET["id"])) {
+            $id = intval($_GET["id"]);
+            $controller->ShowDetails($id, EditType::Delete);
+
+        } else if (isset($_POST["id"])) {
+            $id = intval($_POST["id"]);
+            $controller->DeleteDocument($id);
+
+        } else {
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, "Document ID not found.");
+            Router::redirect("/documents");
+        }
     }
 
     public static function Save()
@@ -95,6 +88,8 @@ class DocumentAccess
             }
             Router::redirect("/documents");
         }
+
+        //TO-DO: EDIT SAVE
 
         $document = new Document();
         $document->setTitle($_POST['title']);
@@ -120,6 +115,32 @@ class DocumentAccess
 
         $controller = new DocumentController();
         $controller->InsertDocument($document, $filecontents, $fieldValues);
+    }
+
+    public static function File()
+    {
+        if (isset($_GET["id"])) {
+            $id = intval($_GET["id"]);
+
+            $model = new DocumentFileModel(AuthServiceImpl::getInstance()->getCurrentAgentId());
+            $documentFile = $model->get($id);
+
+            $mime = FileUtils::GetMimeFromFilename($documentFile->getFilename());
+
+            if (!empty($mime)) {
+                //$filename = $documentFile->getFilename();
+                //header('Content-type:application/pdf; charset=utf-8');
+                //header('Content-type:application/pdf');
+                //header('Content-type: image/png');
+                header('Content-type: ' . $mime);
+                //header('Content-disposition: inline; filename="' . $filename . '"');
+                //header('content-Transfer-Encoding:binary');
+                //header('Accept-Ranges:bytes');
+
+                print stream_get_contents($documentFile->getFilecontent());
+                exit;
+            }
+        }
     }
 
 }

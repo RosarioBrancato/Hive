@@ -11,6 +11,10 @@ use DTO\DocumentFile;
 class DocumentModel extends _Model
 {
 
+    /**
+     * @param int $id
+     * @return Document|null
+     */
     public function get(int $id)
     {
         $query = 'SELECT * FROM document WHERE id = :id AND agentid = :agentid';
@@ -116,6 +120,22 @@ class DocumentModel extends _Model
         }
 
         return $success;
+    }
+
+    /**
+     * @param $id int
+     * @return bool
+     */
+    public function delete($id)
+    {
+        $query = "DELETE FROM document WHERE id = :id and agentid = :agentid";
+
+        $parameters = [
+            ':id' => $id,
+            ':agentid' => $this->getAgentId()
+        ];
+
+        return $this->executeQuery($query, $parameters);
     }
 
 }

@@ -50,22 +50,29 @@ class DocumentController
         LayoutRendering::ShowView($view);
     }
 
-    public function ShowDetails(int $id)
+    public function ShowDetails(int $id, int $editType = null)
     {
+        if (empty($editType)) {
+            $editType = EditType::View;
+        } else if ($editType == EditType::Add) {
+            $this->ShowNewForm();
+            exit;
+        }
+
         $document = $this->model->get($id);
 
-        $documentTypesModel = new DocumentTypeModel($this->agentId);
-        $documentTypes = $documentTypesModel->getAll();
-
-        $documentFileModel = new DocumentFileModel($this->agentId);
-        $documentFile = $documentFileModel->getByDocumentId($document->getId());
-
-        $documentFieldValueModel = new DocumentFieldValueModel($this->agentId);
-        $documentFieldValues = $documentFieldValueModel->getByDocumentId($document->getId());
-
         if (!empty($document)) {
+            $documentTypesModel = new DocumentTypeModel($this->agentId);
+            $documentTypes = $documentTypesModel->getAll();
+
+            $documentFileModel = new DocumentFileModel($this->agentId);
+            $documentFile = $documentFileModel->getByDocumentId($document->getId());
+
+            $documentFieldValueModel = new DocumentFieldValueModel($this->agentId);
+            $documentFieldValues = $documentFieldValueModel->getByDocumentId($document->getId());
+
             $view = new View('DocumentViewEdit.php');
-            $view->editType = EditType::View;
+            $view->editType = $editType;
             $view->document = $document;
             $view->documentFile = $documentFile;
             $view->documentTypes = $documentTypes;
@@ -73,11 +80,12 @@ class DocumentController
             LayoutRendering::ShowView($view);
 
         } else {
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Error, "Document ID not found.");
             Router::redirect("/documents");
         }
     }
 
-    public function ShowNewForm(Document $document)
+    public function ShowNewForm()
     {
         $documentTypeModel = new DocumentTypeModel($this->agentId);
         $documentTypes = $documentTypeModel->getAll();
@@ -94,7 +102,6 @@ class DocumentController
 
         $view = new View('DocumentViewEdit.php');
         $view->editType = EditType::Add;
-        $view->document = $document;
         $view->documentTypes = $documentTypes;
         $view->documentFieldValues = $documentFieldValues;
         LayoutRendering::ShowView($view);
@@ -180,6 +187,27 @@ class DocumentController
             } else {
                 ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, 'Error occured.'));
             }
+        }
+
+        Router::redirect("/documents");
+    }
+
+    public function UpdateDocument()
+    {
+
+    }
+
+    public function DeleteDocument($id)
+    {
+        $agentId = AuthServiceImpl::getInstance()->getCurrentAgentId();
+        $model = new DocumentModel($agentId);
+
+        $success = $model->delete($id);
+
+        if ($success) {
+            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, 'Document deleted.'));
+        } else {
+            ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, 'Document could not be deleted.'));
         }
 
         Router::redirect("/documents");

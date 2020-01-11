@@ -81,13 +81,20 @@ Router::route_auth("GET", "/settings", $authFunction, function () {
 
 // PROFILE
 
-
 Router::route_auth("GET", "/profile", $authFunction, function () {
     ProfileAccess::Home();
 });
 
-Router::route_auth("GET", "/profile/save", $authFunction, function () {
-    ProfileAccess::Save();
+Router::route_auth("POST", "/profile/save/attributes", $authFunction, function () {
+    ProfileAccess::SaveAttributes();
+});
+
+Router::route_auth("POST", "/profile/save/password", $authFunction, function () {
+    ProfileAccess::SavePassword();
+});
+
+Router::route_auth("POST", "/profile/delete", $authFunction, function () {
+    ProfileAccess::Delete();
 });
 
 // DOCUMENT TYPES

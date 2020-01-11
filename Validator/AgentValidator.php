@@ -9,6 +9,8 @@
 namespace Validator;
 
 use DTO\Agent;
+use Enumeration\ReportEntryLevel;
+use Helper\ReportHelper;
 
 class AgentValidator
 {
@@ -50,6 +52,25 @@ class AgentValidator
         }
 
         return $this->valid;
+    }
+
+    public function validateAttributes(Agent $agent) {
+        $isOk = true;
+
+        if (empty($agent->getName())) {
+            $isOk = false;
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Error, 'Please enter a name');
+        }
+
+        if (empty($agent->getEmail())) {
+            $isOk = false;
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Error, 'Please enter an email address');
+        } else if (!filter_var($agent->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            $isOk = false;
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Error, 'Please enter an email address');
+        }
+
+        return $isOk;
     }
 
     public function isValid()

@@ -19,7 +19,7 @@
                             <p class="text-primary m-0 font-weight-bold">User Settings</p>
                         </div>
                         <div class="card-body">
-                            <form method="post" action="">
+                            <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . "/profile/save/attributes"; ?>">
                                 <div class="form-row">
                                     <div class="col">
                                         <div class="form-group"><label
@@ -31,7 +31,9 @@
                                         <div class="form-group"><label for="email"><strong>Email
                                                     Address</strong></label><input class="form-control" type="email"
                                                                                    placeholder="user@example.com"
-                                                                                   name="email" value="<?php echo $this->agent->email; ?>"></div>
+                                                                                   name="email"
+                                                                                   value="<?php echo $this->agent->email; ?>">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -45,13 +47,13 @@
                             <p class="text-primary m-0 font-weight-bold">Change Password</p>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . "/profile/save/password"; ?>">
                                 <div class="form-row">
                                     <div class="col">
-                                        <div class="form-group"><label name="current_password"><strong>Current
-                                                    Password</strong><br></label><input class="form-control" type="text"
-                                                                                        name="current_password"
-                                                                                        for="current_password"></div>
+                                        <div class="form-group">
+                                            <label name="current_password"><strong>Current Password</strong><br></label>
+                                            <input class="form-control" type="password" name="current_password" for="current_password">
+                                        </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
@@ -61,14 +63,15 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="col">
-                                        <div class="form-group"><label for="new_password"><strong>New
-                                                    Password</strong><br></label><input class="form-control" type="text"
-                                                                                        for="new_password"></div>
+                                        <div class="form-group"><label for="new_password"><strong>New Password</strong><br></label>
+                                            <input class="form-control" type="password" name="new_password" for="new_password">
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <div class="form-group"><label name="verify_password"><strong>Verify
-                                                    Password</strong></label><input class="form-control" type="text"
-                                                                                    name="verify_password"></div>
+                                        <div class="form-group">
+                                            <label name="verify_password"><strong>Verify Password</strong></label>
+                                            <input class="form-control" type="password" name="verify_password" for="verify_password">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -82,9 +85,9 @@
                             <p class="text-primary m-0 font-weight-bold">Delete my Account</p>
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . "/profile/delete"; ?>">
                                 <div class="form-group">
-                                    <button class="btn btn-danger" type="button">Delete</button>
+                                    <button class="btn btn-danger" type="submit">Delete</button>
                                 </div>
                             </form>
                         </div>

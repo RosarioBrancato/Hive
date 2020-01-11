@@ -6,6 +6,7 @@ use Access\DashboardAccess;
 use Access\DocumentAccess;
 use Access\DocumentFieldAccess;
 use Access\DocumentTypeAccess;
+use Access\ProfileAccess;
 use Controller\AuthController;
 use Controller\DashboardController;
 use Controller\ErrorController;
@@ -76,6 +77,17 @@ Router::route_auth("GET", "/logout", $authFunction, function () {
 
 Router::route_auth("GET", "/settings", $authFunction, function () {
     SettingsController::Home();
+});
+
+// PROFILE
+
+
+Router::route_auth("GET", "/profile", $authFunction, function () {
+    ProfileAccess::Home();
+});
+
+Router::route_auth("GET", "/profile/save", $authFunction, function () {
+    ProfileAccess::Save();
 });
 
 // DOCUMENT TYPES

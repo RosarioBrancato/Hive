@@ -4,6 +4,8 @@
 namespace Test;
 
 
+use Model\ProfileModel;
+
 class AgentTest
 {
     public function Execute()

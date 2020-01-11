@@ -22,3 +22,5 @@ use Service\AuthServiceImpl;
 <script src="assets/js/theme.js"></script>
 <script src="assets/js/script.js"></script>
 </body>
+
+</html>

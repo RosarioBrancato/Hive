@@ -85,7 +85,7 @@
                             <p class="text-primary m-0 font-weight-bold">Delete my Account</p>
                         </div>
                         <div class="card-body">
-                            <form method="post" action="<?php echo $GLOBALS["ROOT_URL"] . "/profile/delete"; ?>">
+                            <form method="post" onclick="return confirm('Are you sure to delete the account?')" action="<?php echo $GLOBALS["ROOT_URL"] . "/profile/delete"; ?>">
                                 <div class="form-group">
                                     <button class="btn btn-danger" type="submit">Delete</button>
                                 </div>

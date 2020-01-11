@@ -166,8 +166,28 @@ $name = View::NoHTML($this->agent->getName());
     <script>
         anychart.onDocumentReady(function() {
 
+            $.ajax({url: "<?php echo $GLOBALS["ROOT_URL"] . "/dashboard/statistics"; ?>",
+                success: function(result){
+                    console.log(result);
+                    var data = JSON.parse(result);
+
+                    // create the chart
+                    var chart = anychart.pie();
+
+                    // set the chart title
+                    //chart.title("Test");
+
+                    // add the data
+                    chart.data(data);
+
+                    // display the chart in the container
+                    chart.container('test');
+
+                    chart.draw();
+                }});
+
             // set the data
-            var data = [
+            /*var data = [
                 {x: "A", value: 22},
                 {x: "B", value: 33},
                 {x: "C", value: 11},
@@ -175,22 +195,10 @@ $name = View::NoHTML($this->agent->getName());
                 {x: "E", value: 34},
                 {x: "F", value: 44},
                 {x: "G", value: 35}
-            ];
+            ];*/
 
 
-            // create the chart
-            var chart = anychart.pie();
 
-            // set the chart title
-            //chart.title("Test");
-
-            // add the data
-            chart.data(data);
-
-            // display the chart in the container
-            chart.container('test');
-
-            chart.draw();
 
         });
     </script>

@@ -57,14 +57,22 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
 <div class="container-fluid">
     <h3 class="text-dark mb-4"><?php echo $pagetitle; ?></h3>
 
+
     <?php if (!empty($this->documentFile->getId())) { ?>
-        <embed src="<?php echo $GLOBALS["ROOT_URL"] . '/documents/file?id=' . $this->documentFile->getId(); ?>" width="100%" height="500px"/>
+        <div class="card shadow mb-3">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 font-weight-bold">View</p>
+            </div>
+            <div class="card-body">
+                <embed src="<?php echo $GLOBALS["ROOT_URL"] . '/documents/file?id=' . $this->documentFile->getId(); ?>" width="100%" height="500px"/>
+            </div>
+        </div>
     <?php } ?>
 
 
     <div class="card shadow mb-3">
         <div class="card-header py-3">
-            <p class="text-primary m-0 font-weight-bold">Add new file</p>
+            <p class="text-primary m-0 font-weight-bold">Details</p>
         </div>
         <div class="card-body">
             <form method="post" action="<?php echo $action ?>" enctype="multipart/form-data">

@@ -65,7 +65,7 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documenttypes';
                         </form>
 
                     <?php } else if ($editType == EditType::View) { ?>
-                        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/new' ?>" button class="btn btn-primary btn-sm">New</a>
+                        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/new' ?>" button class="btn btn-info">New</a>
                     <?php } ?>
 
                 </div>

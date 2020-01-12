@@ -8,12 +8,12 @@
         <h3 class="text-dark mb-4">My Documents</h3>
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-primary m-0 font-weight-bold">My Documents</p>
+                <p class="text-primary m-0 font-weight-bold">List of my Documents</p>
             </div>
             <div class="card-body">
                 <div>
                     <p>
-                        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new' ?>" class="btn btn-primary btn-sm">Add Document</a>
+                        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new' ?>" class="btn btn-info">Add Document</a>
                     </p>
                 </div>
 

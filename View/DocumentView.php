@@ -7,7 +7,8 @@
     <p>
         <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new' ?>" class="btn btn-info">Add Document</a>
     </p>
-    <table class="table table-striped table-hover">
+    <!--<table class="table table-striped table-hover">-->
+    <table class="table table-striped table-hover" data-toggle="table" data-search="true">
         <thead>
         <tr>
             <th scope="col">Title</th>
@@ -23,7 +24,7 @@
                 echo "<tr>";
                 echo '<td scope="row">' . $entry->title . '</>';
                 echo '<td>' . $entry->documenttypename . '</td>';
-                echo '<td>' . $entry->created . '</td>';
+                echo '<td>' . date("d.m.Y H:i", strtotime($entry->created)) . '</td>';
                 echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/documents/details?id=' . $entry->id . '">Details</a> | <a href="' . $GLOBALS["ROOT_URL"] . '/documents/edit?id=' . $entry->id . '">Edit</a> | <a href="' . $GLOBALS["ROOT_URL"] . '/documents/delete?id=' . $entry->id . '">Delete</a></td>';
                 echo "</tr>";
             }

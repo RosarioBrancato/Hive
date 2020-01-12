@@ -80,7 +80,7 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
             <?php if ($this->editType == EditType::View || $this->editType == EditType::Edit || $this->editType == EditType::Delete) { ?>
                 <div class="form-group">
                     <label>Created</label>
-                    <input type="datetime-local" class="form-control" value="<?php echo $this->document->getCreated(); ?>" disabled/>
+                    <input type="datetime-local" class="form-control" value="<?php echo date("d.m.Y H:i", strtotime($this->document->getCreated())); ?>" disabled/>
                 </div>
             <?php } ?>
 

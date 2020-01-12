@@ -57,27 +57,27 @@ use Service\AuthServiceImpl;
 <div id="wrapper">
 
     <!-- NAVIGATION -->
-        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
-            <div class="container-fluid d-flex flex-column p-0">
-                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="<?php echo $GLOBALS["ROOT_URL"]; ?>">
-                    <div class="sidebar-brand-icon rotate-n-15"><i class="fab fa-forumbee"></i></div>
-                    <div class="sidebar-brand-text mx-3"><span>Hive</span></div>
-                </a>
-                <hr class="sidebar-divider my-0">
-                <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents'; ?>"><i class="fas fa-table"></i><span>My Documents</span></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>"><i class="fas fa-plus-square"></i><span>Add Document</span></a></li>
-                    <div class="dropdown-divider"></div>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/profile'; ?>"><i class="fas fa-user"></i><span>Profile</span></a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-cogs"></i><span>Settings</span></a></li>
-                </ul>
-                <div class="text-center d-none d-md-inline">
-                    <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
-                </div>
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="<?php echo $GLOBALS["ROOT_URL"]; ?>">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fab fa-forumbee"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Hive</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents'; ?>"><i class="fas fa-table"></i><span>My Documents</span></a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>"><i class="fas fa-plus-square"></i><span>Add Document</span></a></li>
+                <div class="dropdown-divider"></div>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/profile'; ?>"><i class="fas fa-user"></i><span>Profile</span></a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-cogs"></i><span>Document Settings</span></a></li>
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
             </div>
-        </nav>
-<?php } ?>
+        </div>
+    </nav>
+    <?php } ?>
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
 
@@ -107,9 +107,10 @@ use Service\AuthServiceImpl;
                                         <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>Add Documents</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/profile'; ?>"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
+                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Document Settings</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"]; ?>/logout" onclick="return confirm('Are you sure to logout?')"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout</a></div>
+                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"]; ?>/logout" onclick="return confirm('Are you sure to logout?')"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout</a>
+                                    </div>
                                 </div>
                             </li>
                         </ul>

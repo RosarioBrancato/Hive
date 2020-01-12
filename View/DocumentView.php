@@ -13,7 +13,7 @@
             <div class="card-body">
                 <div>
                     <p>
-                        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new' ?>" class="btn btn-info">Add Document</a>
+                        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new' ?>" class="btn btn-primary btn-sm">Add Document</a>
                     </p>
                 </div>
 

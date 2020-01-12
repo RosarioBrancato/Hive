@@ -50,10 +50,11 @@ use Service\AuthServiceImpl;
 <script src="https://cdn.anychart.com/js/8.0.1/anychart-core.min.js"></script>
 <script src="https://cdn.anychart.com/js/8.0.1/anychart-pie.min.js"></script>
 
+
+<?php if (AuthServiceImpl::getInstance()->getCurrentAgentId() > 0) { ?>
 <div id="wrapper">
 
     <!-- NAVIGATION -->
-    <?php if (AuthServiceImpl::getInstance()->getCurrentAgentId() > 0) { ?>
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
             <div class="container-fluid d-flex flex-column p-0">
                 <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="<?php echo $GLOBALS["ROOT_URL"]; ?>">
@@ -62,7 +63,7 @@ use Service\AuthServiceImpl;
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents'; ?>"><i class="fas fa-table"></i><span>My Documents</span></a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>"><i class="fas fa-plus-square"></i><span>Add Document</span></a></li>
                     <div class="dropdown-divider"></div>
@@ -74,7 +75,7 @@ use Service\AuthServiceImpl;
                 </div>
             </div>
         </nav>
-    <?php } ?>
+<?php } ?>
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
 
@@ -95,9 +96,9 @@ use Service\AuthServiceImpl;
                             <li class="nav-item dropdown no-arrow mx-1" role="presentation">
                                 <!-- place holder message icon -->
                             </li>
-                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <div></div>
                             <li class="nav-item dropdown no-arrow" role="presentation">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo \Service\AuthServiceImpl::getInstance()->getCurrentAgentName(); ?></span><img class="border rounded-circle img-profile" src="assets/img/bees/bee%20butt%20yellow.jpg"></a>
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo \Service\AuthServiceImpl::getInstance()->getCurrentAgentName(); ?></span><i class="fa fa-align-justify"></i></a>
                                     <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
                                         <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400"></i>Dashboard</a>
                                         <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>my Documents</a>

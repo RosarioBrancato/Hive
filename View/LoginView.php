@@ -1,4 +1,4 @@
-<div class="bg-gradient-primary">
+<div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9 col-lg-12 col-xl-10">
@@ -18,14 +18,11 @@
                                         <div class="form-group"><input class="form-control form-control-user" type="email" id="exampleInputEmail" placeholder="Enter Email Address..." name="email"/></div>
                                         <div class="form-group"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password"/></div>
                                         <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <div class="form-check"><input class="form-check-input custom-control-input" type="checkbox" id="formCheck-1" name="remember" checked><label class="form-check-label custom-control-label" for="formCheck-1">Remember Me</label></div>
-                                            </div>
+
                                         </div>
                                         <button class="btn btn-primary btn-block text-white btn-user" type="submit" value="Login">Login</button>
                                         <hr>
                                     </form>
-                                    <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div>
                                     <div class="text-center"><a class="small" href="<?php echo $GLOBALS["ROOT_URL"]; ?>/register">Create an Account!</a></div>
                                 </div>
                             </div>

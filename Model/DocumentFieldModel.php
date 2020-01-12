@@ -45,11 +45,19 @@ class DocumentFieldModel extends _Model
         return $nextNumber;
     }
 
-    public function isLabelUnique($label, $exceptId = -1)
+    public function isLabelUnique($label, $documentTypeId, $exceptId = -1)
     {
-        $query = 'SELECT COUNT(f.id) as count FROM documentfield f JOIN documenttype t ON t.id = f.documenttypeid WHERE t.agentid = :agentId AND f.id <> :exceptId AND f.label = :label';
+        $query = 'SELECT COUNT(f.id) as count 
+                    FROM documentfield f 
+                    JOIN documenttype t ON t.id = f.documenttypeid 
+                    WHERE t.agentid = :agentId 
+                        AND f.id <> :exceptId 
+                        AND f.label = :label
+                        AND f.documenttypeid = :documenttypeid';
+
         $parameters = [
             ':label' => $label,
+            ':documenttypeid' => $documentTypeId,
             ':agentId' => $this->getAgentId(),
             ':exceptId' => $exceptId
         ];

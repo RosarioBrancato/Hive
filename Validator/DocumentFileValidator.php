@@ -31,6 +31,9 @@ class DocumentFileValidator
         if (empty($documentFile->getPathToFile())) {
             $isValid = false;
             ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, "File invalid.");
+        } else if (filesize($documentFile->getPathToFile()) > 20000000) {
+            $isValid = false;
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, "File is too big. Maximum size is 20MB.");
         }
 
         return $isValid;

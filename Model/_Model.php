@@ -41,27 +41,13 @@ class _Model
     protected function executeQuery(string $query, array $parameters): bool
     {
         $stmt = $this->getStatement($query, $parameters);
-        $success = $this->executeStatement($stmt);
-
-        if ($this->getPDO()->errorCode() !== '00000') {
-            error_log(implode(" | ", $this->getPDO()->errorInfo()));
-        }
-        if ($stmt->errorCode() !== '00000') {
-            error_log(implode(" | ", $stmt->errorInfo()));
-        }
-
-        return $success;
+        return $this->executeStatement($stmt);
     }
 
     protected function executeQueryInsert(string $query, array $parameters): int
     {
         $stmt = $this->getStatement($query, $parameters);
         $this->executeStatement($stmt);
-
-        $errorCode = $stmt->errorCode();
-        if ($errorCode !== '00000') {
-            error_log(implode(" | ", $stmt->errorInfo()));
-        }
 
         return $this->getPDO()->lastInsertId();
     }
@@ -110,7 +96,16 @@ class _Model
 
     private function executeStatement(PDOStatement $stmt): bool
     {
-        return $stmt->execute();
+        $ok = $stmt->execute();
+
+        if ($this->getPDO()->errorCode() !== '00000') {
+            error_log(implode(" | ", $this->getPDO()->errorInfo()));
+        }
+        if ($stmt->errorCode() !== '00000') {
+            error_log(implode(" | ", $stmt->errorInfo()));
+        }
+
+        return $ok;
     }
 
 }

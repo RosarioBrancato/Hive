@@ -74,7 +74,8 @@ class DocumentFieldModel extends _Model
         return $this->executeQuerySelect($query, $parameters);
     }
 
-    public function getAllByDocumentTypeId($documenttypeid) {
+    public function getAllByDocumentTypeId($documenttypeid)
+    {
         $query = 'SELECT *
                     FROM documentfield
                     WHERE documenttypeid = :documenttypeid
@@ -85,6 +86,23 @@ class DocumentFieldModel extends _Model
         ];
 
         return $this->executeQuerySelect($query, $parameters, 'DTO\DocumentField');
+    }
+
+    public function getAllForStatistics()
+    {
+        $query = "SELECT df.label, df.fieldtype
+                    FROM documentfield df
+                    JOIN documenttype dt ON dt.id = df.documenttypeid
+                    WHERE dt.agentid = :agentid
+                        AND df.fieldtype IN (2, 3, 4)
+                    GROUP BY df.label, df.fieldtype
+                    ORDER BY df.label, df.fieldtype";
+
+        $parameters = [
+            ':agentid' => $this->getAgentId()
+        ];
+
+        return $this->executeQuerySelect($query, $parameters);
     }
 
     public function add(DocumentField $documentField): bool

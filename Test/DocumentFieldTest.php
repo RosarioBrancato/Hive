@@ -29,7 +29,14 @@ class DocumentFieldTest
         //$this->TestAdd();
         //$this->TestCRUD();
         //$this->TestCheckAgentId();
-        $this->TestGetAllDocumentTypeId();
+        //$this->TestGetAllDocumentTypeId();
+        $this->TestStatistics();
+    }
+
+    private function TestStatistics() {
+        $fields = $this->model->getAllForStatistics();
+
+        var_dump($fields);
     }
 
     private function TestGetAll()

@@ -6,70 +6,95 @@ $name = View::NoHTML($this->agent->getName());
 
 ?>
 <div class="container">
-    <h1>Dashboard Home</h1>
+    <h1>Dashboard</h1>
     <p>Welcome <?php echo $name; ?></p>
-    <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>" class="btn btn-info">Add Document</a>
+    <p>
+        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>" class="btn btn-info">Add Document</a>
+    </p>
 
-    <div class="container-fluid">
-        <div class="d-sm-flex justify-content-between align-items-center mb-4">
-            <h3 class="text-dark mb-0">Overview</h3></div>
-        <div class="row">
-            <div class="col-lg-7 col-xl-8">
-
-                <div class="card shadow mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h6 class="text-primary font-weight-bold m-0">Document Types Share</h6>
-
-                    </div>
-                    <div id="test" class="chart-area"></div>
-                </div>
-
-                <!--<div class="col-lg-6 mb-4">
-
-                    TABLE WITH DOCUMENT DATA
-        </div>-->
-
-
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="text-dark mb-0">Overview</h3>
+        </div>
+        <div id="chart-documenttypes" class="chart-area"></div>
     </div>
+
+
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h3 class="text-dark mb-0">Custom Chart</h3>
+                <select id="custom-fieldtype" name="fieldType" class="form-control">
+                    <!--https://stackoverflow.com/questions/3245967/can-an-option-in-a-select-tag-carry-multiple-values-->
+                    <?php foreach ($this->documentFields as $field) { ?>
+                        <option value="<?php echo htmlspecialchars(json_encode($field)); ?>"><?php echo $field->label; ?></option>
+                    <?php } ?>
+                </select>
+                <button id="custom-fieldtype-button">Create</button>
+            </div>
+        </div>
+        <div id="chart-custom" class="chart-area"></div>
+    </div>
+
 
 </div>
 
-    <script>
-        anychart.onDocumentReady(function() {
+<script>
+    // create the chart
+    var chartDocumentTypes = anychart.pie();
 
-            $.ajax({url: "<?php echo $GLOBALS["ROOT_URL"] . "/dashboard/statistics"; ?>",
-                success: function(result){
-                    console.log(result);
-                    var data = JSON.parse(result);
+    // set the chart title
+    //chart.title("Test");
 
-                    // create the chart
-                    var chart = anychart.pie();
+    // display the chart in the container
+    chartDocumentTypes.container('chart-documenttypes');
+    chartDocumentTypes.draw();
 
-                    // set the chart title
-                    //chart.title("Test");
+    var chartCustom = anychart.pie();
 
-                    // add the data
-                    chart.data(data);
+    // set the chart title
+    //chart.title("Test");
 
-                    // display the chart in the container
-                    chart.container('test');
+    // display the chart in the container
+    chartCustom.container('chart-custom');
+    chartCustom.draw();
 
-                    chart.draw();
-                }});
+    anychart.onDocumentReady(function () {
 
-            // set the data
-            /*var data = [
-                {x: "A", value: 22},
-                {x: "B", value: 33},
-                {x: "C", value: 11},
-                {x: "D", value: 54},
-                {x: "E", value: 34},
-                {x: "F", value: 44},
-                {x: "G", value: 35}
-            ];*/
-
-
-
-
+        $.ajax({
+            url: "<?php echo $GLOBALS["ROOT_URL"] . "/dashboard/statistics/documenttypes"; ?>",
+            success: function (result) {
+                console.log(result);
+                var data = JSON.parse(result);
+                // add the data
+                chartDocumentTypes.data(data);
+                chartDocumentTypes.draw();
+            }
         });
-    </script>
+
+    });
+
+    $('#custom-fieldtype-button').click(function () {
+        var selected = $('#custom-fieldtype').val().replace(/&quot;/, "\"");
+        console.log(selected);
+        var obj = JSON.parse(selected);
+        console.log(obj);
+
+        var urlRoot = "<?php echo $GLOBALS["ROOT_URL"] . "/dashboard/statistics/custom"; ?>";
+        console.log(urlRoot);
+
+        var url = urlRoot + "?label=" + encodeURIComponent(obj.label) + "&fieldtype=" + encodeURIComponent(obj.fieldtype);
+        console.log(url);
+
+        $.ajax({
+            url: url,
+            success: function (result) {
+                console.log(result);
+                var data = JSON.parse(result);
+                // add the data
+                chartCustom.data(data);
+                chartCustom.draw();
+            }
+        });
+    });
+</script>

@@ -118,43 +118,44 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
             </form>
         </div>
     </div>
+</div>
 
-    <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit) { ?>
-        <script>
-            $(document).ready(function () {
+<?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit) { ?>
+    <script>
+        $(document).ready(function () {
 
-                $('#file').change(function () {
-                    // set filename as title after file selection
-                    var filepath = this.value;
-                    filepath = filepath.replace(/\\/g, '/').split('.').shift();
-                    var filename = filepath.substring(filepath.lastIndexOf('/')).replace('/', '');
+            $('#file').change(function () {
+                // set filename as title after file selection
+                var filepath = this.value;
+                filepath = filepath.replace(/\\/g, '/').split('.').shift();
+                var filename = filepath.substring(filepath.lastIndexOf('/')).replace('/', '');
 
-                    $('#title').val(filename);
-                });
+                $('#title').val(filename);
+            });
 
-                $('#documentTypeId').change(function () {
-                    // load document fields after document type selection
-                    $('#submit').prop('disabled', true);
-                    $('#generated-fields').html('<p>LOADING FIELDS...</p>');
+            $('#documentTypeId').change(function () {
+                // load document fields after document type selection
+                $('#submit').prop('disabled', true);
+                $('#generated-fields').html('<p>LOADING FIELDS...</p>');
 
-                    let selectedValue = $('#documentTypeId').val();
-                    let url = "<?php echo $GLOBALS["ROOT_URL"] . '/settings/documentfields/get?documenttypeid='; ?>" + selectedValue;
+                let selectedValue = $('#documentTypeId').val();
+                let url = "<?php echo $GLOBALS["ROOT_URL"] . '/settings/documentfields/get?documenttypeid='; ?>" + selectedValue;
 
-                    $.ajax({
-                        url: url,
-                        success: function (result) {
-                            $('#generated-fields').html(result);
-                            $('#submit').prop('disabled', false);
-                        },
-                        error: function (result, textStatus, errorThrown) {
-                            $('#generated-fields').html('');
-                            $('#submit').prop('disabled', false);
-                            console.log(result);
-                            console.log(textStatus);
-                            console.log(errorThrown);
-                        }
-                    });
+                $.ajax({
+                    url: url,
+                    success: function (result) {
+                        $('#generated-fields').html(result);
+                        $('#submit').prop('disabled', false);
+                    },
+                    error: function (result, textStatus, errorThrown) {
+                        $('#generated-fields').html('');
+                        $('#submit').prop('disabled', false);
+                        console.log(result);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
                 });
             });
-        </script>
-    <?php } ?>
+        });
+    </script>
+<?php } ?>

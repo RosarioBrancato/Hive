@@ -45,6 +45,16 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
     <h3 class="text-dark mb-4">Document Fields</h3>
     <div class="row mb-3">
         <div class="col-lg-4">
+            <!-- switch to doc type menu , start-->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="text-primary font-weight-bold m-0">Switch to </h6>
+                </div>
+                <div class="card-body">
+                    <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes' ?>" class="btn btn-outline-primary">Document Types</a>
+                </div>
+            </div>
+            <!-- switch to doc type menu , end-->
             <div class="card shadow mb-3">
                 <div class="card-header py-3">
                     <p class="text-primary m-0 font-weight-bold">Create a Field</p>
@@ -91,7 +101,7 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
         <div class="col-lg-8">
             <div class="card shadow mb-3">
                 <div class="card-header py-3">
-                    <p class="text-primary m-0 font-weight-bold">My List of Document Fields</p>
+                    <p class="text-primary m-0 font-weight-bold">My List of Fields</p>
                 </div>
                 <div class="card-body">
                     <table class="table table-striped table-hover">

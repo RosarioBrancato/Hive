@@ -39,7 +39,7 @@ use Service\AuthServiceImpl;
 
 </head>
 
-<body id="page-top">
+<body id="page-top" class="sidebar-toggled">
 
 <!-- SCRIPTS -->
 <script src="assets/js/jquery.min.js"></script>
@@ -57,7 +57,7 @@ use Service\AuthServiceImpl;
 <div id="wrapper">
 
     <!-- NAVIGATION -->
-    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 toggled">
         <div class="container-fluid d-flex flex-column p-0">
             <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="<?php echo $GLOBALS["ROOT_URL"]; ?>">
                 <div class="sidebar-brand-icon rotate-n-15"><i class="fab fa-forumbee"></i></div>

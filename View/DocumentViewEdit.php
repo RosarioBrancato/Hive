@@ -54,55 +54,69 @@ if ($this->editType == EditType::View) {
 $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
 
 ?>
-<div class="container">
-    <h1><?php echo $pagetitle; ?></h1>
+<div class="container-fluid">
+    <h3 class="text-dark mb-4"><?php echo $pagetitle; ?></h3>
+
 
     <?php if (!empty($this->documentFile->getId())) { ?>
-        <embed src="<?php echo $GLOBALS["ROOT_URL"] . '/documents/file?id=' . $this->documentFile->getId(); ?>" width="100%" height="500px"/>
+        <div class="card shadow mb-3">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 font-weight-bold">View</p>
+            </div>
+            <div class="card-body">
+                <embed src="<?php echo $GLOBALS["ROOT_URL"] . '/documents/file?id=' . $this->documentFile->getId(); ?>" width="100%" height="500px"/>
+            </div>
+        </div>
     <?php } ?>
 
-    <div>
-        <form method="post" action="<?php echo $action ?>" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="<?php echo $this->document->getId(); ?>"/>
 
-            <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit) { ?>
+    <div class="card shadow mb-3">
+        <div class="card-header py-3">
+            <p class="text-primary m-0 font-weight-bold">Details</p>
+        </div>
+        <div class="card-body">
+            <form method="post" action="<?php echo $action ?>" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<?php echo $this->document->getId(); ?>"/>
+
+                <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit) { ?>
+                    <div class="form-group">
+                        <label>File</label>
+                        <input type="file" id="file" name="file" class="form-control" accept="application/pdf, image/*, text/plain" <?php echo $this->editType == EditType::Add ? "required" : ""; ?> <?php echo $tagAdditions; ?> />
+                    </div>
+                <?php } ?>
+
                 <div class="form-group">
-                    <label>File</label>
-                    <input type="file" id="file" name="file" class="form-control" accept="application/pdf, image/*, text/plain" <?php echo $this->editType == EditType::Add ? "required" : ""; ?> <?php echo $tagAdditions; ?> />
+                    <label>Title</label>
+                    <input type="text" id="title" name="title" class="form-control" min="1" value="<?php echo $this->document->getTitle(); ?>" required <?php echo $tagAdditions; ?> />
                 </div>
-            <?php } ?>
 
-            <div class="form-group">
-                <label>Title</label>
-                <input type="text" id="title" name="title" class="form-control" min="1" value="<?php echo $this->document->getTitle(); ?>" required <?php echo $tagAdditions; ?> />
-            </div>
+                <?php if ($this->editType == EditType::View || $this->editType == EditType::Edit || $this->editType == EditType::Delete) { ?>
+                    <div class="form-group">
+                        <label>Created</label>
+                        <input type="datetime-local" class="form-control" value="<?php echo date("d.m.Y H:i", strtotime($this->document->getCreated())); ?>" disabled/>
+                    </div>
+                <?php } ?>
 
-            <?php if ($this->editType == EditType::View || $this->editType == EditType::Edit || $this->editType == EditType::Delete) { ?>
                 <div class="form-group">
-                    <label>Created</label>
-                    <input type="datetime-local" class="form-control" value="<?php echo date("d.m.Y H:i", strtotime($this->document->getCreated())); ?>" disabled/>
+                    <label>Document Type</label>
+                    <?php DropDownHelper::GetDocumentTypes($this->documentTypes, $this->document->getDocumenttypeid(), ("required " . $tagAdditions)); ?>
                 </div>
-            <?php } ?>
 
-            <div class="form-group">
-                <label>Document Type</label>
-                <?php DropDownHelper::GetDocumentTypes($this->documentTypes, $this->document->getDocumenttypeid(), ("required " . $tagAdditions)); ?>
-            </div>
+                <div id="generated-fields">
+                    <?php
+                    foreach ($this->documentFieldValues as $documentFieldValue) {
+                        DocumentFieldsGenerator::GenerateInputTags($documentFieldValue, $tagAdditions);
+                    }
+                    ?>
+                </div>
 
-            <div id="generated-fields">
-                <?php
-                foreach ($this->documentFieldValues as $documentFieldValue) {
-                    DocumentFieldsGenerator::GenerateInputTags($documentFieldValue, $tagAdditions);
-                }
-                ?>
-            </div>
+                <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit || $this->editType == EditType::Delete) { ?>
+                    <input type="submit" class="btn btn-success" id="submit" value="<?php echo $textSubmit; ?>"/>
+                <?php } ?>
 
-            <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit || $this->editType == EditType::Delete) { ?>
-                <input type="submit" class="btn btn-success" id="submit" value="<?php echo $textSubmit; ?>"/>
-            <?php } ?>
-
-            <a href="<?php echo $cancelLink; ?>" class="btn btn-info"><?php echo $textCancel; ?></a>
-        </form>
+                <a href="<?php echo $cancelLink; ?>" class="btn btn-info"><?php echo $textCancel; ?></a>
+            </form>
+        </div>
     </div>
 </div>
 

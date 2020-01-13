@@ -6,6 +6,7 @@
  * Time: 18:29
  */
 echo $this->header;
+
 if(!empty($this->submenu)) {
     echo $this->submenu;
 }

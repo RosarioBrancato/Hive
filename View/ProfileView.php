@@ -10,10 +10,12 @@
 
 <div class="container-fluid">
     <h3 class="text-dark mb-4">Profile</h3>
+    <!-- define responsive width of the boxes
     <div class="row mb-3">
         <div class="col-lg-8">
             <div class="row">
                 <div class="col">
+                -->
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 font-weight-bold">User Settings</p>
@@ -92,8 +94,9 @@
                             </form>
                         </div>
                     </div>
+                <!-- define responsive width of the boxes
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>

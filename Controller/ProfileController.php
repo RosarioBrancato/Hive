@@ -50,10 +50,16 @@ class ProfileController
         $isOk = $validator->validateAttributes($agent);
 
         if ($isOk) {
+            $agentCheck = $this->model->get();
+
             //check if e-mail is unique
             $agentModel = new AgentModel();
-            if (is_null($agentModel->findByEmail($agent->getEmail()))) {
+            if($agent->getEmail() === $agentCheck->email) {
                 $isOk = true;
+
+            } else if (is_null($agentModel->findByEmail($agent->getEmail()))) {
+                $isOk = true;
+
             } else {
                 $isOk = false;
                 ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, "New e-mail is not available");

@@ -5,6 +5,8 @@ namespace Test;
 
 
 use Controller\DocumentController;
+use DateTime;
+use DateTimeZone;
 use DTO\Document;
 use DTO\DocumentFieldValue;
 use DTO\DocumentFile;
@@ -30,16 +32,35 @@ class DocumentTest
         //$this->TestControllerNew();
 
 
-        $this->TestControllerUpdate();
+        //$this->TestControllerUpdate();
         //$this->TestIntVal();
+
+        $this->TestTimezone();
     }
 
-    private function TestIntVal() {
+    private function TestIntVal()
+    {
         $intVal = intval("");
         var_dump($intVal);
 
         $floatVal = floatval("");
         var_dump($floatVal);
+    }
+
+    public function TestTimezone()
+    {
+        $model = new DocumentModel($this->agentId);
+        $document = $model->get(96);
+
+        var_dump($document);
+
+        $tz = 'Europe/London';
+
+        $dt = new DateTime($document->getCreated(), new DateTimeZone('UTC'));
+        echo $dt->format('d.m.Y H:i:s') . " ";
+
+        $dt->setTimezone(new DateTimeZone('Europe/Amsterdam'));
+        echo $dt->format('d.m.Y H:i:s');
     }
 
     private function TestControllerUpdate()

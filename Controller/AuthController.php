@@ -13,6 +13,7 @@ use DTO\ReportEntry;
 use Enumeration\ReportEntryLevel;
 use Helper\ReportHelper;
 use Service\AuthServiceImpl;
+use Util\DateUtils;
 use Validator\AgentValidator;
 use View\Layout\LayoutRendering;
 use View\View;
@@ -32,6 +33,7 @@ class AuthController
         $view = new View('RegisterView.php');
         $view->agent = $agent;
         $view->agentValidator = $agentValidator;
+        $view->timezones = DateUtils::GetTimezones();
         LayoutRendering::ShowView($view);
     }
 
@@ -91,10 +93,11 @@ class AuthController
         $agent->setName($_POST["name"]);
         $agent->setEmail($_POST["email"]);
         $agent->setPassword($_POST["password"]);
+        $agent->setTimezone($_POST["timezone"]);
         $agentValidator = new AgentValidator($agent);
 
         if ($agentValidator->isValid()) {
-            if (AuthServiceImpl::getInstance()->editAgent($agent->getName(), $agent->getEmail(), $agent->getPassword())) {
+            if (AuthServiceImpl::getInstance()->editAgent($agent->getName(), $agent->getEmail(), $agent->getPassword(), $agent->getTimezone())) {
                 ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Success, "Registration successful!"));
                 return true;
             } else {

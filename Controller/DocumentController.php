@@ -47,6 +47,7 @@ class DocumentController
         $view = new View('DocumentView.php');
         $view->editType = EditType::View;
         $view->data = $data;
+        $view->timezone = AuthServiceImpl::getInstance()->getCurrentAgentTimezone();
         LayoutRendering::ShowView($view);
     }
 
@@ -77,6 +78,7 @@ class DocumentController
             $view->documentFile = $documentFile;
             $view->documentTypes = $documentTypes;
             $view->documentFieldValues = $documentFieldValues;
+            $view->timezone = AuthServiceImpl::getInstance()->getCurrentAgentTimezone();
             LayoutRendering::ShowView($view);
 
         } else {

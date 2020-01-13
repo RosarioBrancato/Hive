@@ -13,7 +13,9 @@
             <div class="card-body">
                 <div>
                     <p>
-                        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new' ?>" class="btn btn-info">Add Document</a>
+                        <a href="<?php use Util\DateUtils;
+
+                        echo $GLOBALS["ROOT_URL"] . '/documents/new' ?>" class="btn btn-info">Add Document</a>
                     </p>
                 </div>
 
@@ -35,7 +37,7 @@
                                 echo "<tr>";
                                 echo '<td scope="row">' . $entry->title . '</>';
                                 echo '<td>' . $entry->documenttypename . '</td>';
-                                echo '<td>' . date("d.m.Y H:i", strtotime($entry->created)) . '</td>';
+                                echo '<td>' . DateUtils::ConvertUTCToTimezone($entry->created, $this->timezone) . '</td>';
                                 echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/documents/details?id=' . $entry->id . '">Details</a> | <a href="' . $GLOBALS["ROOT_URL"] . '/documents/edit?id=' . $entry->id . '">Edit</a> | <a href="' . $GLOBALS["ROOT_URL"] . '/documents/delete?id=' . $entry->id . '">Delete</a></td>';
                                 echo "</tr>";
                             }

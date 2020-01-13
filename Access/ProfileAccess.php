@@ -27,12 +27,15 @@ class ProfileAccess
 
     public static function SaveAttributes()
     {
-        if (!isset($_POST["username"], $_POST["email"])) {
+        if (!isset($_POST["username"], $_POST["email"], $_POST["timezone"])) {
             if (!isset($_POST["username"])) {
                 ReportHelper::AddEntryArgs(ReportEntryLevel::Error, "Invalid username");
             }
             if (!isset($_POST["email"])) {
                 ReportHelper::AddEntryArgs(ReportEntryLevel::Error, "Invalid e-mail");
+            }
+            if (!isset($_POST["timezone"])) {
+                ReportHelper::AddEntryArgs(ReportEntryLevel::Error, "Invalid timezone");
             }
             Router::redirect("/profile");
         }
@@ -40,6 +43,7 @@ class ProfileAccess
         $agent = new Agent();
         $agent->setName($_POST["username"]);
         $agent->setEmail($_POST["email"]);
+        $agent->setTimezone($_POST["timezone"]);
 
         $controller = new ProfileController();
         $controller->SaveAttributes($agent);

@@ -36,6 +36,11 @@ class AuthServiceImpl implements AuthService
     private $currentAgentName;
 
     /**
+     * @var string
+     */
+    private $currentAgentTimezone;
+
+    /**
      * @access public
      * @return AuthServiceImpl
      * @static
@@ -94,6 +99,11 @@ class AuthServiceImpl implements AuthService
         return $this->currentAgentName;
     }
 
+    public function getCurrentAgentTimezone()
+    {
+        return $this->currentAgentTimezone;
+    }
+
     /**
      * @access public
      * @param String email
@@ -116,6 +126,7 @@ class AuthServiceImpl implements AuthService
                 }
                 $this->currentAgentId = $agent->getId();
                 $this->currentAgentName = $agent->getName();
+                $this->currentAgentTimezone = $agent->getTimezone();
             }
         }
 
@@ -142,18 +153,21 @@ class AuthServiceImpl implements AuthService
      * @param string name
      * @param String email
      * @param String password
+     * @param String timezone
      * @return boolean
      * @ParamType name string
      * @ParamType email String
      * @ParamType password String
+     * @ParamType timezone String
      * @ReturnType boolean
      */
-    public function editAgent($name, $email, $password)
+    public function editAgent($name, $email, $password, $timezone)
     {
         $agent = new Agent();
         $agent->setName($name);
         $agent->setEmail($email);
         $agent->setPassword(password_hash($password, PASSWORD_DEFAULT));
+        $agent->setTimezone($timezone);
         $agentModel = new AgentModel();
         if ($this->verifyAuth()) {
             $agent->setId($this->currentAgentId);
@@ -192,7 +206,9 @@ class AuthServiceImpl implements AuthService
                     $this->currentAgentId = $authToken->getAgentid();
 
                     $agentModel = new AgentModel();
-                    $this->currentAgentName = $agentModel->read($this->currentAgentId)->getName();
+                    $agent = $agentModel->read($this->currentAgentId);
+                    $this->currentAgentName = $agent->getName();
+                    $this->currentAgentTimezone = $agent->getTimezone();
 
                     if ($authToken->getType() === self::RESET_TOKEN) {
                         $authTokenModel->delete($authToken);
@@ -252,5 +268,6 @@ class AuthServiceImpl implements AuthService
     {
         $this->currentAgentId = null;
         $this->currentAgentName = null;
+        $this->currentAgentTimezone = null;
     }
 }

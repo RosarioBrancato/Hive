@@ -23,7 +23,7 @@ class AgentModel extends _Model
         $this->getPDO()->beginTransaction();
 
         $stmt = $this->getPDO()->prepare('
-        INSERT INTO agent (name, email, password) SELECT :name, :email, :password
+        INSERT INTO agent (name, email, password, timezone) SELECT :name, :email, :password, :timezone
           WHERE NOT EXISTS (
             SELECT email FROM agent WHERE email = :emailExist
         )');
@@ -31,6 +31,7 @@ class AgentModel extends _Model
         $stmt->bindValue(':email', $agent->getEmail());
         $stmt->bindValue(':emailExist', $agent->getEmail());
         $stmt->bindValue(':password', $agent->getPassword());
+        $stmt->bindValue(':timezone', $agent->getTimezone());
         $success = $stmt->execute();
 
         $newAgentId = $this->getPDO()->lastInsertId();
@@ -108,11 +109,12 @@ class AgentModel extends _Model
      */
     public function update(Agent $agent)
     {
-        $stmt = $this->getPDO()->prepare('UPDATE agent SET name=:name, email=:email, password=:password WHERE id = :id');
+        $stmt = $this->getPDO()->prepare('UPDATE agent SET name=:name, email=:email, password=:password, timezone=:timezone WHERE id = :id');
         $stmt->bindValue(':id', $agent->getId());
         $stmt->bindValue(':name', $agent->getName());
         $stmt->bindValue(':email', $agent->getEmail());
         $stmt->bindValue(':password', $agent->getPassword());
+        $stmt->bindValue(':timezone', $agent->getTimezone());
         $stmt->execute();
 
         return $this->read($agent->getId());

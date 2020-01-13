@@ -19,6 +19,10 @@ class Agent {
 	 * @AttributeType String
 	 */
 	private $email;
+    /**
+     * @AttributeType String
+     */
+    private $timezone;
 	/**
 	 * @AttributeType String
 	 */
@@ -103,6 +107,21 @@ class Agent {
 	public function setPassword($password) {
 		$this->password = $password;
 	}
+    /**
+     * @return mixed
+     */
+    public function getTimezone()
+    {
+        return $this->timezone;
+    }
+
+    /**
+     * @param mixed $timezone
+     */
+    public function setTimezone($timezone)
+    {
+        $this->timezone = $timezone;
+    }
 
 }
 ?>

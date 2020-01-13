@@ -19,6 +19,7 @@ class AgentValidator
     private $nameError = null;
     private $emailError = null;
     private $passwordError = null;
+    private $timezoneError = null;
 
     public function __construct(Agent $agent = null)
     {
@@ -47,6 +48,11 @@ class AgentValidator
                 $this->passwordError = 'Please enter a password';
                 $this->valid = false;
             }
+
+            if (empty($agent->getTimezone())) {
+                $this->timezoneError = 'Please select a timezone';
+                $this->valid = false;
+            }
         } else {
             $this->valid = false;
         }
@@ -54,20 +60,26 @@ class AgentValidator
         return $this->valid;
     }
 
-    public function validateAttributes(Agent $agent) {
+    public function validateAttributes(Agent $agent)
+    {
         $isOk = true;
 
         if (empty($agent->getName())) {
             $isOk = false;
-            ReportHelper::AddEntryArgs(ReportEntryLevel::Error, 'Please enter a name');
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, 'Please enter a name');
         }
 
         if (empty($agent->getEmail())) {
             $isOk = false;
-            ReportHelper::AddEntryArgs(ReportEntryLevel::Error, 'Please enter an email address');
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, 'Please enter an email address');
         } else if (!filter_var($agent->getEmail(), FILTER_VALIDATE_EMAIL)) {
             $isOk = false;
-            ReportHelper::AddEntryArgs(ReportEntryLevel::Error, 'Please enter an email address');
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, 'Please enter an email address');
+        }
+
+        if (empty($agent->getTimezone())) {
+            $isOk = false;
+            ReportHelper::AddEntryArgs(ReportEntryLevel::Warning, 'Please select a timezone');
         }
 
         return $isOk;
@@ -112,5 +124,15 @@ class AgentValidator
     public function getPasswordError()
     {
         return $this->passwordError;
+    }
+
+    public function isTimezoneError()
+    {
+        return isset($this->timezoneError);
+    }
+
+    public function getTimezoneError()
+    {
+        return $this->timezoneError;
     }
 }

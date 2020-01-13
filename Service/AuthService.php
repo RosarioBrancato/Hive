@@ -44,16 +44,17 @@ interface AuthService
 
     /**
      * @access public
-     * @param string name
-     * @param String email
-     * @param String password
+     * @param $name
+     * @param $email
+     * @param $password
+     * @param $timezone
      * @return boolean
      * @ParamType name string
      * @ParamType email String
      * @ParamType password String
      * @ReturnType boolean
      */
-    public function editAgent($name, $email, $password);
+    public function editAgent($name, $email, $password, $timezone);
 
     /**
      * @access public

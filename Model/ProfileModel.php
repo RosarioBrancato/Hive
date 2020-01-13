@@ -16,7 +16,7 @@ class ProfileModel extends _Model
 
     public function get()
     {
-        $query = "SELECT name, email FROM agent WHERE id = :id";
+        $query = "SELECT name, email, timezone FROM agent WHERE id = :id";
 
         $parameters = [
             ':id' => $this->getAgentId()
@@ -30,11 +30,12 @@ class ProfileModel extends _Model
 
     public function update(Agent $agent)
     {
-        $query = "UPDATE agent SET name = :name, email = :email WHERE id = :id";
+        $query = "UPDATE agent SET name = :name, email = :email, timezone = :timezone WHERE id = :id";
 
         $parameters = [
             ':name' => $agent->getName(),
             ':email' => $agent->getEmail(),
+            ':timezone' => $agent->getTimezone(),
             ':id' => $this->getAgentId()
         ];
 

@@ -61,10 +61,10 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
     <?php if (!empty($this->documentFile->getId())) { ?>
         <div class="card shadow mb-3">
             <div class="card-header py-3">
-                <p class="text-primary m-0 font-weight-bold">View</p>
+                <p class="text-primary m-0 font-weight-bold">Document</p>
             </div>
             <div class="card-body">
-                <embed src="<?php echo $GLOBALS["ROOT_URL"] . '/documents/file?id=' . $this->documentFile->getId(); ?>" width="100%" height="500px"/>
+                <embed src="<?php echo $GLOBALS["ROOT_URL"] . '/documents/file?id=' . $this->documentFile->getId(); ?>" width="100%" <?php echo strpos($this->documentFile->getFilename(), '.pdf') !== false ? 'height="500px"' : ''; ?> />
             </div>
         </div>
     <?php } ?>

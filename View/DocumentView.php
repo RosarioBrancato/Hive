@@ -19,7 +19,7 @@
 
                 <!--<table class="table table-striped table-hover">-->
                 <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                    <table class="table table-striped table-hover" data-toggle="table" data-search="true">
+                    <table class="table table-striped table-hover" data-toggle="table" data-search="true" data-pagination="true">
                         <thead>
                         <tr>
                             <th scope="col">Title</th>

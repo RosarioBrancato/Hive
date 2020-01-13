@@ -11,7 +11,8 @@ class AuthServiceImplTest
 
     public function Execute()
     {
-        $this->TestAuthServiceImpl();
+        //$this->TestAuthServiceImpl();
+        $this->TestAuthToken();
     }
 
     public function TestAuthServiceImpl()
@@ -33,5 +34,13 @@ class AuthServiceImplTest
         echo "<p>issueToken reset</p>";
         $tokenReset = $instance->issueToken(\Service\AuthServiceImpl::RESET_TOKEN, "test@test.ch");
         var_dump($tokenReset);
+    }
+
+    public function TestAuthToken() {
+        $token = 'fc90833e42:e66cbb2cea744416218e1b3522937706f1f91cad';
+
+        $success = AuthServiceImpl::getInstance()->validateToken($token);
+
+        var_dump($success);
     }
 }

@@ -16,9 +16,9 @@ session_start();
 
 // CALL TESTS
 //(new AgentTest())->Execute();
-//(new AuthServiceImplTest())->Execute();
+(new AuthServiceImplTest())->Execute();
 //(new DocumentTypeTest())->Execute();
 //(new DocumentFieldTest())->Execute();
-(new DocumentTest())->Execute();
+//(new DocumentTest())->Execute();
 //(new DashboardTest())->Execute();
 

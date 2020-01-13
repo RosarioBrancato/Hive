@@ -40,12 +40,12 @@ class AuthController
     public static function authenticate()
     {
         if (isset($_SESSION["agentLogin"])) {
-            if (AuthServiceImpl::getInstance()->validateToken($_SESSION["agentLogin"]["token"])) {
+            if (AuthServiceImpl::getInstance()->validateToken($_SESSION["agentLogin"]["HIVE-TOKEN"])) {
                 return true;
             }
         }
-        if (isset($_COOKIE["token"])) {
-            if (AuthServiceImpl::getInstance()->validateToken($_COOKIE["token"])) {
+        if (isset($_COOKIE["HIVE-TOKEN"])) {
+            if (AuthServiceImpl::getInstance()->validateToken($_COOKIE["HIVE-TOKEN"])) {
                 return true;
             }
         }
@@ -62,7 +62,7 @@ class AuthController
 
             //set token
             $token = $authService->issueToken();
-            $_SESSION["agentLogin"]["token"] = $token;
+            $_SESSION["agentLogin"]["HIVE-TOKEN"] = $token;
             if (isset($_POST["remember"])) {
                 setcookie("HIVE-TOKEN", $token, (new \DateTime('now'))->modify('+30 days')->getTimestamp(), "/", "", false, true);
             }

@@ -28,7 +28,7 @@ class DocumentFieldValidator
             ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Warning, "Label cannot be empty."));
 
         } else {
-            $isUnique = $this->model->isLabelUnique($documentField->getLabel(), $documentField->getId());
+            $isUnique = $this->model->isLabelUnique($documentField->getLabel(), $documentField->getDocumentTypeId(), $documentField->getId());
             if (!$isUnique) {
                 $isValid = false;
                 ReportHelper::AddEntry(new ReportEntry(ReportEntryLevel::Error, "A document field labeled '" . $documentField->getLabel() . "' already exists"));

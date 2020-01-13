@@ -45,11 +45,19 @@ class DocumentFieldModel extends _Model
         return $nextNumber;
     }
 
-    public function isLabelUnique($label, $exceptId = -1)
+    public function isLabelUnique($label, $documentTypeId, $exceptId = -1)
     {
-        $query = 'SELECT COUNT(f.id) as count FROM documentfield f JOIN documenttype t ON t.id = f.documenttypeid WHERE t.agentid = :agentId AND f.id <> :exceptId AND f.label = :label';
+        $query = 'SELECT COUNT(f.id) as count 
+                    FROM documentfield f 
+                    JOIN documenttype t ON t.id = f.documenttypeid 
+                    WHERE t.agentid = :agentId 
+                        AND f.id <> :exceptId 
+                        AND f.label = :label
+                        AND f.documenttypeid = :documenttypeid';
+
         $parameters = [
             ':label' => $label,
+            ':documenttypeid' => $documentTypeId,
             ':agentId' => $this->getAgentId(),
             ':exceptId' => $exceptId
         ];
@@ -74,7 +82,8 @@ class DocumentFieldModel extends _Model
         return $this->executeQuerySelect($query, $parameters);
     }
 
-    public function getAllByDocumentTypeId($documenttypeid) {
+    public function getAllByDocumentTypeId($documenttypeid)
+    {
         $query = 'SELECT *
                     FROM documentfield
                     WHERE documenttypeid = :documenttypeid
@@ -85,6 +94,23 @@ class DocumentFieldModel extends _Model
         ];
 
         return $this->executeQuerySelect($query, $parameters, 'DTO\DocumentField');
+    }
+
+    public function getAllForStatistics()
+    {
+        $query = "SELECT df.label, df.fieldtype
+                    FROM documentfield df
+                    JOIN documenttype dt ON dt.id = df.documenttypeid
+                    WHERE dt.agentid = :agentid
+                        AND df.fieldtype IN (2, 3, 4)
+                    GROUP BY df.label, df.fieldtype
+                    ORDER BY df.label, df.fieldtype";
+
+        $parameters = [
+            ':agentid' => $this->getAgentId()
+        ];
+
+        return $this->executeQuerySelect($query, $parameters);
     }
 
     public function add(DocumentField $documentField): bool
@@ -111,13 +137,13 @@ class DocumentFieldModel extends _Model
 
     public function edit(DocumentField $documentField): bool
     {
-        $query = 'UPDATE documentfield SET number = :number, label = :label, fieldtype = :fieldtype, documenttypeid = :documenttypeid WHERE id = :id and documenttypeid = :documenttypeid';
+        $query = 'UPDATE documentfield SET number = :number, label = :label, fieldtype = :fieldtype, documenttypeid = :documenttypeid WHERE id = :id';
         $parameters = [
             ':number' => $documentField->getNumber(),
             ':label' => $documentField->getLabel(),
             ':id' => $documentField->getId(),
             ':fieldtype' => $documentField->getFieldType(),
-            ':documenttypeid' => $documentField->getDocumentTypeId(),
+            ':documenttypeid' => $documentField->getDocumentTypeId()
         ];
 
         return $this->executeQuery($query, $parameters);

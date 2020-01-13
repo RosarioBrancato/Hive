@@ -188,8 +188,12 @@ Router::route_auth("POST", "/documents/delete", $authFunction, function () {
 
 
 // DASHBOARD
-Router::route_auth("GET", "/dashboard/statistics", $authFunction, function () {
+Router::route_auth("GET", "/dashboard/statistics/documenttypes", $authFunction, function () {
     DashboardAccess::Statistics();
+});
+
+Router::route_auth("GET", "/dashboard/statistics/custom", $authFunction, function () {
+    DashboardAccess::CustomStatistics();
 });
 
 

@@ -5,18 +5,23 @@ namespace Model;
 
 
 use DTO\Agent;
+use DTO\DocumentField;
+use DTO\DocumentType;
+use Enumeration\FieldType;
 
 class AgentModel extends _Model
 {
     /**
      * @access public
-     * @param Agent agent
+     * @param Agent $agent
      * @return Agent
      * @ParamType agent Agent
      * @ReturnType Agent
      */
     public function create(Agent $agent)
     {
+        $this->getPDO()->beginTransaction();
+
         $stmt = $this->getPDO()->prepare('
         INSERT INTO agent (name, email, password) SELECT :name, :email, :password
           WHERE NOT EXISTS (
@@ -26,9 +31,52 @@ class AgentModel extends _Model
         $stmt->bindValue(':email', $agent->getEmail());
         $stmt->bindValue(':emailExist', $agent->getEmail());
         $stmt->bindValue(':password', $agent->getPassword());
-        $stmt->execute();
+        $success = $stmt->execute();
 
-        return $this->read($this->getPDO()->lastInsertId());
+        $newAgentId = $this->getPDO()->lastInsertId();
+
+        if ($success) {
+            $documentTypeModel = new DocumentTypeModel($newAgentId);
+            $documentTypeModel->setPDO($this->getPDO());
+            $documentFieldModel = new DocumentFieldModel($newAgentId);
+            $documentFieldModel->setPDO($this->getPDO());
+
+            // general
+            $general = new DocumentType();
+            $general->setNumber(1);
+            $general->setName("general");
+            $general->setAgentId($newAgentId);
+
+            // invoice
+            $invoice = new DocumentType();
+            $invoice->setNumber(2);
+            $invoice->setName("invoice");
+            $invoice->setAgentId($newAgentId);
+
+            $invoiceAmount = new DocumentField();
+            $invoiceAmount->setNumber(1);
+            $invoiceAmount->setLabel("Amount");
+            $invoiceAmount->setFieldType(FieldType::DecimalField);
+
+            // insert data
+            $success = $documentTypeModel->add($general);
+            if ($success) {
+                $success = $documentTypeModel->add($invoice);
+            }
+
+            if ($success) {
+                $invoiceAmount->setDocumentTypeId($invoice->getId());
+                $documentFieldModel->add($invoiceAmount);
+            }
+        }
+
+        if ($success) {
+            $this->getPDO()->commit();
+        } else {
+            $this->getPDO()->rollBack();
+        }
+
+        return $this->read($newAgentId);
     }
 
     /**

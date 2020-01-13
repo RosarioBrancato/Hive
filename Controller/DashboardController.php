@@ -35,7 +35,7 @@ class DashboardController
         $documentFieldModel = new DocumentFieldModel($agentId);
         $documentFields = $documentFieldModel->getAllForStatistics();
 
-        $view = new View('DashboardHome.php');
+        $view = new View('DashboardView.php');
         $view->agent = $agent;
         $view->documentFields = $documentFields;
         LayoutRendering::ShowView($view);

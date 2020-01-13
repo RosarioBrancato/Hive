@@ -41,7 +41,8 @@ class ProfileController
 
         $view = new View('ProfileView.php');
         $view->agent = $agent;
-        LayoutRendering::ShowView($view);
+        $settingsMenu = new View('Layout/SettingsMenu.php');
+        LayoutRendering::ShowView($view, $settingsMenu);
     }
 
     public function SaveAttributes(Agent $agent)

@@ -11,7 +11,7 @@ use Util\DateUtils;
 ?>
 
 <div class="container">
-    <h3 class="text-dark mb-4">Profile</h3>
+    <h2 class="text-dark mb-4">Profile</h2>
     <!-- define responsive width of the boxes
     <div class="row mb-3">
         <div class="col-lg-8">

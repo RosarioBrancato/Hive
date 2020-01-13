@@ -30,7 +30,7 @@ $name = View::NoHTML($this->agent->getName());
                         <option value="<?php echo htmlspecialchars(json_encode($field)); ?>"><?php echo $field->label; ?></option>
                     <?php } ?>
                 </select>
-                <button id="custom-fieldtype-button">Create</button>
+                <button id="custom-fieldtype-button" class="btn btn-primary">Create</button>
             </div>
         </div>
         <div id="chart-custom" class="chart-area"></div>

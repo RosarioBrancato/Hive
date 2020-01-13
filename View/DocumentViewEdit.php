@@ -58,7 +58,7 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
     <h1><?php echo $pagetitle; ?></h1>
 
     <?php if (!empty($this->documentFile->getId())) { ?>
-        <embed src="<?php echo $GLOBALS["ROOT_URL"] . '/documents/file?id=' . $this->documentFile->getId(); ?>" width="100%" height="500px"/>
+        <embed src="<?php echo $GLOBALS["ROOT_URL"] . '/documents/file?id=' . $this->documentFile->getId(); ?>" width="100%" <?php echo strpos($this->documentFile->getFilename(), '.pdf') !== false ? 'height="500px"' : ''; ?> />
     <?php } ?>
 
     <div>

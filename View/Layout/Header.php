@@ -104,8 +104,7 @@ use Service\AuthServiceImpl;
                                         <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400"></i>Dashboard</a>
                                         <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents'; ?>"><i class="fas fa-table fa-sm fa-fw mr-2 text-gray-400"></i>My Documents</a>
                                         <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>"><i class="fas fa-plus-square fa-sm fa-fw mr-2 text-gray-400"></i>Add Documents</a>
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/profile'; ?>"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Profile</a>
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-gears fa-sm fa-fw mr-2 text-gray-400"></i>Document Type Settings</a>
+                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-gears fa-sm fa-fw mr-2 text-gray-400"></i>Settings</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"]; ?>/logout" onclick="return confirm('Are you sure to logout?')"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout</a>
                                     </div>

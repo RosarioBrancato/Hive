@@ -25,6 +25,7 @@ if (empty($this->documentFieldValues)) {
 
 $pagetitle = "Document Details";
 $action = "";
+$styleSubmit = "btn btn-primary";
 $textSubmit = "";
 $textCancel = "Back";
 $tagAdditions = "";
@@ -35,18 +36,21 @@ if ($this->editType == EditType::View) {
 } else if ($this->editType == EditType::Add) {
     $pagetitle = "Add Document";
     $action = $GLOBALS["ROOT_URL"] . '/documents/save';
+    $styleSubmit = "btn btn-success";
     $textSubmit = "Add";
     $textCancel = "Cancel";
 
 } else if ($this->editType == EditType::Edit) {
     $pagetitle = "Edit Document";
     $action = $GLOBALS["ROOT_URL"] . '/documents/save';
+    $styleSubmit = "btn btn-success";
     $textSubmit = "Save";
     $textCancel = "Cancel";
 
 } else if ($this->editType == EditType::Delete) {
     $pagetitle = "Delete Document";
     $action = $GLOBALS["ROOT_URL"] . '/documents/delete';
+    $styleSubmit = "btn btn-danger";
     $textSubmit = "Delete";
     $textCancel = "Cancel";
     $tagAdditions = "disabled";
@@ -55,21 +59,8 @@ if ($this->editType == EditType::View) {
 $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
 
 ?>
-<div class="container-fluid">
-    <h3 class="text-dark mb-4"><?php echo $pagetitle; ?></h3>
-
-
-    <?php if (!empty($this->documentFile->getId())) { ?>
-        <div class="card shadow mb-3">
-            <div class="card-header py-3">
-                <p class="text-primary m-0 font-weight-bold">Document</p>
-            </div>
-            <div class="card-body">
-                <embed src="<?php echo $GLOBALS["ROOT_URL"] . '/documents/file?id=' . $this->documentFile->getId(); ?>" width="100%" <?php echo strpos($this->documentFile->getFilename(), '.pdf') !== false ? 'height="500px"' : ''; ?> />
-            </div>
-        </div>
-    <?php } ?>
-
+<div class="container">
+    <h2 class="text-dark mb-4"><?php echo $pagetitle; ?></h2>
 
     <div class="card shadow mb-3">
         <div class="card-header py-3">
@@ -112,13 +103,25 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/documents';
                 </div>
 
                 <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit || $this->editType == EditType::Delete) { ?>
-                    <input type="submit" class="btn btn-success" id="submit" value="<?php echo $textSubmit; ?>"/>
+                    <input type="submit" class="<?php echo $styleSubmit; ?>" id="submit" value="<?php echo $textSubmit; ?>"/>
                 <?php } ?>
 
                 <a href="<?php echo $cancelLink; ?>" class="btn btn-info"><?php echo $textCancel; ?></a>
             </form>
         </div>
     </div>
+
+    <?php if (!empty($this->documentFile->getId())) { ?>
+        <div class="card shadow mb-3">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 font-weight-bold">Document</p>
+            </div>
+            <div class="card-body">
+                <embed src="<?php echo $GLOBALS["ROOT_URL"] . '/documents/file?id=' . $this->documentFile->getId(); ?>" width="100%" <?php echo strpos($this->documentFile->getFilename(), '.pdf') !== false ? 'height="500px"' : ''; ?> />
+            </div>
+        </div>
+    <?php } ?>
+
 </div>
 
 <?php if ($this->editType == EditType::Add || $this->editType == EditType::Edit) { ?>

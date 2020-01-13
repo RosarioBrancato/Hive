@@ -4,7 +4,7 @@ use Service\AuthServiceImpl;
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -55,28 +55,28 @@ use Service\AuthServiceImpl;
 <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
 
 
-<?php if (AuthServiceImpl::getInstance()->getCurrentAgentId() > 0) { ?>
 <div id="wrapper">
 
-    <!-- NAVIGATION -->
-    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 toggled">
-        <div class="container-fluid d-flex flex-column p-0">
-            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="<?php echo $GLOBALS["ROOT_URL"]; ?>">
-                <div class="sidebar-brand-icon rotate-n-15"><i class="fab fa-forumbee"></i></div>
-                <div class="sidebar-brand-text mx-3"><span>Hive</span></div>
-            </a>
-            <hr class="sidebar-divider my-0">
-            <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents'; ?>"><i class="fas fa-table"></i><span>My Documents</span></a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>"><i class="fas fa-plus-square"></i><span>Add Document</span></a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-gears"></i><span>Settings</span></a></li>
-            </ul>
-            <div class="text-center d-none d-md-inline">
-                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+    <?php if (AuthServiceImpl::getInstance()->getCurrentAgentId() > 0) { ?>
+        <!-- NAVIGATION -->
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 toggled">
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="<?php echo $GLOBALS["ROOT_URL"]; ?>">
+                    <div class="sidebar-brand-icon rotate-n-15"><i class="fab fa-forumbee"></i></div>
+                    <div class="sidebar-brand-text mx-3"><span>Hive</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents'; ?>"><i class="fas fa-table"></i><span>My Documents</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>"><i class="fas fa-plus-square"></i><span>Add Document</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-gears"></i><span>Settings</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline">
+                    <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
     <?php } ?>
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
@@ -98,16 +98,15 @@ use Service\AuthServiceImpl;
                             <li class="nav-item dropdown no-arrow mx-1" role="presentation">
                                 <!-- place holder message icon -->
                             </li>
-                            <div></div>
                             <li class="nav-item dropdown no-arrow" role="presentation">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo \Service\AuthServiceImpl::getInstance()->getCurrentAgentName(); ?></span><i class="fa fa-align-justify"></i></a>
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600"><?php echo AuthServiceImpl::getInstance()->getCurrentAgentName(); ?></span><i class="fa fa-align-justify"></i></a>
                                     <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400"></i>Dashboard</a>
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents'; ?>"><i class="fas fa-table fa-sm fa-fw mr-2 text-gray-400"></i>My Documents</a>
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>"><i class="fas fa-plus-square fa-sm fa-fw mr-2 text-gray-400"></i>Add Documents</a>
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-gears fa-sm fa-fw mr-2 text-gray-400"></i>Settings</a>
+                                        <a href="<?php echo $GLOBALS["ROOT_URL"]; ?>" class="dropdown-item" role="presentation"><i class="fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400"></i>Dashboard</a>
+                                        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents'; ?>" class="dropdown-item" role="presentation"><i class="fas fa-table fa-sm fa-fw mr-2 text-gray-400"></i>My Documents</a>
+                                        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>" class="dropdown-item" role="presentation"><i class="fas fa-plus-square fa-sm fa-fw mr-2 text-gray-400"></i>Add Documents</a>
+                                        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>" class="dropdown-item" role="presentation"><i class="fas fa-gears fa-sm fa-fw mr-2 text-gray-400"></i>Settings</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"]; ?>/logout" onclick="return confirm('Are you sure to logout?')"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout</a>
+                                        <a href="<?php echo $GLOBALS["ROOT_URL"]; ?>/logout" class="dropdown-item" role="presentation" onclick="return confirm('Do you really want to logout?')"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout</a>
                                     </div>
                                 </div>
                             </li>

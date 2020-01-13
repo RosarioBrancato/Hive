@@ -37,7 +37,7 @@ use Util\DateUtils;
                     <?php DateUtils::GetTimezonesAsDropDown($this->agent->timezone); ?>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-sm" type="submit">Save Settings</button>
+                    <button class="btn btn-success" type="submit">Save Settings</button>
                 </div>
             </form>
         </div>
@@ -60,7 +60,7 @@ use Util\DateUtils;
                     <input class="form-control" type="password" name="verify_password" for="verify_password">
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-sm" type="submit">Save Settings</button>
+                    <button class="btn btn-success" type="submit">Change Password</button>
                 </div>
             </form>
         </div>
@@ -70,7 +70,7 @@ use Util\DateUtils;
             <p class="text-primary m-0 font-weight-bold">Delete my Account</p>
         </div>
         <div class="card-body">
-            <form method="post" onclick="return confirm('Are you sure to delete the account?')" action="<?php echo $GLOBALS["ROOT_URL"] . "/profile/delete"; ?>">
+            <form method="post" onclick="return confirm('Do you really want to delete your account permanently?')" action="<?php echo $GLOBALS["ROOT_URL"] . "/profile/delete"; ?>">
                 <div class="form-group">
                     <button class="btn btn-danger" type="submit">Delete</button>
                 </div>

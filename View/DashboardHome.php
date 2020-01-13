@@ -6,11 +6,7 @@ $name = View::NoHTML($this->agent->getName());
 
 ?>
 <div class="container">
-    <h1>Dashboard</h1>
-    <p>Welcome <?php echo $name; ?></p>
-    <p>
-        <a href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>" class="btn btn-info">Add Document</a>
-    </p>
+    <h2 class="text-dark mb-4">Dashboard</h2>
 
     <div class="card shadow mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -18,7 +14,6 @@ $name = View::NoHTML($this->agent->getName());
         </div>
         <div id="chart-documenttypes" class="chart-area"></div>
     </div>
-
 
     <div class="card shadow mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">

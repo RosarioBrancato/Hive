@@ -137,13 +137,13 @@ class DocumentFieldModel extends _Model
 
     public function edit(DocumentField $documentField): bool
     {
-        $query = 'UPDATE documentfield SET number = :number, label = :label, fieldtype = :fieldtype, documenttypeid = :documenttypeid WHERE id = :id and documenttypeid = :documenttypeid';
+        $query = 'UPDATE documentfield SET number = :number, label = :label, fieldtype = :fieldtype, documenttypeid = :documenttypeid WHERE id = :id';
         $parameters = [
             ':number' => $documentField->getNumber(),
             ':label' => $documentField->getLabel(),
             ':id' => $documentField->getId(),
             ':fieldtype' => $documentField->getFieldType(),
-            ':documenttypeid' => $documentField->getDocumentTypeId(),
+            ':documenttypeid' => $documentField->getDocumentTypeId()
         ];
 
         return $this->executeQuery($query, $parameters);

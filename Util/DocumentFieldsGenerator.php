@@ -55,8 +55,10 @@ class DocumentFieldsGenerator
 
             ?>
             <div class="form-check">
-                <input type="checkbox" id="<?php echo $dfv->getLabel(); ?>" name="<?php echo $dfv->getLabel(); ?>" class="form-check-input" value="<?php echo $dfv->getLabel(); ?>" <?php echo $tagAdditions; ?> />
-                <label class="form-check-label" for="<?php echo $dfv->getLabel(); ?>"><?php echo $dfv->getLabel(); ?> </label>
+                <p>
+                    <input type="checkbox" id="<?php echo $dfv->getLabel(); ?>" name="<?php echo $dfv->getLabel(); ?>" class="form-check-input" value="<?php echo $dfv->getLabel(); ?>" <?php echo $tagAdditions; ?> />
+                    <label class="form-check-label" for="<?php echo $dfv->getLabel(); ?>"><?php echo $dfv->getLabel(); ?> </label>
+                </p>
             </div>
             <?php
         }

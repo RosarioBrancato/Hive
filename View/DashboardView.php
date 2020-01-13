@@ -42,12 +42,14 @@ $name = View::NoHTML($this->agent->getName());
     var chartDocumentTypes = anychart.pie();
     // display the chart in the container
     chartDocumentTypes.container('chart-documenttypes');
+    chartDocumentTypes.labels().hAlign('center').position('outside').format('{%Value} [{%PercentValue}%]');
     chartDocumentTypes.draw();
 
     // create the chart
     var chartCustom = anychart.pie();
     // display the chart in the container
     chartCustom.container('chart-custom');
+    chartCustom.labels().hAlign('center').position('outside').format('{%Value} [{%PercentValue}%]');
     chartCustom.draw();
 
     anychart.onDocumentReady(function () {

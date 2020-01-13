@@ -34,19 +34,9 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documenttypes';
     <h3 class="text-dark mb-4">Document Types</h3>
     <div class="row mb-3">
         <div class="col-lg-4">
-            <!-- switch to doc file menu , start-->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="text-primary font-weight-bold m-0">Switch to </h6>
-                </div>
-                <div class="card-body">
-                    <a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documentfields' ?>" class="btn btn-outline-primary">Document Fields</a>
-                </div>
-            </div>
-            <!-- switch to doc file menu , end-->
             <div class="card shadow mb-3">
                 <div class="card-header py-3">
-                    <p class="text-primary m-0 font-weight-bold">Create a Document Type</p>
+                    <p class="text-primary m-0 font-weight-bold">Edit Type</p>
                 </div>
                 <div class="card-body">
                     <?php if ($editType == EditType::Add || $editType == EditType::Edit || $editType == EditType::Delete) { ?>

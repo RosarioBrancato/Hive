@@ -22,6 +22,7 @@ use Service\AuthServiceImpl;
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="assets/css/navigation.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
     <!--new from bootstrap studio-->
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -68,9 +69,7 @@ use Service\AuthServiceImpl;
                 <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents'; ?>"><i class="fas fa-table"></i><span>My Documents</span></a></li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>"><i class="fas fa-plus-square"></i><span>Add Document</span></a></li>
-                <div class="dropdown-divider"></div>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/profile'; ?>"><i class="fas fa-user"></i><span>Profile</span></a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-cogs"></i><span>Document Settings</span></a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-gears"></i><span>Settings</span></a></li>
             </ul>
             <div class="text-center d-none d-md-inline">
                 <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
@@ -103,11 +102,10 @@ use Service\AuthServiceImpl;
                                 <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo \Service\AuthServiceImpl::getInstance()->getCurrentAgentName(); ?></span><i class="fa fa-align-justify"></i></a>
                                     <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu">
                                         <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"]; ?>"><i class="fas fa-tachometer-alt fa-sm fa-fw mr-2 text-gray-400"></i>Dashboard</a>
-                                        <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>my Documents</a>
-                                        <a class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>Add Documents</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/profile'; ?>"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
-                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Document Settings</a>
+                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents'; ?>"><i class="fas fa-table fa-sm fa-fw mr-2 text-gray-400"></i>My Documents</a>
+                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/documents/new'; ?>"><i class="fas fa-plus-square fa-sm fa-fw mr-2 text-gray-400"></i>Add Documents</a>
+                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/profile'; ?>"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Profile</a>
+                                        <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes'; ?>"><i class="fas fa-gears fa-sm fa-fw mr-2 text-gray-400"></i>Document Type Settings</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" role="presentation" href="<?php echo $GLOBALS["ROOT_URL"]; ?>/logout" onclick="return confirm('Are you sure to logout?')"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout</a>
                                     </div>

@@ -76,10 +76,10 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documenttypes';
                 <p><a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documenttypes/new' ?>" button class="btn btn-info">New</a></p>
             <?php } ?>
 
-            <table class="table table-striped table-hover">
+            <table id="table" class="table table-striped table-hover" data-mobile-responsive="true" data-check-on-init="true">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col" class="text-right">#</th>
                     <th scope="col">Name</th>
                     <th scope="col"></th>
                 </tr>
@@ -88,9 +88,9 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documenttypes';
                 <?php
                 foreach ($documentTypes as $documentType) {
                     echo "<tr>";
-                    echo '<td scope="row">' . $documentType->getNumber() . '</td>';
+                    echo '<td scope="row" class="text-right">' . $documentType->getNumber() . '</td>';
                     echo '<td>' . $documentType->getName() . '</td>';
-                    echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/settings/documenttypes/edit?id=' . $documentType->getId() . '">Edit</a> <a href="' . $GLOBALS["ROOT_URL"] . '/settings/documenttypes/delete?id=' . $documentType->getId() . '">Delete</a></td>';
+                    echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/settings/documenttypes/edit?id=' . $documentType->getId() . '">Edit</a> | <a href="' . $GLOBALS["ROOT_URL"] . '/settings/documenttypes/delete?id=' . $documentType->getId() . '">Delete</a></td>';
                     echo "</tr>";
                 }
                 ?>
@@ -101,3 +101,9 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documenttypes';
     </div>
 
 </div>
+
+<script>
+    $(function () {
+        $('#table').bootstrapTable()
+    })
+</script>

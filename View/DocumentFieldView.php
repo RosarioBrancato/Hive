@@ -95,12 +95,11 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
                 <p><a href="<?php echo $GLOBALS["ROOT_URL"] . '/settings/documentfields/new' ?>" class="btn btn-info">New</a></p>
             <?php } ?>
 
-            <table class="table table-striped table-hover">
+            <table id="table" class="table table-striped table-hover" data-mobile-responsive="true" data-check-on-init="true">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Document Type</th>
-                    <th scope="col">#</th>
+                    <th scope="col" class="text-right">#</th>
                     <th scope="col">Label</th>
                     <th scope="col">Field Type</th>
                     <th scope="col"></th>
@@ -108,14 +107,26 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
                 </thead>
                 <tbody>
                 <?php
+                $lastDocumentType = "";
                 foreach ($data as $entry) {
-                    echo "<tr>";
-                    echo '<td>' . $entry->documenttypenr . '</td>';
-                    echo '<td>' . $entry->documenttype . '</td>';
-                    echo '<td scope="row">' . $entry->number . '</td>';
+                    if ($lastDocumentType !== $entry->documenttype) {
+                        $lastDocumentType = $entry->documenttype;
+
+                        echo "<tr class=''>";
+                        echo '<td scope="row">' . $entry->documenttypenr . ' - ' . $entry->documenttype . '</td>';
+                        echo '<td scope="row"></td>';
+                        echo '<td scope="row"></td>';
+                        echo '<td scope="row"></td>';
+                        echo '<td scope="row"></td>';
+                        echo "</tr>";
+                    }
+
+                    echo '<tr>';
+                    echo '<td scope="row"></td>';
+                    echo '<td class="text-right">' . $entry->number . '</td>';
                     echo '<td>' . $entry->label . '</td>';
                     echo '<td>' . FieldType::GetText($entry->fieldtype) . '</td>';
-                    echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/settings/documentfields/edit?id=' . $entry->id . '">Edit</a> <a href="' . $GLOBALS["ROOT_URL"] . '/settings/documentfields/delete?id=' . $entry->id . '">Delete</a></td>';
+                    echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/settings/documentfields/edit?id=' . $entry->id . '">Edit</a> | <a href="' . $GLOBALS["ROOT_URL"] . '/settings/documentfields/delete?id=' . $entry->id . '">Delete</a></td>';
                     echo "</tr>";
                 }
                 ?>
@@ -126,3 +137,9 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
     </div>
 
 </div>
+
+<script>
+    $(function () {
+        $('#table').bootstrapTable()
+    })
+</script>

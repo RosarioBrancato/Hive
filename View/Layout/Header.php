@@ -12,14 +12,7 @@ use Service\AuthServiceImpl;
     <link rel="icon" href="assets/img/logo%20ppt.png">
     <title>Hive</title>
 
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>-->
-
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="assets/css/navigation.css">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -34,11 +27,10 @@ use Service\AuthServiceImpl;
     <link rel="stylesheet" href="assets/css/Bootstrap-Tags-Input.css">
     <link rel="stylesheet" href="assets/css/Drag--Drop-Upload-Form-1.css">
     <link rel="stylesheet" href="assets/css/Drag--Drop-Upload-Form.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/group-by-v2/bootstrap-table-group-by.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
     <link rel="stylesheet" href="assets/css/untitled.css">
     <link rel="stylesheet" href="assets/css/gridStyle.css">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
-
-
 </head>
 
 <body id="page-top" class="sidebar-toggled">
@@ -53,6 +45,8 @@ use Service\AuthServiceImpl;
 <script src="https://cdn.anychart.com/js/8.0.1/anychart-core.min.js"></script>
 <script src="https://cdn.anychart.com/js/8.0.1/anychart-pie.min.js"></script>
 <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/mobile/bootstrap-table-mobile.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.15.5/dist/extensions/group-by-v2/bootstrap-table-group-by.min.js"></script>
 
 
 <div id="wrapper">

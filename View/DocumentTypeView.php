@@ -104,6 +104,6 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documenttypes';
 
 <script>
     $(function () {
-        $('#table').bootstrapTable()
-    })
+        $('#table').bootstrapTable();
+    });
 </script>

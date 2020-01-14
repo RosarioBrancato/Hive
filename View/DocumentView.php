@@ -55,8 +55,8 @@
 
 <script>
     $(function () {
-        $('#table').bootstrapTable()
-    })
+        $('#table').bootstrapTable();
+    });
 </script>
 
 

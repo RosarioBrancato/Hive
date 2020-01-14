@@ -56,7 +56,8 @@ use Service\AuthServiceImpl;
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 toggled">
             <div class="container-fluid d-flex flex-column p-0">
                 <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="<?php echo $GLOBALS["ROOT_URL"]; ?>">
-                    <div class="sidebar-brand-icon rotate-n-15"><i class="fab fa-forumbee"></i></div>
+                    <!--<div class="sidebar-brand-icon rotate-n-15"><i class="fab fa-forumbee"></i></div>-->
+                    <img src="assets/img/logo%20ppt.png" width="50px" height="auto" />
                     <div class="sidebar-brand-text mx-3"><span>Hive</span></div>
                 </a>
                 <hr class="sidebar-divider my-0">

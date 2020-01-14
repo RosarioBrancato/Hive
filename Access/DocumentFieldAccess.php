@@ -145,4 +145,14 @@ class DocumentFieldAccess
         }
     }
 
+    public static function NextFreeNumber()
+    {
+        if(!empty($_GET["documenttypeid"])) {
+            $documentTypeId = intval($_GET["documenttypeid"]);
+
+            $controller = new DocumentFieldController();
+            $controller->GetNextFreeNumber($documentTypeId);
+        }
+    }
+
 }

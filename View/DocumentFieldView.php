@@ -59,7 +59,7 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
                     </div>
                     <div class="form-group">
                         <label>Number</label>
-                        <input type="text" name="number" class="form-control" min="1" value="<?php echo $documentField->getNumber(); ?>" <?php echo $inputTagAddition; ?>/>
+                        <input id="txtNumber" type="text" name="number" class="form-control" min="1" value="<?php echo $documentField->getNumber(); ?>" <?php echo $inputTagAddition; ?>/>
                     </div>
                     <div class="form-group">
                         <label>Label</label>
@@ -71,11 +71,11 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
                     </div>
 
                     <?php if ($editType == EditType::Add) { ?>
-                        <input type="submit" class="btn btn-success" value="Add"/>
+                        <input id="btnSubmit" type="submit" class="btn btn-success" value="Add"/>
                     <?php } else if ($editType == EditType::Edit) { ?>
-                        <input type="submit" class="btn btn-success" value="Update"/>
+                        <input id="btnSubmit" type="submit" class="btn btn-success" value="Update"/>
                     <?php } else if ($editType == EditType::Delete) { ?>
-                        <input type="submit" class="btn btn-danger" value="Delete"/>
+                        <input id="btnSubmit" type="submit" class="btn btn-danger" value="Delete"/>
                     <?php } ?>
 
                     <a href="<?php echo $cancelLink; ?>" class="btn btn-info">Cancel</a>
@@ -113,7 +113,8 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
                         $lastDocumentType = $entry->documenttype;
 
                         echo "<tr class=''>";
-                        echo '<td scope="row">' . $entry->documenttypenr . ' - ' . $entry->documenttype . '</td>';
+                        //echo '<td scope="row">' . $entry->documenttypenr . ' - ' . $entry->documenttype . '</td>';
+                        echo '<td scope="row">' . $entry->documenttype . '</td>';
                         echo '<td scope="row"></td>';
                         echo '<td scope="row"></td>';
                         echo '<td scope="row"></td>';
@@ -121,13 +122,15 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
                         echo "</tr>";
                     }
 
-                    echo '<tr>';
-                    echo '<td scope="row"></td>';
-                    echo '<td class="text-right">' . $entry->number . '</td>';
-                    echo '<td>' . $entry->label . '</td>';
-                    echo '<td>' . FieldType::GetText($entry->fieldtype) . '</td>';
-                    echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/settings/documentfields/edit?id=' . $entry->id . '">Edit</a> | <a href="' . $GLOBALS["ROOT_URL"] . '/settings/documentfields/delete?id=' . $entry->id . '">Delete</a></td>';
-                    echo "</tr>";
+                    if (!empty($entry->label)) {
+                        echo '<tr>';
+                        echo '<td scope="row"></td>';
+                        echo '<td class="text-right">' . $entry->number . '</td>';
+                        echo '<td>' . $entry->label . '</td>';
+                        echo '<td>' . FieldType::GetText($entry->fieldtype) . '</td>';
+                        echo '<td><a href="' . $GLOBALS["ROOT_URL"] . '/settings/documentfields/edit?id=' . $entry->id . '">Edit</a> | <a href="' . $GLOBALS["ROOT_URL"] . '/settings/documentfields/delete?id=' . $entry->id . '">Delete</a></td>';
+                        echo "</tr>";
+                    }
                 }
                 ?>
                 </tbody>
@@ -140,6 +143,33 @@ $cancelLink = $GLOBALS["ROOT_URL"] . '/settings/documentfields';
 
 <script>
     $(function () {
-        $('#table').bootstrapTable()
-    })
+        $('#table').bootstrapTable();
+    });
+
+    <?php if ($editType == EditType::Add || $editType == EditType::Edit) { ?>
+    $(document).ready(function () {
+        $('#documentTypeId').change(function () {
+            $('#txtNumber').prop('disabled', true);
+            $('#btnSubmit').prop('disabled', true);
+
+            let documentType = $('#documentTypeId').val();
+            let urlRoot = "<?php echo $GLOBALS["ROOT_URL"] . '/settings/documentfields/nextfreenumber?documenttypeid='; ?>";
+            let url = urlRoot + documentType;
+
+            $.ajax({
+                url: url,
+                success: function (result) {
+                    $('#txtNumber').val(result);
+                    $('#txtNumber').prop('disabled', false);
+                    $('#btnSubmit').prop('disabled', false);
+                },
+                error: function (result, textStatus, errorThrown) {
+                    $('#txtNumber').val('');
+                    $('#txtNumber').prop('disabled', false);
+                    $('#btnSubmit').prop('disabled', false);
+                }
+            });
+        });
+    });
+    <?php } ?>
 </script>

@@ -56,7 +56,7 @@ class DocumentFieldTest
     private function TestGetNextFreeNumber()
     {
         echo "getNextFreeNumber" . PHP_EOL;
-        var_dump($this->model->getNextFreeNumber());
+        var_dump($this->model->getNextFreeNumber(1));
     }
 
     private function TestIsLabelUnique()
@@ -64,7 +64,7 @@ class DocumentFieldTest
         $label = "Title";
 
         echo "isLabelUnique" . PHP_EOL;
-        var_dump($this->model->isLabelUnique($label));
+        var_dump($this->model->isLabelUnique($label, 1));
     }
 
     private function TestAdd()
@@ -95,7 +95,7 @@ class DocumentFieldTest
         $documentTypeId = 1;
         $label = "Unit Test";
         $fieldType = 2;
-        $nextNumber = $this->model->getNextFreeNumber();
+        $nextNumber = $this->model->getNextFreeNumber($documentTypeId);
 
         $documentField = new DocumentField();
         $documentField->setNumber($nextNumber);

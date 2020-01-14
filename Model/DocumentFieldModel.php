@@ -27,11 +27,17 @@ class DocumentFieldModel extends _Model
         }
     }
 
-    public function getNextFreeNumber()
+    public function getNextFreeNumber($documentTypeId)
     {
-        $query = 'SELECT f.number FROM documentfield f JOIN documenttype t ON t.id = f.documenttypeid WHERE t.agentid = :agentId ORDER BY f.number DESC LIMIT 1';
+        $query = 'SELECT f.number 
+                    FROM documentfield f 
+                    JOIN documenttype t ON t.id = f.documenttypeid 
+                    WHERE t.agentid = :agentId 
+                        AND t.id = :documenttypeid
+                    ORDER BY f.number DESC LIMIT 1';
         $parameters = [
-            ':agentId' => $this->getAgentId()
+            ':agentId' => $this->getAgentId(),
+            ':documenttypeid' => $documentTypeId
         ];
 
         $array = $this->executeQuerySelect($query, $parameters);
@@ -74,7 +80,12 @@ class DocumentFieldModel extends _Model
 
     public function getAll()
     {
-        $query = 'SELECT f.id, f.number, f.label, f.fieldtype, t.number as documenttypenr, t.name as documenttype FROM documentfield f JOIN documenttype t ON t.id = f.documenttypeid WHERE t.agentid = :agentId ORDER BY t.number, f.number';
+        $query = 'SELECT f.id, f.number, f.label, f.fieldtype, t.number as documenttypenr, t.name as documenttype 
+                    FROM  documenttype t
+                    LEFT JOIN documentfield f ON f.documenttypeid = t.id 
+                    WHERE t.agentid = :agentId 
+                    ORDER BY t.number, f.number';
+
         $parameters = [
             ':agentId' => $this->getAgentId()
         ];

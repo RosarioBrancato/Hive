@@ -51,7 +51,7 @@ class DocumentFieldController
         $documentTypeModel = new DocumentTypeModel($this->agentId);
         $documentTypes = $documentTypeModel->getAll();
 
-        $nextNumber = $this->model->getNextFreeNumber();
+        $nextNumber = $this->model->getNextFreeNumber($documentTypes[0]->getId());
         $documentField->setNumber($nextNumber);
 
         $view = new View('DocumentFieldView.php');
@@ -182,6 +182,12 @@ class DocumentFieldController
         }
 
         return $success;
+    }
+
+    public function GetNextFreeNumber($documentTypeId)
+    {
+        echo $this->model->getNextFreeNumber($documentTypeId);
+        exit;
     }
 
 }

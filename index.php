@@ -150,7 +150,11 @@ Router::route_auth("POST", "/settings/documentfields/delete", $authFunction, fun
 });
 
 Router::route_auth("GET", "/settings/documentfields/get", $authFunction, function () {
-    DocumentFieldAccess::Get();
+    DocumentFieldAccess::NextFreeNumber();
+});
+
+Router::route_auth("GET", "/settings/documentfields/nextfreenumber", $authFunction, function () {
+    DocumentFieldAccess::NextFreeNumber();
 });
 
 // DOCUMENTS

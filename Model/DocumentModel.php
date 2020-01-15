@@ -87,7 +87,7 @@ class DocumentModel extends _Model
             }
         }
 
-        //insert document field valuess
+        //insert document field values
         if ($success && !empty($documentFieldValues)) {
             $documentFieldValueModel = new DocumentFieldValueModel($this->getAgentId());
             $documentFieldValueModel->setPDO($this->getPDO());
@@ -124,16 +124,29 @@ class DocumentModel extends _Model
     {
         $this->getPDO()->beginTransaction();
 
-        //update document
-        $query = "UPDATE document SET title = :title, documenttypeid = :documenttypeid WHERE id = :id AND agentid = :agentid";
-        $parameters = [
-            ':title' => $document->getTitle(),
-            ':documenttypeid' => $document->getDocumenttypeid(),
-            ':id' => $document->getId(),
-            ':agentid' => $this->getAgentId()
-        ];
+        $documentFieldValueModel = new DocumentFieldValueModel($this->getAgentId());
+        $documentFieldValueModel->setPDO($this->getPDO());
 
-        $success = $this->executeQuery($query, $parameters);
+        //if document type changed => delete field values
+        $documentInternal = $this->get($document->getId());
+        if (!empty($documentInternal) && $documentInternal->getDocumenttypeid() != $document->getDocumenttypeid()) {
+            $success = $documentFieldValueModel->deleteByDocumentId($document->getId());
+        } else {
+            $success = true;
+        }
+
+        //update document
+        if($success) {
+            $query = "UPDATE document SET title = :title, documenttypeid = :documenttypeid WHERE id = :id AND agentid = :agentid";
+            $parameters = [
+                ':title' => $document->getTitle(),
+                ':documenttypeid' => $document->getDocumenttypeid(),
+                ':id' => $document->getId(),
+                ':agentid' => $this->getAgentId()
+            ];
+
+            $success = $this->executeQuery($query, $parameters);
+        }
 
         //update document files
         if ($success) {
@@ -153,9 +166,6 @@ class DocumentModel extends _Model
 
         // update or insert document field values
         if ($success) {
-            $documentFieldValueModel = new DocumentFieldValueModel($this->getAgentId());
-            $documentFieldValueModel->setPDO($this->getPDO());
-
             foreach ($documentFieldValues as $documentFieldValue) {
                 $documentFieldValue->setDocumentId($document->getId());
 

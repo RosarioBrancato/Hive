@@ -51,4 +51,22 @@ class DateUtils
         return $date;
     }
 
+    public static function FormatTimestamp($timestamp)
+    {
+        $date = "";
+
+        if(!empty($timestamp)) {
+            try {
+                $dt = new DateTime($timestamp);
+                $date = $dt->format('d.m.Y H:i');
+
+            } catch (\Exception $e) {
+                error_log($e->getMessage());
+                $date = "";
+            }
+        }
+
+        return $date;
+    }
+
 }

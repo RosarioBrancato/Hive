@@ -174,13 +174,12 @@ class DocumentController
         $documentFieldModel = new DocumentFieldModel($this->agentId);
         $documentFieldValueModel = new DocumentFieldValueModel($this->agentId);
 
-        //if document type changed => delete field values
-        $documentInternal = $this->model->get($document->getId());
+        //if document type changed => ignore existing field values, since they are going to be deleted in model
         if (!empty($documentInternal) && $documentInternal->getDocumenttypeid() != $document->getDocumenttypeid()) {
-            $documentFieldValueModel->deleteByDocumentId($document->getId());
+            $documentFieldValuesToUpdate = $documentFieldValueModel->getByDocumentId($document->getId());
+        } else {
+            $documentFieldValuesToUpdate = array();
         }
-
-        $documentFieldValuesToUpdate = $documentFieldValueModel->getByDocumentId($document->getId());
 
         //Convert field to field values
         $documentFields = $documentFieldModel->getAllByDocumentTypeId($document->getDocumenttypeid());

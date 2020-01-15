@@ -4,6 +4,9 @@
 namespace Util;
 
 
+use Cassandra\Date;
+use DateTime;
+
 class DataTypeUtils
 {
 
@@ -25,7 +28,15 @@ class DataTypeUtils
         } else if (empty($value)) {
             return null;
         } else {
-            return $value;
+
+            try {
+                $dt = new DateTime($value);
+                return $dt->format('Y-m-d H:i:s');
+
+            } catch (\Exception $e) {
+                error_log($e->getMessage());
+                return null;
+            }
         }
     }
 
